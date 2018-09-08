@@ -1,3 +1,33 @@
 body{
-    background-color: #c4737f;
+    background-color: #c55789;
+}
+
+h1, h2{
+    background-color: seashell;
+    font-family: 'Petit Formal Script', cursive;
+}
+
+h1{
+    
+}
+
+section, footer, aside{
+    background-color: rgba(240, 154, 240, 0.7)
+}
+
+header, section, aside, footer, p{
+    text-align: center;
+}
+
+p, li{
+    font-family: 'Gilda Display', serif;
+}
+
+p{
+    font-size: 18px;
+}
+
+li{
+    font-size: 14px;
+    font-style: italic;
 }
