@@ -1,33 +1,59 @@
 body{
     background-color: #c55789;
+    background-image: linear-gradient(to right, purple, #c55789, purple);
+    background-repeat: repeat-y;
+    background-size: contain;
+    margin: 0 30px 60px;
+    padding: 0 20px 10px;
 }
 
 h1, h2{
-    background-color: seashell;
     font-family: 'Petit Formal Script', cursive;
+    text-shadow: 3px 4px 2px #6e1a6e;
+}
+
+h2, h3{
+    background-color: seashell;
+    /*background-image: radial-gradient(rgba(139, 10, 100, 0.3), seashell);*/
+    background-image: url("https://github.com/priesjos/Projects/blob/master/tumblr_o9suhkgmJn1u6i8k5o1_400.gif?raw=true");
+    background-repeat: repeat-x;
+    border: 2px solid silver;
+    border-radius: 13px;
 }
 
 h1{
-    
+    background-color: #f3e993;
+    background-image: linear-gradient(#f3e993, #b0a330);
 }
 
 section, footer, aside{
-    background-color: rgba(240, 154, 240, 0.7)
+    background-color: rgba(240, 154, 220, 0.6);
+    margin: 0 40px 0;
+    padding: 2px 25px 2px;
 }
 
-header, section, aside, footer, p{
+header, section, aside, footer, p, nav{
     text-align: center;
 }
 
 p, li{
     font-family: 'Gilda Display', serif;
+    
 }
 
 p{
     font-size: 18px;
+    padding: 0 40px 0 30px;
 }
 
 li{
-    font-size: 14px;
-    font-style: italic;
+    margin: 3px 30px 5px 0;
+    padding: 0 210px 0 210px;
+    font-size: 16px;
+    font-style: none;
+}
+
+ul{
+    list-style-type: none;
+
 }
