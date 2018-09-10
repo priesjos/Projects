@@ -1,15 +1,26 @@
 body{
     background-color: #c55789;
-    background-image: linear-gradient(to right, purple, #c55789, purple);
+    /*background-image: linear-gradient(to right, rgb(77, 18, 153), purple, #d879c9, purple, rgb(77, 18, 153));*/
+    animation-name: something;
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
     background-repeat: repeat-y;
     background-size: contain;
     margin: 0 30px 60px;
     padding: 0 20px 10px;
 }
 
+@keyframes something{
+    0% {background-color: rgb(77, 18, 153);}
+    25% {background-color: purple;}
+    50% {background-color: #d879c9;}
+    75% {background-color: purple;}
+    100% {background-color: rgb(77, 18, 153);}
+}
+
 h1, h2{
     font-family: 'Petit Formal Script', cursive;
-    text-shadow: 3px 4px 2px #6e1a6e;
+    text-shadow: 2px 3px 3px #501350;
 }
 
 h2, h3{
@@ -22,12 +33,17 @@ h2, h3{
 }
 
 h1{
-    background-color: #f3e993;
+    background-color: #ddd589;
     background-image: linear-gradient(#f3e993, #b0a330);
+    border: 2px solid antiquewhite;
+    border-style: inset;
+    border-radius: 20px;
 }
 
 section, footer, aside{
     background-color: rgba(240, 154, 220, 0.6);
+    background-image: linear-gradient(rgba(240, 195, 112, 0.7), rgba(210, 124, 220, 1));
+    border: 4px dotted red;
     margin: 0 40px 0;
     padding: 2px 25px 2px;
 }
@@ -38,12 +54,15 @@ header, section, aside, footer, p, nav{
 
 p, li{
     font-family: 'Gilda Display', serif;
-    
 }
 
 p{
     font-size: 18px;
     padding: 0 40px 0 30px;
+}
+
+a{
+    text-decoration: none;
 }
 
 li{
