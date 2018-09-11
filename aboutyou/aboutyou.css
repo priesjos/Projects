@@ -1,6 +1,5 @@
 body{
     background-color: #c55789;
-    /*background-image: linear-gradient(to right, rgb(77, 18, 153), purple, #d879c9, purple, rgb(77, 18, 153));*/
     animation-name: something;
     animation-duration: 8s;
     animation-iteration-count: infinite;
@@ -13,9 +12,15 @@ body{
 @keyframes something{
     0% {background-color: rgb(77, 18, 153);}
     25% {background-color: purple;}
-    50% {background-color: #d879c9;}
+    50% {background-color: #c55789;}
     75% {background-color: purple;}
     100% {background-color: rgb(77, 18, 153);}
+}
+
+#borderimg {
+    border: 12px dotted transparent;
+    padding: 11px;
+    border-image: url(https://github.com/priesjos/Projects/blob/master/border%20image.png?raw=true) 20 round;
 }
 
 h1, h2{
@@ -35,7 +40,8 @@ h2, h3{
 h1{
     background-color: #ddd589;
     background-image: linear-gradient(#f3e993, #b0a330);
-    border: 2px solid antiquewhite;
+    font-size: 2em;
+    border: 5px solid antiquewhite;
     border-style: inset;
     border-radius: 20px;
 }
@@ -67,12 +73,37 @@ a{
 
 li{
     margin: 3px 30px 5px 0;
-    padding: 0 210px 0 210px;
+    padding: 0 225px 0 215px;
     font-size: 16px;
     font-style: none;
 }
 
 ul{
     list-style-type: none;
+}
 
+footer{
+    background-color: whitesmoke;
+    background-image: linear-gradient(white, grey, pink);
+    font-family: 'Kosugi', sans-serif;
+    letter-spacing: 2px;
+    word-spacing: 7px;
+    font-size: 18px;
+    border-radius: 45px;
+    margin: 0 2px 45px;
+}
+
+img{
+    border: 3px inset silver;
+    border-radius: 20px;
+    background-color: white;
+    padding: 0 7px 0;
+}
+
+article{
+    border-radius: 20px;
+    border-style: inset;
+    background-color: orange;
+    background-image: linear-gradient(silver, grey);
+    margin: 5px 25px 0;
 }
