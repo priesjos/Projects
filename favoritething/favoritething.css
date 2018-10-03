@@ -1,33 +1,54 @@
 body {
-    background-image: linear-gradient(to bottom, azure, cyan, darkcyan, black);
-}
-
-#pgo-hdr {
-    background-color: magenta;
-    margin: 7px 290px 50px 0px;
-    padding: 0 0;
-    font-size: 1.2em;
-}
-
-#pgt-hdr {
-    background-color: violet;
-    margin: 7px 290px 50px 0px;
-    padding: 0 0;
-    font-size: 1.2em;
+    background-color: black;
 }
 
 a {
-    color: red;
+    color: rgb(255, 0, 157);
 }
 
 footer {
     color: white;
     border: 2px solid green;
 }
+
+.hdr-cnt {
+    padding: 0px 0px 130px 0px;
+    background-image: url("test-9.gif");
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-size: 1600px 350px;
+}
+
+#pgo-hdr {
+    background-color: magenta;
+    background-image: linear-gradient(to right, magenta, rgb(128, 0, 128));
+    border-left: 24px solid rgb(158, 156, 156);
+    border-radius: 20px;
+    border-right: 24px solid black;
+    margin: 0px 330px 50px 0px;
+    padding: 1px 0px 6px 4px;
+    font-size: 1.0em;
+}
+
+#pgt-hdr {
+    background-color: violet;
+    background-image: linear-gradient(to right, violet, magenta, purple);
+    border-left: 24px solid rgb(178, 176, 176);
+    border-radius: 20px;
+    border-right: 24px solid black; 
+    margin: 0px 330px 50px 0px;
+    padding: 1px 0px 6px 4px;
+    font-size: 1.0em;
+}
+
 .nav {
-    border: 2px solid green;
-    margin: 21px 20px;
-    padding: 20px 90px 50px 20px;
+    border-right: 24px solid grey;
+    border-radius: 20px;
+    border-left: 2px solid black;
+    margin: 21px 40px;
+    padding: 0px 30px 40px 20px;
+    background-color: #cccccc;
+    background-image: linear-gradient(to bottom, #cccccc, #555555);
     font-size: 1.4em;
     text-align: right;
     position: relative;
@@ -36,41 +57,49 @@ footer {
 }
 
 .dsc {
-    border: 2px solid green;
+    border-right: 28px solid transparent;
+    border-radius: 10px;
+    border-image: url("ezgif-3-21e998b7c46b.png") 45 round;
+    background-image: linear-gradient(to right, white, silver, silver, grey, black);
     padding: 20px 90px 80px 20px;
 }
 
 .dsc-pic {
-    border: 2px solid transparent;
-    margin: 0px 190px 0px 0px;
+    background-image: url("oie_3193627gyDD2FRG.gif");
+    border-right: 8px solid black;
+    border-left: 8px solid black;
+    margin: 30px 310px 0px 0px;
+    padding: 0px 210px 130px 0px;
 }
 
 #dsc-msc {
-    border: 2px solid green;
+    border-top: 6px solid black;
+    border-bottom: 2px solid black;
     margin: 0px 350px 0px 0px;
 }
 
 #dsc-std {
-    border: 2px solid green;
+    border-bottom: 2px solid black;
     margin: 0px 350px 0px 0px;
 }
 
 #dsc-prj {
-    border: 2px solid green;
+    border-bottom: 2px solid black;
     margin: 0px 350px 0px 0px;
 }
 
 #dsc-gnr {
-    border: 2px solid green;
+    border-top: 6px solid black;
+    border-bottom: 2px solid black;
     margin: 0px 350px 0px 0px;
 }
 
 #dsc-art {
-    border: 2px solid green;
+    border-bottom: 2px solid black;
     margin: 0px 350px 0px 0px;
 }
 
 #dsc-sng {
-    border: 2px solid green;
+    border-bottom: 2px solid black;
     margin: 0px 350px 0px 0px;
 }
