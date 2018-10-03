@@ -1,17 +1,17 @@
 body {
-    background-image: linear-gradient(to bottom, cyan, azure,);
+    background-image: linear-gradient(to bottom, azure, cyan, darkcyan, black);
 }
 
 #pgo-hdr {
     background-color: magenta;
-    margin: 7px 290px 60px 0px;
+    margin: 7px 290px 50px 0px;
     padding: 0 0;
     font-size: 1.2em;
 }
 
 #pgt-hdr {
     background-color: violet;
-    margin: 7px 290px 60px 0px;
+    margin: 7px 290px 50px 0px;
     padding: 0 0;
     font-size: 1.2em;
 }
@@ -20,13 +20,57 @@ a {
     color: red;
 }
 
+footer {
+    color: white;
+    border: 2px solid green;
+}
 .nav {
     border: 2px solid green;
-    margin: 10px 20px;
+    margin: 21px 20px;
     padding: 20px 90px 50px 20px;
     font-size: 1.4em;
     text-align: right;
     position: relative;
     display: block;
     float: right;
+}
+
+.dsc {
+    border: 2px solid green;
+    padding: 20px 90px 80px 20px;
+}
+
+.dsc-pic {
+    border: 2px solid transparent;
+    margin: 0px 190px 0px 0px;
+}
+
+#dsc-msc {
+    border: 2px solid green;
+    margin: 0px 350px 0px 0px;
+}
+
+#dsc-std {
+    border: 2px solid green;
+    margin: 0px 350px 0px 0px;
+}
+
+#dsc-prj {
+    border: 2px solid green;
+    margin: 0px 350px 0px 0px;
+}
+
+#dsc-gnr {
+    border: 2px solid green;
+    margin: 0px 350px 0px 0px;
+}
+
+#dsc-art {
+    border: 2px solid green;
+    margin: 0px 350px 0px 0px;
+}
+
+#dsc-sng {
+    border: 2px solid green;
+    margin: 0px 350px 0px 0px;
 }
