@@ -11,6 +11,20 @@ footer {
     border: 2px solid green;
 }
 
+th, td {
+    border-left: 3px solid black;
+    border-collapse: collapse;
+}
+
+.tbl-hdr {
+    border: 2px solid black;
+    border-left: 5px solid black;
+    border-radius: 25px;
+    padding: 4px;
+    color: magenta;
+    font-size: 1.3em;
+}
+
 .hdr-cnt {
     padding: 0px 0px 130px 0px;
     background-image: url("test-9.gif");
@@ -21,24 +35,29 @@ footer {
 
 #pgo-hdr {
     background-color: magenta;
-    background-image: linear-gradient(to right, magenta, rgb(128, 0, 128));
-    border-left: 24px solid rgb(158, 156, 156);
-    border-radius: 20px;
+    background-image: linear-gradient(to bottom, magenta, palegoldenrod, purple);
+    border-radius: 25px;
     border-right: 24px solid black;
     margin: 0px 330px 50px 0px;
-    padding: 1px 0px 6px 4px;
-    font-size: 1.0em;
+    padding: 1px 0px 6px 27px;
+    font-family: 'Kosugi Maru', sans-serif;
+    font-size: 1.2em;
+    text-shadow: 3px 5px 3px;
+    color: darkblue;
+    
 }
 
 #pgt-hdr {
     background-color: violet;
-    background-image: linear-gradient(to right, violet, magenta, purple);
-    border-left: 24px solid rgb(178, 176, 176);
-    border-radius: 20px;
+    background-image: linear-gradient(to bottom, violet, salmon, purple);
+    border-radius: 25px;
     border-right: 24px solid black; 
     margin: 0px 330px 50px 0px;
-    padding: 1px 0px 6px 4px;
-    font-size: 1.0em;
+    padding: 1px 0px 6px 27px;
+    font-family: 'Kosugi Maru', sans-serif;
+    font-size: 1.2em;
+    text-shadow: 3px 5px 3px;
+    color: darkblue;
 }
 
 .nav {
@@ -59,7 +78,7 @@ footer {
 .dsc {
     border-right: 28px solid transparent;
     border-radius: 10px;
-    border-image: url("ezgif-3-21e998b7c46b.png") 45 round;
+    border-image: url("ezgif-3-21e998b7c46b.gif") 45 round;
     background-image: linear-gradient(to right, white, silver, silver, grey, black);
     padding: 20px 90px 80px 20px;
 }
