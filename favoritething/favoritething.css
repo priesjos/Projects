@@ -102,18 +102,28 @@ th, td {
     padding: 0px 210px 130px 0px;
 }
 
+#msc-hd {
+    border: 5px solid transparent;
+    position: absolute;
+    left: 720px;
+    bottom: 240px;
+}
+
 #dsc-msc {
     border-top: 6px solid black;
     border-bottom: 2px solid black;
+    padding: 0px 420px 90px 0px;
     margin: 0px 350px 0px 0px;
 }
 
-#dsc-std {
+.dsc-hdr {
+    border-top: 6px solid black;
     border-bottom: 2px solid black;
-    margin: 0px 350px 0px 0px;
+    padding: 0px 440px 40px 0px;
+    margin: 0px 340px 0px 0px;
 }
 
-#dsc-prj {
+.dsc-bdy {
     border-bottom: 2px solid black;
     margin: 0px 350px 0px 0px;
 }
@@ -123,6 +133,7 @@ th, td {
     border-bottom: 2px solid black;
     margin: 0px 350px 0px 0px;
 }
+
 
 #dsc-art {
     border-bottom: 2px solid black;
