@@ -11,10 +11,19 @@ a:hover {
     color: blue;
 }
 
+p {
+    font-family: 'News Cycle', sans-serif;
+}
+
 li {
     list-style: none;
     border-right: 2px solid black;
     padding: 14px 5px 14px 0px;
+}
+
+h2 {
+    font-family: 'Kosugi Maru', sans-serif;
+    text-shadow: 2px 4px 2px blueviolet;
 }
 
 footer {
@@ -44,17 +53,21 @@ th, td {
     background-size: 1600px 350px;
 }
 
+.nav a:hover {
+    font-size: 1.1em;
+}
+
 #pgo-hdr {
     background-color: magenta;
-    background-image: linear-gradient(to bottom, magenta, palegoldenrod, purple);
+    background-image: linear-gradient(to bottom, magenta, salmon, purple);
     border-radius: 25px;
     border-right: 24px solid black;
     margin: 0px 330px 50px 0px;
     padding: 1px 0px 6px 27px;
-    font-family: 'Kosugi Maru', sans-serif;
+    font-family: 'Notable', sans-serif;
     font-size: 1.2em;
-    text-shadow: 3px 5px 3px;
-    color: darkblue;
+    text-shadow: 3px 5px 3px red;
+    color: cyan;
     
 }
 
@@ -65,10 +78,10 @@ th, td {
     border-right: 24px solid black; 
     margin: 0px 330px 50px 0px;
     padding: 1px 0px 6px 27px;
-    font-family: 'Kosugi Maru', sans-serif;
+    font-family: 'Notable', sans-serif;
     font-size: 1.2em;
-    text-shadow: 3px 5px 3px;
-    color: darkblue;
+    text-shadow: 3px 8px 3px red;
+    color: cyan;
 }
 
 .nav {
@@ -79,6 +92,7 @@ th, td {
     padding: 0px 30px 40px 20px;
     background-color: #cccccc;
     background-image: linear-gradient(to bottom, #cccccc, #555555);
+    font-family: 'Kosugi Maru', sans-serif;
     font-size: 1.4em;
     text-align: right;
     position: relative;
@@ -102,11 +116,53 @@ th, td {
     padding: 0px 210px 130px 0px;
 }
 
+#prj-img {
+    position: relative;
+    left: 60px;
+    bottom: 90px;
+}
+
+#prj-img:hover{
+    border-right: 2px solid cyan;
+}
+
+#prj-lst {
+    position: relative;
+    left: 420px;
+    bottom: 36px;
+}
+
 #msc-hd {
-    border: 5px solid transparent;
+    border: 2px solid transparent;
     position: absolute;
     left: 720px;
-    bottom: 240px;
+    bottom: 190px;
+}
+
+#msc-hd:hover {
+    border-right: 2px solid cyan;
+}
+
+#gnr-map {
+    border: 15px solid transparent;
+    border-radius: 30px;
+    position: absolute;
+    left: 660px;
+    bottom: 160px;
+}
+
+#gnr-map:hover {
+    border-right: 2px solid cyan;
+}
+
+#snd-std {
+    position: absolute;
+    left: 700px;
+    top: 690px;
+}
+
+#snd-std:hover {
+    border-right: 2px solid cyan;
 }
 
 #dsc-msc {
@@ -119,12 +175,13 @@ th, td {
 .dsc-hdr {
     border-top: 6px solid black;
     border-bottom: 2px solid black;
-    padding: 0px 440px 40px 0px;
+    padding: 0px 430px 40px 0px;
     margin: 0px 340px 0px 0px;
 }
 
 .dsc-bdy {
     border-bottom: 2px solid black;
+    padding: 0px 430px 40px 0px;
     margin: 0px 350px 0px 0px;
 }
 
