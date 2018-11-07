@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <!-- ADD THE VIEWPORT META DATA-->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- INCLUDE ALL FOUR BOOTSTRAP LINKS-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+ 
+        <link rel="stylesheet" href='style.css'>
+        <title>Quidditch</title>
+    </head>
+    <body>
+        <!-- Create a navbar with the links displaying via the dropdown icon for small displays and horizontally for any other size display. The navbar should also contain the snith picture as the brand logo which links to the top of the page (i.e. refreshes the page). If you have questions, refer to the pictures navbar and navbar-small -->
+       
+        <nav class="navbar navbar-expand-md bg-dark">
+            <a >
+                <img src="https://jlaw21.github.io/Resources/snitch.png" alt="The Snitch" width=50px>
+            </a>
+ 
+            <button  type="button" >
+                   
+            </button>
+ 
+            <div  id="navOptions">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#rules">RULES</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#worldcup">WORLD CUP</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#teams">TEAMS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#us-quidditch">US QUIDDITCH</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+ 
+        <!-- Create a carousel, but this time instead of images, three articles containing text or images are included as the carousel slides. You may format the text anyway you wish, but must use some type of Bootstrap Typography for 2+ items.-->
+ 
+        <section id="intro-carousel" class='carousel-slide container' data-ride="carousel">                                  
+           
+            <!-- The slideshow -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <article>
+                        <h1>PLAY QUIDDITCH NOW</h1>
+                        <h3>Click the button to learn how!</h3>
+                        <a class='btn btn-info' role='button' href="https://www.usquidditch.org/teams">JOIN US</a>
+                    </article>                    
+                </div>
+ 
+                <div class="carousel-item">
+                    <article>
+                        <img src="https://jlaw21.github.io/Resources/potter-quidditch.jpg" alt="Potter and the Snitch">
+                    </article>
+                </div>
+ 
+                <div class="carousel-item">
+                    <article>
+                        <p><q>I sat in a hotel room after a row with my then boyfriend and invented it. Looking back, I can understand why I liked the idea of Bludgers</q> - JK ROWLINGS</p>
+                    </article>                    
+                </div>
+ 
+            </div>                    
+            <!-- DO NOT TOUCH THESE. In class we included indicators at the bottom of the pictures to control the slides, this adds arrows on the left and right to control the slides.-->
+            <a class="carousel-control-prev" href="#intro-carousel" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#intro-carousel" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </section>
+ 
+        <!-- Create a Dynamic Tab Container. When a tab header link is clicked, information about the tab
+            will be displayed. Only one tab should be seen at a time. The overview tab is just text.
+            The roles text should include a vertical collapsible list which will show the description
+            of the role when an item is clicked on. The balls tab will do the same, only the list will
+            be horizontal. The scoring tab will contain a jumbotron heading, and the rest is simplistic.
+            Refer to the pictures rules-overview rules-roles rules-balls and rules-scoring for better
+            clarification. -->
+ 
+        <section id='rules' class='container'>
+            <h1>THE RULES</h1>
+            <!--TAB NAV-->
+            <ul >
+                <li >
+                    <a href="#q-overview">OVERVIEW</a>
+                </li>
+                <li >
+                    <a  href="#q-roles">ROLES</a>
+                </li>
+                <li >
+                    <a  href="#q-balls">BALLS</a>
+                </li>
+                <li >
+                    <a  href="#q-scoring">SCORING</a>
+                </li>
+            </ul>
+            <!-- TAB CONTENT-->
+            <div class='container-fluid'>
+            <section>
+                <article id='q-overview'>
+                    <p>Quidditch is a fast, dangerous, exciting game in which two teams flying on brooms compete for points scored by throwing a ball – the Quaffle – through hoops on either end of a large grassy pitch.</p>
+                    <p> There are three goal posts at either ends of a field. That field is called a Quidditch pitch. There are seven players on each side: the Keeper, the Seeker, three Chasers and two Beaters. One player is also appointed as the Captain. Professional teams will also have a manager.</p>
+                </article>
+                <article  id='q-roles'>
+                    <ul >
+                        <li ><button class='btn btn-primary'>Chasers</button></li>
+                        <p id='desc-chasers'>The Chasers pass the Quaffle trying to throw it through one of the three hoops.</p>
+                        <li ><button class='btn btn-primary' >Keeper</button></li>
+                        <p id='desc-keeper'>The Keeper is responsible for keeping the Quaffle from going through the hoops, similar to a Goalie in soccer.</p>
+                        <li ><button class='btn btn-primary ' >Beaters</button></li>
+                        <p id='desc-beaters' >The Beaters are equipped with large clubs, used to smack the Bludgers around, attempting to disrupt the Chasers from getting a goal.</p>
+                        <li ><button class='btn btn-primary ' >Seeker</button></li>
+                        <p id='desc-seeker' >The Seeker tries to catch the Golden Snitch, and in doing so, ends the game.</p>
+                    </ul>
+                </article>
+                <article  id='q-balls'>
+                    <ul >
+                        <li ><button class='btn btn-primary '>Quaffle</button></li>
+                       
+                        <li><button class='btn btn-primary'  >Bludgers</button></li>
+                       
+                        <li ><button class='btn btn-primary ' >Golden Snitch</button></li>
+                        <p id='desc-quaffle' >A round red seamless leather ball, 12 inches in diameter – that is, about the size of a Muggle football. The Quaffle is the ball with which Chasers score goals, and due to the nature of the game must be caught and thrown one-handed, since the player must at the same time control his or her broomstick. </p>
+                        <p id='desc-bludger'>A Bludger is a round jet-black iron ball, 10 inches in diameter – that is, slightly smaller than a Quaffle. Two Bludgers are used and they attempt to unseat the player nearest to them. Beaters used clubs to hit the Bludgers towards opposing player to unseat them.</p>
+                        <p id='desc-snitch'>The Golden Snitch, commonly referred to as a Snitch, is the smallest and fastest ball in the game. </p>                        
+                    </ul>
+                </article>
+                <article id='q-scoring'>
+                    <p >Quaffle = 10 pts. Snitch = 150 pts.</p>
+                    <p>This scoring seems unfair, but typically Quidditch is played in a series of matches, and the team with the most accumulative points at the end of the series is the winner.</p>
+                </article>
+            </section>    
+            </div>
+           
+        </section>
+ 
+        <!-- Customize the table to your preference.-->
+ 
+        <section id='worldcup' class='container'>
+            <h1>Quidditch World Cup</h1>
+            <p>The Quidditch World Cup is played every year, similar to the Muggles Olympics. However, what some may not know is that the action actually starts two years prior to the World Cup.
+            </p>
+            <p>Any country capable of producing a Quidditch team is allowed to play in the World Cup. The first round, or 'group round', is when all the participating teams are separated into 16 groups, and over the course of two years, play each other. The accumulated points are tallied and the winners from each group progress on to the World Cup.</p>
+            <table >
+                <tr >
+                    <th>Year</th>
+                    <th>Teams</th>
+                    <th>Score</th>
+                </tr>
+                <tr>
+                    <td>1990</td>
+                    <td>Canada vs. Scotland</td>
+                    <td>270 - 240</td>
+                </tr>
+                <tr>
+                    <td>1994</td>
+                    <td>Ireland vs. Bulgaria</td>
+                    <td>170 - 160</td>
+                </tr>
+                <tr>
+                    <td>1998</td>
+                    <td>Malawi vs. Senegal</td>
+                    <td>260 - 180</td>
+                </tr>
+                <tr>
+                    <td>2002</td>
+                    <td>Egypt vs. Bulgaria</td>
+                    <td>450 - 300</td>
+                </tr>
+                <tr>
+                    <td>2006</td>
+                    <td>Burkina Faso vs. France</td>
+                    <td>300 - 220</td>
+                </tr>
+                <tr>
+                    <td>2010</td>
+                    <td>Moldova vs. China</td>
+                    <td>750 - 640</td>
+                </tr>
+                <tr>
+                    <td>2014</td>
+                    <td>Bulgaria vs. Brazil</td>
+                    <td>170 - 60</td>
+                </tr>                
+            </table>
+        </section>
+ 
+        <!--Create a grouped drop down menu that contains a link to the Quidditch Teams. When one of those links is clicked the image, description and link for that team appears. No other team should show, only the team that was clicked. refer to teams-descriptions and teams-dropdown pics for more clarification. -->
+       
+        <section id='teams' class='container'>
+            <h1>Known Teams</h1>
+            <h3>Click on a team to see details.</h3>
+            <div >
+                <button type="button" class="btn btn-primary " >
+                The Teams
+                </button>
+                <div >
+                    <h5 >National Teams</h5>
+                        <a href="#" >Ireland</a>
+                        <a href="#" >Bulgaria</a>
+                        <a href="#" >Brazil</a>
+                        <a href="#" >USA</a>
+                    <h5 >Hogwarts Teams</h5>
+                        <a href="#" >Gryffindor</a>
+                        <a href="#" >Hufflepuff</a>
+                        <a href="#" >Ravenclaw</a>
+                        <a href="#" >Slytherin</a>
+                </div>
+            </div>
+            <div id='desc-teams'>
+                <div id='Ireland'>                    
+                    <img src='https://vignette.wikia.nocookie.net/harrypotter/images/6/68/Irelandcrest.JPG/revision/latest/scale-to-width-down/350?cb=20110529164318'>              
+                    <p>The Irish National Quidditch Team are a national Quidditch team representing Ireland. They won the 1994 Quidditch World Cup, beating Bulgaria in the final. The mascots of the team are Leprechauns.</p>
+                    <a href="http://harrypotter.wikia.com/wiki/Irish_National_Quidditch_team">LEARN MORE</a>              
+                </div>
+                <div id='Bulgaria'>
+                    <img src='https://vignette.wikia.nocookie.net/harrypotter/images/2/2c/Bulgariacrest.JPG/revision/latest/scale-to-width-down/350?cb=20110529164032'>
+                    <p>The Bulgarian National Quidditch Team is the national Quidditch team of Bulgaria. In 1994, Bulgaria reached the final of the Quidditch World Cup. Bulgarian supporters wave flags of white, green, and red, the same colours as the Bulgarian flag in the Muggle world. They reached the final of the 2002 Quidditch World Cup but lost once again. They once again reached the finals in 2014 and won, beating Brazil amungst a rush of controversy.</p>
+                    <a href='http://harrypotter.wikia.com/wiki/Bulgarian_National_Quidditch_team'>LEARN MORE</a>
+                </div>
+                <div id='Brazil' >
+                    <img src='https://vignette.wikia.nocookie.net/harrypotter/images/7/74/720px-Flag_of_Brazil.png/revision/latest/scale-to-width-down/350?cb=20091128144932'>
+                    <p>The Brazilian National Quidditch team is the national Quidditch team of Brazil. Their mascots for the 2014 Quidditch World Cup final were Curupiras.</p>
+                    <a href='http://harrypotter.wikia.com/wiki/Brazilian_National_Quidditch_team'>LEARN MORE</a>
+                </div>
+                <div id='USA' >
+                    <img src='https://vignette.wikia.nocookie.net/harrypotter/images/a/a3/American_National_Quidditch_team.jpg/revision/latest?cb=20090409033037'>
+                    <p>The U.S.A. has a basketball-style Team Special Move named The Harlem Shuffle (20 points). The name is taken from the popular No-Maj basketball team The Harlem Globetrotters, who are best known for their skilful and entertaining play involving a ball of similar size to the Quaffle, during games.</p>
+                    <a href='http://harrypotter.wikia.com/wiki/American_National_Quidditch_team'>LEARN MORE</a>
+                </div>
+                <div id='Gryffindor' >
+                    <img src='https://vignette.wikia.nocookie.net/harrypotter/images/d/d3/Gryffindor%E2%84%A2_Quidditch%E2%84%A2_Badge.png/revision/latest?cb=20160731003525'>
+                    <p>The Gryffindor Quidditch team is the Quidditch team of Hogwarts School of Witchcraft and Wizardry's Gryffindor House. They play in robes of scarlet, their House colour. The mascot of Gryffindor House and its Quidditch team is a lion.</p>
+                    <p> Interestingly, a member of the Weasley family has held every one of the positions on the team. Ginny was a Chaser and a substitute Seeker, Charlie was a Seeker, Fred and George Weasley were Beaters, and Ron was the Keeper.</p>
+                    <a href='http://harrypotter.wikia.com/wiki/Gryffindor_Quidditch_team'>LEARN MORE</a>
+                </div>
+                <div id='Hufflepuff'>
+                    <img src='https://vignette.wikia.nocookie.net/harrypotter/images/b/b1/Hufflepuff%E2%84%A2_Quidditch%E2%84%A2_Badge.png/revision/latest?cb=20091129181210'>
+                    <p>The Hufflepuff Quidditch team is the Quidditch team of Hogwarts School of Witchcraft and Wizardry's Hufflepuff House. They play in robes of canary yellow, their House colour. The mascot of Hufflepuff House and its Quidditch team is a badger. One known captain of the team was Cedric Diggory.</p>
+                    <a href='http://harrypotter.wikia.com/wiki/Hufflepuff_Quidditch_team'>LEARN MORE</a>
+                </div>
+                <div id='Ravenclaw'>
+                    <img src='https://vignette.wikia.nocookie.net/harrypotter/images/4/4b/Ravenclaw%E2%84%A2_Quidditch%E2%84%A2_Badge.png/revision/latest?cb=20091129181211'>
+                    <p>The Ravenclaw Quidditch team is one of the four house Quidditch teams at Hogwarts School of Witchcraft and Wizardry. One known captain of the Quidditch team was Roger Davies.</p>
+                    <a href='http://harrypotter.wikia.com/wiki/Ravenclaw_Quidditch_team'>LEARN MORE</a>
+                </div>
+                <div id='Slytherin'>
+                    <img src='https://vignette.wikia.nocookie.net/harrypotter/images/5/5d/Slytherin%E2%84%A2_Quidditch%E2%84%A2_Badge.png/revision/latest?cb=20091129181212'>
+                    <p>The Slytherin Quidditch team is the Quidditch team for the Hogwarts Slytherin house. Each year, they compete for the Inter-House Quidditch Cup, an award presented to the Hogwarts House team that earns the most points. Unlike the Gryffindor, Hufflepuff and Ravenclaw teams, the Slytherin team has no qualms with cheating and unsportsmanlike conduct.</p>
+                    <p>It has been noted that the Slytherin team employs players of brute strength, rather then skill. An example of this is Gregory Goyle, who was given the position of Beater in his fifth year. The Slytherin team's cheers are usually very insulting, like that of Weasley is Our King.</p>
+                    <a href='http://harrypotter.wikia.com/wiki/Slytherin_Quidditch_team'>LEARN MORE</a>
+                </div>            
+            </div>
+        </section>
+ 
+        <!-- THIS SECTION IS YOURS TO ADD CONTENT AND CUSTOMIZE. Firstly, research REAL LIVE QUIDDITCH. https://www.usquidditch.org is a good place to start. Plan and Design what content you would like to show to advertise or inform the users about the real sport, Quidditch. Add the content and customize using any combination of Bootstrap elements you like. Don't be boring, but don't spend 3 days 'jazzing' it up, unless you have three days to spend. Simple, eloquent yet impressive. -->
+ 
+        <section id='us-quidditch'>
+        </section>
+ 
+        <!-- However you want to customize this, I would definately make it smaller-->
+        <footer class='container text-center footer' style='margin-top:500px; height:200px'>
+            <h4>website created by Joshua Law</h4>
+            <p>This website is intended for educational purposes and all materials used are for this purpose.</p>
+        </footer>
+ 
+    </body>
+</html>
