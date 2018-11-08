@@ -92,16 +92,16 @@
             <!--TAB NAV-->
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" href="#q-overview" data-toggle="collapse">OVERVIEW</a>
+                    <a class="nav-link " href="#q-overview" data-toggle="collapse">OVERVIEW</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#q-roles" data-toggle="collapse">ROLES</a>
+                    <a class="nav-link " href="#q-roles" data-toggle="collapse">ROLES</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#q-balls" data-toggle="collapse">BALLS</a>
+                    <a class="nav-link " href="#q-balls" data-toggle="collapse">BALLS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#q-scoring" data-toggle="collapse">SCORING</a>
+                    <a class="nav-link " href="#q-scoring" data-toggle="collapse">SCORING</a>
                 </li>
             </ul>
             <!-- TAB CONTENT-->
@@ -113,23 +113,23 @@
                 </article>
                 <article  id='q-roles'>
                     <ul >
-                        <li ><button class='btn btn-primary'>Chasers</button></li>
+                        <li ><button class='btn btn-primary ' href="#desc-chasers" data-toggle="collapse">Chasers</button></li>
                         <p id='desc-chasers'>The Chasers pass the Quaffle trying to throw it through one of the three hoops.</p>
-                        <li ><button class='btn btn-primary' >Keeper</button></li>
+                        <li ><button class='btn btn-primary ' href="#desc-keeper" data-toggle="collapse">Keeper</button></li>
                         <p id='desc-keeper'>The Keeper is responsible for keeping the Quaffle from going through the hoops, similar to a Goalie in soccer.</p>
-                        <li ><button class='btn btn-primary ' >Beaters</button></li>
+                        <li ><button class='btn btn-primary ' href="#desc-beaters" data-toggle="collapse">Beaters</button></li>
                         <p id='desc-beaters' >The Beaters are equipped with large clubs, used to smack the Bludgers around, attempting to disrupt the Chasers from getting a goal.</p>
-                        <li ><button class='btn btn-primary ' >Seeker</button></li>
+                        <li ><button class='btn btn-primary ' href="#desc-seeker" data-toggle="collapse">Seeker</button></li>
                         <p id='desc-seeker' >The Seeker tries to catch the Golden Snitch, and in doing so, ends the game.</p>
                     </ul>
                 </article>
                 <article  id='q-balls'>
                     <ul >
-                        <li ><button class='btn btn-primary '>Quaffle</button></li>
+                        <li ><button class='btn btn-primary ' href="#desc-quaffle" data-toggle="collapse">Quaffle</button></li>
                        
-                        <li><button class='btn btn-primary '  >Bludgers</button></li>
+                        <li><button class='btn btn-primary ' href="#desc-bludger" data-toggle="collapse">Bludgers</button></li>
                        
-                        <li ><button class='btn btn-primary ' >Golden Snitch</button></li>
+                        <li ><button class='btn btn-primary ' href="#desc-snitch" data-toggle="collapse">Golden Snitch</button></li>
                         <p id='desc-quaffle' >A round red seamless leather ball, 12 inches in diameter – that is, about the size of a Muggle football. The Quaffle is the ball with which Chasers score goals, and due to the nature of the game must be caught and thrown one-handed, since the player must at the same time control his or her broomstick. </p>
                         <p id='desc-bludger'>A Bludger is a round jet-black iron ball, 10 inches in diameter – that is, slightly smaller than a Quaffle. Two Bludgers are used and they attempt to unseat the player nearest to them. Beaters used clubs to hit the Bludgers towards opposing player to unseat them.</p>
                         <p id='desc-snitch'>The Golden Snitch, commonly referred to as a Snitch, is the smallest and fastest ball in the game. </p>                        
@@ -151,7 +151,7 @@
             <p>The Quidditch World Cup is played every year, similar to the Muggles Olympics. However, what some may not know is that the action actually starts two years prior to the World Cup.
             </p>
             <p>Any country capable of producing a Quidditch team is allowed to play in the World Cup. The first round, or 'group round', is when all the participating teams are separated into 16 groups, and over the course of two years, play each other. The accumulated points are tallied and the winners from each group progress on to the World Cup.</p>
-            <table >
+            <table class="table">
                 <tr >
                     <th>Year</th>
                     <th>Teams</th>
@@ -195,26 +195,28 @@
             </table>
         </section>
  
-        <!--Create a grouped drop down menu that contains a link to the Quidditch Teams. When one of those links is clicked the image, description and link for that team appears. No other team should show, only the team that was clicked. refer to teams-descriptions and teams-dropdown pics for more clarification. -->
+        <!--Create a grouped drop down menu that contains a link to the Quidditch Teams. When one of those links is clicked 
+            the image, description and link for that team appears. No other team should show, only the team that was clicked. 
+            refer to teams-descriptions and teams-dropdown pics for more clarification. -->
        
         <section id='teams' class='container'>
             <h1>Known Teams</h1>
             <h3>Click on a team to see details.</h3>
-            <div >
-                <button type="button" class="btn btn-primary " >
+            <div class="dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 The Teams
                 </button>
-                <div >
+                <div class="dropdown-menu">
                     <h5 >National Teams</h5>
-                        <a href="#" >Ireland</a>
-                        <a href="#" >Bulgaria</a>
-                        <a href="#" >Brazil</a>
-                        <a href="#" >USA</a>
+                        <a class="dropdown-item" href="#Ireland" data-toggle="collapse">Ireland</a>
+                        <a class="dropdown-item" href="#Bulgaria" data-toggle="collapse">Bulgaria</a>
+                        <a class="dropdown-item" href="#Brazil" data-toggle="collapse">Brazil</a>
+                        <a class="dropdown-item" href="#USA" data-toggle="collapse">USA</a>
                     <h5 >Hogwarts Teams</h5>
-                        <a href="#" >Gryffindor</a>
-                        <a href="#" >Hufflepuff</a>
-                        <a href="#" >Ravenclaw</a>
-                        <a href="#" >Slytherin</a>
+                        <a class="dropdown-item" href="#Gryffindor" data-toggle="collapse">Gryffindor</a>
+                        <a class="dropdown-item" href="#Hufflepuff" data-toggle="collapse">Hufflepuff</a>
+                        <a class="dropdown-item" href="#Ravenclaw" data-toggle="collapse">Ravenclaw</a>
+                        <a class="dropdown-item" href="#Slytherin" data-toggle="collapse">Slytherin</a>
                 </div>
             </div>
             <div id='desc-teams'>
