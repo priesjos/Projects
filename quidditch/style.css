@@ -1,0 +1,14 @@
+#stop_pushing_the_page {
+    width: 20%;
+    height: 20%;
+}
+
+#first_row {
+    color: blue;
+    border: 2px solid rosybrown;
+}
+
+.score_table{
+    background-color: palegoldenrod;
+    border: 2px dotted silver;
+}
