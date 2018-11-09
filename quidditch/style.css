@@ -12,6 +12,10 @@
     border: 2px solid rosybrown;
 }
 
+#rules {
+    border-top: 3px solid black;
+}
+
 #teams{
     border-bottom: 3px solid black;
 }
