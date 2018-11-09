@@ -3,12 +3,24 @@
     height: 20%;
 }
 
+#worldcup {
+    border-bottom: 3px solid black;
+}
+
 #first_row {
     color: blue;
     border: 2px solid rosybrown;
 }
 
+#teams{
+    border-bottom: 3px solid black;
+}
+
 .score_table{
     background-color: palegoldenrod;
     border: 2px dotted silver;
+}
+
+.tab-content{
+    border-bottom: 3px solid black;
 }
