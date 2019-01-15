@@ -22,56 +22,130 @@
             HEAD
         </div>
         <div id="box-area" class="container-fluid">
-            <div id="text-forms">
-                <form>
-                    <fieldset>
-                        <label for="lolidk">Type some stuff</label>
-                        <input type="text" id="lolidk"/>
-                    </fieldset>
+            <div id="form-area">
+                <div class="dropdown">
+                    <button class='btn btn-primary bg-dark dropdown-toggle' type='button' data-toggle='dropdown'>Select a Story</button>
 
-                    <fieldset>
-                        <label for="lolidk">Type some stuff</label>
-                        <input type="text" id="lolidk"/>
-                    </fieldset>
+                    <ul class="dropdown-menu storyChoices">
+                        <li><a href='#first-form' data-toggle='collapse'>First Story</a></li>
+                        <li><a href='#second-form' data-toggle='collapse'>Second Story</a></li>
+                        <li><a href='#third-form' data-toggle='collapse'>Third Story</a></li>
+                    </ul>
+                </div>
 
-                    <fieldset>
-                        <label for="lolidk">Type some stuff</label>
-                        <input type="text" id="lolidk"/>
-                    </fieldset>
-    
-                    <fieldset>
-                        <label for="lolidk">Type some stuff</label>
-                        <input type="text" id="lolidk"/>
-                    </fieldset>
-                        
-                    <fieldset>
-                        <label for="lolidk">Type some stuff</label>
-                        <input type="text" id="lolidk"/>
-                    </fieldset>
-                        
-                    <fieldset>
-                        <label for="lolidk">Type some stuff</label>
-                        <input type="text" id="lolidk"/>
-                    </fieldset>
+                <div class="form-list" id="text-parent">
+                    <div id="first-form" class="words-form collapse" data-parent="#text-parent">
+                        <form>
+                            <fieldset>
+                                <label for="noun1">Noun1</label>
+                                <input type="text" id="noun1"/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="noun2">Noun2</label>
+                                <input type="text" id="noun2"/>
+                            </fieldset>
+
+                             <fieldset>
+                                <label for="noun3">Noun3</label>
+                                <input type="text" id="noun3"/>
+                            </fieldset> 
+
+                            <fieldset>
+                                <label for="verb">Verb</label>
+                                <input type="text" id="verb"/>
+                            </fieldset> 
+
+                            <fieldset>
+                                <label for="adjective">Adjective</label>
+                                <input type="text" id="adjective"/>
+                            </fieldset>   
+                            <button type="button" onclick="generateStoryOne()">GENERATE</button>         
+                        </form>
+                    </div>
                     
-                    <fieldset>
-                        <label for="lolidk">Type some stuff</label>
-                        <input type="text" id="lolidk"/>
-                    </fieldset>
-
-                    <fieldset>
-                        <label for="lolidk">Type some stuff</label>
-                        <input type="text" id="lolidk"/>
-                    </fieldset>                    
-                </form>
+                    <div id="second-form" class="words-form collapse" data-parent="#text-parent">
+                        <form>
+                            <fieldset>
+                                <label for="noun1">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <button type="button">GENERATE</button>                    
+                        </form>
+                    </div>
+                    
+                    <div id="third-form" class="words-form collapse" data-parent="#text-parent">
+                        <form>
+                            <fieldset>
+                                <label for="noun1">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <button type="button">GENERATE</button>                  
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            <button type="button">PRESS FOR NOTHING</button>
         </div>
 
         <div id="story-area" class="container-fluid">
-            <h3>STORY TITLE</h3>
-            <p>Story generated here, this floats right</p>
+            <h3 id="story-title">STORY TITLE</h3>
+            <p id="story">Story generated here, this floats right</p>
         </div>
     </body>
 
