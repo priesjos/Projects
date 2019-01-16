@@ -13,6 +13,9 @@ function generateStoryOne(){
 function generateStoryTwo(){
     var noun_possessive = $("#noun_possessive").val();
     var noun_plural = $("#noun_plural").val();
+    var time
+    var verb
+    var noun_place
     var emotion = $("#emotion").val();
     var reaction = $("#reaction").val();
     var number_rank = $("#number_rank").val();
