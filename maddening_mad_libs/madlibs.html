@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-
         <!--BOOTSTRAP/CSS-->
         <link rel="stylesheet" href="madlibs.css" type="text/css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -21,129 +20,155 @@
         <div id="head">
             <h1>STORY GENERATOR</h1>
         </div>
-        <div class="container-fluid">
-            <div id="box-area" class="container-fluid">
-                <div id="form-area">
-                    <div class="dropdown">
-                        <button class='btn btn-primary bg-dark dropdown-toggle' type='button' data-toggle='dropdown'>Select a Story</button>
+        
+        <div id="generator" class="container-fluid row">
 
-                        <ul class="dropdown-menu storyChoices">
-                            <li><a href='#first-form' data-toggle='collapse'>First Story</a></li>
-                            <li><a href='#second-form' data-toggle='collapse'>Second Story</a></li>
-                            <!--<li><a href='#third-form' data-toggle='collapse'>Third Story</a></li>-->
-                        </ul>
-                    </div>
+            <div id="form-area" class="col-4">
+                <div class="dropdown">
+                    <button class='btn btn-primary bg-dark dropdown-toggle' type='button' data-toggle='dropdown'>Select a Story</button>
 
-                    <div class="form-list" id="text-parent">
-                        <div id="first-form" class="words-form collapse" data-parent="#text-parent">
-                            <form>
-                                <fieldset>
-                                    <label for="noun1">Noun</label>
-                                    <input type="text" id="noun1"/>
-                                </fieldset>
-
-                                <fieldset>
-                                    <label for="noun2">Noun</label>
-                                    <input type="text" id="noun2"/>
-                                </fieldset>
-
-                                <fieldset>
-                                    <label for="noun3">Noun</label>
-                                    <input type="text" id="noun3"/>
-                                </fieldset> 
-
-                                <fieldset>
-                                    <label for="verb">Verb</label>
-                                    <input type="text" id="verb"/>
-                                </fieldset> 
-
-                                <fieldset>
-                                    <label for="adjective">Adjective</label>
-                                    <input type="text" id="adjective"/>
-                                </fieldset>   
-                                <button type="button" onclick="generateStoryOne()">GENERATE</button>         
-                            </form>
-                        </div>
-                        
-                        <div id="second-form" class="words-form collapse" data-parent="#text-parent">
-                            <form>
-                                <fieldset>
-                                    <label for="noun_possessive">Noun (Possessive)</label>
-                                    <input type="text" id="noun_possessive"/>
-                                </fieldset>
-                                <fieldset>
-                                    <label for="noun_plural">Noun (Plural)</label>
-                                    <input type="text" id="noun_plural"/>
-                                </fieldset>
-                                <fieldset>
-                                    <label for="emotion">Emotion</label>
-                                    <input type="text" id="emotion"/>
-                                </fieldset>
-                                <fieldset>
-                                    <label for="reaction">Reaction</label>
-                                    <input type="text" id="reaction"/>
-                                </fieldset>
-                                <fieldset>
-                                    <label for="number_rank">Number (Rank)</label>
-                                    <input type="text" id="number_rank"/>
-                                </fieldset>
-                                <fieldset>
-                                    <label for="adjective2">Adjective</label>
-                                    <input type="text" id="adjective2"/>
-                                </fieldset>
-                                <button type="button" onclick="generateStoryTwo()">GENERATE</button>                    
-                            </form>
-                        </div>
-                        <!--
-                        <div id="third-form" class="words-form collapse" data-parent="#text-parent">
-                            <form>
-                                <fieldset>
-                                    <label for="noun1">Type some stuff</label>
-                                    <input type="text" id="lolidk"/>
-                                </fieldset>
-                                <fieldset>
-                                    <label for="lolidk">Type some stuff</label>
-                                    <input type="text" id="lolidk"/>
-                                </fieldset>
-                                <fieldset>
-                                    <label for="lolidk">Type some stuff</label>
-                                    <input type="text" id="lolidk"/>
-                                </fieldset>
-                                <fieldset>
-                                    <label for="lolidk">Type some stuff</label>
-                                    <input type="text" id="lolidk"/>
-                                </fieldset>
-                                <fieldset>
-                                    <label for="lolidk">Type some stuff</label>
-                                    <input type="text" id="lolidk"/>
-                                </fieldset>
-                                <fieldset>
-                                    <label for="lolidk">Type some stuff</label>
-                                    <input type="text" id="lolidk"/>
-                                </fieldset>
-                                <fieldset>
-                                    <label for="lolidk">Type some stuff</label>
-                                    <input type="text" id="lolidk"/>
-                                </fieldset>
-                                <fieldset>
-                                    <label for="lolidk">Type some stuff</label>
-                                    <input type="text" id="lolidk"/>
-                                </fieldset>
-                                <button type="button">GENERATE</button>                  
-                            </form>
-                        </div>
-                        -->
-                    </div>
+                    <ul class="dropdown-menu storyChoices">
+                        <li><a href='#first-form' data-toggle='collapse'>First Story</a></li>
+                        <li><a href='#second-form' data-toggle='collapse'>Second Story</a></li>
+                        <!--<li><a href='#third-form' data-toggle='collapse'>Third Story</a></li>-->
+                    </ul>
                 </div>
-            </div>    
-            <div id="story-area" class="container-fluid">
-                <h3 id="story-title">STORY TITLE</h3>
-                <p id="story">Story generated here, this floats right</p>
+
+                <div class="form-list" id="text-parent">
+                    <div id="first-form" class="words-form collapse" data-parent="#text-parent">
+                        <form>
+                            <fieldset>
+                                <label for="noun1">Noun</label>
+                                <input type="text" id="noun1"/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="noun2">Noun</label>
+                                <input type="text" id="noun2"/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="noun3">Noun</label>
+                                <input type="text" id="noun3"/>
+                            </fieldset> 
+
+                            <fieldset>
+                                <label for="1-verb">Verb</label>
+                                <input type="text" id="1-verb"/>
+                            </fieldset> 
+
+                            <fieldset>
+                                <label for="1-adjective">Adjective</label>
+                                <input type="text" id="1-adjective"/>
+                            </fieldset>   
+                            <button type="button" onclick="generateStoryOne()">GENERATE</button>         
+                        </form>
+                    </div>
+                    
+                    <div id="second-form" class="words-form collapse" data-parent="#text-parent">
+                        <form>
+                            <fieldset>
+                                <label for="noun_possessive">Noun (Possessive)</label>
+                                <input type="text" id="noun_possessive"/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="noun_plural">Noun (Plural)</label>
+                                <input type="text" id="noun_plural"/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="time">Noun (Time)</label>
+                                <input type="text" id="time"/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="2-verb">Verb (Ending in -ed)</label>
+                                <input type="text" id="2-verb"/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="noun_place">Noun (Place)</label>
+                                <input type="text" id="noun_place"/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="emotion">Emotion</label>
+                                <input type="text" id="emotion"/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="reaction">Reaction</label>
+                                <input type="text" id="reaction"/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="number_rank">Number (Rank)</label>
+                                <input type="text" id="number_rank"/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="2-adjective1">Adjective</label>
+                                <input type="text" id="2-adjective1"/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="2-adjective2">Adjective</label>
+                                <input type="text" id="2-adjective2"/>
+                            </fieldset>
+                            <button type="button" onclick="generateStoryTwo()">GENERATE</button>                    
+                        </form>
+                    </div>
+                    <!--
+                    <div id="third-form" class="words-form collapse" data-parent="#text-parent">
+                        <form>
+                            <fieldset>
+                                <label for="noun1">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <fieldset>
+                                <label for="lolidk">Type some stuff</label>
+                                <input type="text" id="lolidk"/>
+                            </fieldset>
+                            <button type="button">GENERATE</button>                  
+                        </form>
+                    </div>
+                    -->
+                </div>
+
+            </div>
+
+            <div id="story-area" class="col-8">
+                <h3 id="story-title" style="font-style: bold">STORY TITLE</h3>
+                <p id="story">Story generated here</p>
             </div>
         </div>
-        
+                
 
-        
     </body>
 
     <footer>Some stories borrowed from <a href="https://extremelyshortstories.wordpress.com/">https://extremelyshortstories.wordpress.com/</a>.</footer>

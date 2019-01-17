@@ -1,15 +1,19 @@
+body{
+    background-color: pink;
+}
+
 #head{
     text-align: center;
 }
 
-#story-area{
-    padding: 125px 270px;
-    position: relative;
-    float: right;
+#generator{
+    padding: 0px 30px 45px 65px;
 }
 
-#box-area{
-    padding: 20px 20px;
+#story-area{
+    padding: 30px 70px;
     position: relative;
-    float: left;
+    font-size: 1.7em;
+    border-left: 2px solid black;
 }
+
