@@ -1,3 +1,7 @@
+$(document).ready(function(){
+    
+})
+
 function generateStoryOne(){
     var noun1 = $("#noun1").val();
     var noun2 = $("#noun2").val();
@@ -23,8 +27,8 @@ function generateStoryTwo(){
     var adjective2  = $("#2-adjective2").val();
 
     var story2 = "“I dreamt I cut off a " + noun_possessive + " " + noun_plural + " at  " + time + ",” he recounted. “One by one. Snip by snip.” He " + verb + ", “Was I forced to do this, or was it for " + emotion + ", in my dream? I couldn’t tell.” " + adjective1 +" " + reaction + " spattered the " + noun_place + ". He would go on to take " + number_rank + " place in the All-County Regional " + adjective2 + " Pickup Line Invitational.";
-    $("#story-title").text("STORY TWO");
-    $("#story").text(story2);
+    $("#story-title").text("STORY TWO")
+    $("#story").text(story2)
 }
 
 /*

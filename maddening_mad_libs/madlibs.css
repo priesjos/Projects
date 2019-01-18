@@ -7,9 +7,16 @@ div{
     background-color: pink;
 }
 
+img{
+    display: block;
+    margin: auto;
+    position: center;
+}
+
 header{
     text-align: center;
     background-color: palevioletred;
+    background-image: linear-gradient(to right, pink, palevioletred, pink);
 }
 
 .container-fluid{
@@ -17,11 +24,12 @@ header{
 }
 
 #generator{
-    padding: 0px 30px 45px 65px;
+    margin: 0px 0px 0px 0px;
+    padding: 60px 0px 315px 65px;
 }
 
 #story-area{
-    padding: 30px 70px;
+    padding: 30px 72px 30px ;
     position: relative;
     font-size: 1.7em;
     border-left: 2px solid black;
@@ -29,4 +37,5 @@ header{
 
 footer{
     text-align: center;
+    background-color: palevioletred;
 }

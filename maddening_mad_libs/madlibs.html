@@ -17,24 +17,25 @@
 
 
     <body>
-        <div>
+        <div id="area">
             <header>
                 <h1>STORY GENERATOR</h1>
             </header>
             
-            <div id="generator" class="container-fluid row">
+            <img src="Mad-Libs.jpeg" class="img-thumbnail"height="25%" width="38%">
 
+            <div id="generator" class="container-fluid row">
                 <div id="form-area" class="col-4">
                     <div class="dropdown">
                         <button class='btn btn-primary bg-dark dropdown-toggle' type='button' data-toggle='dropdown'>Select a Story</button>
 
                         <ul class="dropdown-menu storyChoices">
-                            <li><a href='#first-form' data-toggle='collapse'>First Story</a></li>
-                            <li><a href='#second-form' data-toggle='collapse'>Second Story</a></li>
+                            <!--<li><a href='#first-form' data-toggle='collapse'>First Story</a></li>-->
+                            <li><a href='#second-form' data-toggle='collapse' class="active">Second Story</a></li>
                             <!--<li><a href='#third-form' data-toggle='collapse'>Third Story</a></li>-->
                         </ul>
                     </div>
-
+                    
                     <div class="form-list" id="text-parent">
                         <div id="first-form" class="words-form collapse" data-parent="#text-parent">
                             <form>
