@@ -1,9 +1,19 @@
 body{
+    color: blueviolet;
+    background-color: red;
+}
+
+div{
     background-color: pink;
 }
 
-#head{
+header{
     text-align: center;
+    background-color: palevioletred;
+}
+
+.container-fluid{
+    background-color: pink;
 }
 
 #generator{
@@ -17,3 +27,6 @@ body{
     border-left: 2px solid black;
 }
 
+footer{
+    text-align: center;
+}
