@@ -20,18 +20,33 @@ $(document).ready(function(){
 function minToYearsDays(){
 
     var minutes;
+    var days;
+    var years;
 
-    var input = $("#minutes-convert").val();
+    minutes = $("#minutes-convert").val();
 
-    $("#output-years-days").text();
+    days = Math.floor(minutes/60/24);
+    years = Math.floor(days/365);
+
+    $("#output-years-days").text(years + " years, " + days + " days");
+
 }
 
 function calcGratTotal(){
 
-    var inputOne = $("#subtotal").val();
-    var inputTwo = $("#grat").val();
+    var subtotal;
+    var gratuity;
+    var output-grat;
+    var total;
+
+    var subtotal = $("#subtotal").val();
+    var gratuity = $("#grat").val();
+
+    
+
 
     $("#output-grat-total").text();
+
 }
 
 function calcBMI(){
