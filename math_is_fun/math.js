@@ -36,7 +36,7 @@ function calcGratTotal(){
 
     var subtotal;
     var gratuity;
-    var output-grat;
+    var outputGrat;
     var total;
 
     var subtotal = $("#subtotal").val();
