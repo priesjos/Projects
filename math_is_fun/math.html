@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Bootstrap/CSS-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="math.css">
+
+        <!--JQuery-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="math.js" async></script>
+
+        <title>Math Problems</title>
+    </head>
+
+    <body>
+        <form>
+            <h3>Minutes to years and days</h3>
+            <fieldset>
+                <label for='minutes-convert'>Enter minutes:</label>
+                <input type="text" id="minutes-convert" />
+            </fieldset>
+
+            <fieldset>
+                <button type="button" id="min-convert">CONVERT</button>
+            </fieldset>
+        </form>
+        <div id="output-years-days"></div>
+        <hr>
+
+        <form>
+            <h3>Calculate gratuity and total</h3>
+            <fieldset>
+                <label for='subtotal'>Enter subtotal:</label>
+                <input type="text" id="subtotal" />
+
+                <label for='grat'>Enter gratuity:</label>
+                <input type="text" id="grat" />
+            </fieldset>
+
+            <fieldset>
+                <button type="button" id="calc-grat-total">CONVERT</button>
+            </fieldset>
+        </form>
+        <div id="output-grat-total"></div>
+        <hr>
+
+        <form>
+            <h3>BMI Calculator</h3>
+            <fieldset>
+                <label for='pounds'>Enter pounds:</label>
+                <input type="text" id="pounds" />
+
+                <label for='inches'>Enter inches:</label>
+                <input type="text" id="inches" />
+            </fieldset>
+
+            <fieldset>
+                <button type="button" id="calc-bmi">CONVERT</button>
+            </fieldset>
+        </form>
+        <div id="output-bmi"></div>
+        <hr>
+
+        <form>
+            <h3>Decimal time to hours and minutes</h3>
+            <fieldset>
+                <label for='hrs-float'>Enter hours (decimal):</label>
+                <input type="text" id="hrs-float" />
+            </fieldset>
+
+            <fieldset>
+                <button type="button" id="hrs-convert">CONVERT</button>
+            </fieldset>
+        </form>
+        <div id="output-hrs-mins"></div>
+    </body>
+</html>
