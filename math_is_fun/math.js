@@ -19,24 +19,32 @@ $(document).ready(function(){
 
 function minToYearsDays(){
 
-    alert("minToYearsDays");
-    
+    var minutes;
+
+    var input = $("#minutes-convert").val();
+
+    $("#output-years-days").text();
 }
 
 function calcGratTotal(){
 
-    alert("calcGratTotal");
+    var inputOne = $("#subtotal").val();
+    var inputTwo = $("#grat").val();
 
+    $("#output-grat-total").text();
 }
 
 function calcBMI(){
 
-    alert("calcBMI");
+    var inputOne = $("#pounds").val();
+    var inputTwo = $("#inches").val();
 
+    $("#output-bmi").text();
 }
 
 function decToHoursMins(){
 
-    alert("decToHoursMins");
+    var input = $("#hrs-float").val();
 
+    $("#output-hrs-mins").text();
 }
