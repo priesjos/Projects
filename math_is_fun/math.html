@@ -16,65 +16,82 @@
     </head>
 
     <body>
-        <form>
-            <h3>Minutes to years and days</h3>
-            <fieldset>
-                <label for='minutes-convert'>Enter minutes:</label>
-                <input type="text" id="minutes-convert" />
-            </fieldset>
+        <header>
+            <h1>MATH FUNCTIONS</h1>
+        </header>
+        <hr>
+        <div class="form-area container-fluid">
+            <form>
+                <h3>Minutes to years and days</h3>
+                <fieldset>
+                    <label for='minutes-convert'>Enter minutes:</label>
+                    <input type="text" id="minutes-convert" />
+                </fieldset>
 
-            <fieldset>
-                <button type="button" id="min-convert">CONVERT</button>
-            </fieldset>
-        </form>
-        <div id="output-years-days"></div>
+                <fieldset>
+                    <button type="button" id="min-convert">CONVERT</button>
+                </fieldset>
+            </form>
+            <div id="output-years-days" class="output"></div>
+        </div>
         <hr>
 
-        <form>
-            <h3>Calculate gratuity and total</h3>
-            <fieldset>
-                <label for='subtotal'>Enter subtotal:</label>
-                <input type="text" id="subtotal" />
+        <div class="form-area container-fluid">
+            <form>
+                <h3>Calculate gratuity and total</h3>
+                <fieldset>
+                    <label for='subtotal'>Enter subtotal:</label>
+                    <input type="text" id="subtotal" />
+                </fieldset>
+                
+                <fieldset>
+                    <label for='grat'>Enter gratuity:</label>
+                    <input type="text" id="grat" />
+                </fieldset>
 
-                <label for='grat'>Enter gratuity:</label>
-                <input type="text" id="grat" />
-            </fieldset>
-
-            <fieldset>
-                <button type="button" id="calc-grat-total">CONVERT</button>
-            </fieldset>
-        </form>
-        <div id="output-grat-total"></div>
+                <fieldset>
+                    <button type="button" id="calc-grat-total">CONVERT</button>
+                </fieldset>
+            </form>
+            <div id="output-grat-total" class="output"></div>
+        </div>
         <hr>
 
-        <form>
-            <h3>BMI Calculator</h3>
-            <fieldset>
-                <label for='pounds'>Enter pounds:</label>
-                <input type="text" id="pounds" />
+        <div class="form-area container-fluid">
+            <form>
+                <h3>BMI Calculator</h3>
+                <fieldset>
+                    <label for='pounds'>Enter pounds:</label>
+                    <input type="text" id="pounds" />
+                </fieldset>
 
-                <label for='inches'>Enter inches:</label>
-                <input type="text" id="inches" />
-            </fieldset>
+                <fieldset>
+                    <label for='inches'>Enter inches:</label>
+                    <input type="text" id="inches" />
+                </fieldset>
 
-            <fieldset>
-                <button type="button" id="calc-bmi">CONVERT</button>
-            </fieldset>
-        </form>
-        <div id="output-bmi"></div>
-        <hr>
+                <fieldset>
+                    <button type="button" id="calc-bmi">CONVERT</button>
+                </fieldset>
+            </form>
+            <div id="output-bmi" class="output"></div>
+        </div>
+        <hr>  
 
-        <form>
-            <h3>Decimal time to hours and minutes</h3>
-            <fieldset>
-                <label for='hrs-float'>Enter hours (decimal):</label>
-                <input type="text" id="hrs-float" />
-            </fieldset>
+        <div class="form-area container-fluid">
+            <form>
+                <h3>Decimal time to hours and minutes</h3>
+                <fieldset>
+                    <label for='hrs-float'>Enter hours (decimal):</label>
+                    <input type="text" id="hrs-float" />
+                </fieldset>
 
-            <fieldset>
-                <button type="button" id="hrs-convert">CONVERT</button>
-            </fieldset>
-        </form>
-        <div id="output-hrs-mins"></div>
+                <fieldset>
+                    <button type="button" id="hrs-convert">CONVERT</button>
+                </fieldset>
+            </form>
+            <div id="output-hrs-mins" class="output"></div>
+        </div>
+        
     </body>
 </html>
