@@ -17,7 +17,7 @@ $(document).ready(function(){
             updateNarrative(N3_A1);
             updateButtons(false, true, N3_A1_O1, N3_A1_O2);
         }   
-///
+////
         //Approach light option, with jewel
         else if ($("#B1").text() === N2_O1 && hasJewel === true){
             updateNarrative(N4);
@@ -55,6 +55,11 @@ $(document).ready(function(){
 
     $("#B3").click(function(){
 
+        //Investigate hole
+        if ($("#B3").text() === N2_O3){
+            updateNarrative(N3_C1);
+            updateButtons(false, true, N3_C1_O1, N3_C2_O2);
+        }
     });
 
 });
