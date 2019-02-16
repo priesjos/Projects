@@ -2,6 +2,7 @@ $(document).ready(function(){
 
     //Initialize narrative
     updatePage(N1, true, true, N1_O1);
+    
 
     $("#B1").click(function(){
 
@@ -17,7 +18,7 @@ $(document).ready(function(){
 
         //Approach light option, with jewel
         else if ($("#B1").text() === N2_O1 && hasJewel === true){
-            updatePage(N3, false, false, N3_O1, N3_O2, N3_O3);
+            updatePage(N3_1, false, false, N3_O1, N3_O2, N3_O3);
         }   
 
         //Take jewel
@@ -46,25 +47,55 @@ $(document).ready(function(){
             updatePage(N2_1, false, false, N2_O1, N2_O2, N2_O3);
         }
 
-        //Examine lantern
+        //Examine lantern without rod
         else if ($("#B1").text() === N3_O1 && hasRod === false){
             updatePage(N3_A1, true, true, N3_A1_O1);
         } 
 
         //Return from lantern
         else if ($("#B1").text() === N3_A1_O1){
-            updatePage(N3, false, false, N3_O1, N3_O2, N3_O3);
+            updatePage(N3_1, false, false, N3_O1, N3_O2, N3_O3);
         }
+
+        //Examine lantern with rod
+        else if ($("#B1").text() === N3_O1 && hasRod === true && hasLantern == false){
+            updatePage(N3_A2, true, true, N3_A2_O1);
+        } 
+
+        //Examine lantern with lantern
+        else if ($("#B1").text() === N3_O1 && hasLantern === true){
+            $("article").text("The glow of the lantern persists.");
+        } 
+
+        //Take lantern and return
+        else if ($("#B1").text() === N3_A2_O1){
+            hasLantern = true;
+            updatePage(N3_1, false, false, N3_O1, N3_O2, N3_O3_alt);
+        } 
 
         //Take eye
         else if ($("#B1").text() === N3_B1_O1){
             hasEye = true;
-            updatePage(N3, false, false, N3_O1, N3_O2, N3_O3);
+            updatePage(N3_1, false, false, N3_O1, N3_O2, N3_O3);
         }
 
         //Return from corridor
         else if ($("#B1").text() === N3_C1_O1){
-            updatePage(N3, false, false, N3_O1, N3_O2, N3_O3);
+            updatePage(N3_1, false, false, N3_O1, N3_O2, N3_O3);
+        }
+
+        //Take rod
+        else if ($("#B1").text() === N3_C2_O1){
+            hasRod = true;
+            updatePage(N3_1, false, false, N3_O1, N3_O2, N3_O3_alt);
+        }
+
+        //Advance
+        else if ($("#B1").text() === N3_C3_O1){
+            $("article").fadeOut();
+            $("#B1").hide();
+            $("#B2").hide();
+            $("#B3").hide();
         }
     });
 
@@ -83,7 +114,7 @@ $(document).ready(function(){
 
         //Investigate remains, jewel added
         else if ($("#B2").text() === N2_O2 && hasJewel === true){
-            updatePage(N2_B1, false, false, N2_O1, N2_O2, N2_O3);
+            $("article").text(N2_2);
         }
 
         //Drop bone
@@ -92,8 +123,13 @@ $(document).ready(function(){
         }
         
         //Investigate other cells
-        else if ($("#B2").text() === N3_O2 && hasEye == false){
+        else if ($("#B2").text() === N3_O2 && hasEye === false){
             updatePage(N3_B1, true, true, N3_B1_O1);
+        }
+
+        //Investigate other cells, eye obtained
+        else if ($("#B2").text() === N3_O2 && hasEye === true){
+            $("article").text(N3_2);
         }
     });
 
@@ -105,11 +141,25 @@ $(document).ready(function(){
             updatePage(N2_C1, false, true, N2_C1_O1, N2_C1_O2);
         }
 
-        //Go to corridor's end
-        else if ($("#B3").text() === N3_O3 && hasRod === false){
+        //Go to corridor's end, without eye
+        else if ($("#B3").text() === N3_O3 && hasEye === false){
             updatePage(N3_C1, true, true, N3_C1_O1);
         }
-        
+
+        //Go to corridor's end, with eye
+        else if ($("#B3").text() === N3_O3 && hasEye === true){
+            updatePage(N3_C2, true, true, N3_C2_O1);
+        }
+
+        //Go to corridor's end, with rod already obtained and no lantern
+        else if ($("#B3").text() === N3_O3_alt && hasLantern === false){
+            updatePage(N3_3, false, false, N3_O1, N3_O2, N3_O3_alt);
+        }
+
+        //Go to corridor's end, lantern obtained
+        else if ($("#B3").text() === N3_O3_alt && hasLantern === true){
+            updatePage(N3_C3, true, true, N3_C3_O1);
+        }
     });
 
 });
@@ -117,6 +167,7 @@ $(document).ready(function(){
 var hasJewel = false;
 var hasEye = false;
 var hasRod = false;
+var hasLantern = false;
 
 var N1 = "You awake in an unlit chamber, and a faint glow of light emanates from a distance. It is blurred by fog.";
 var N1_O1 = "Continue";
@@ -145,10 +196,15 @@ var N2_C1_O2 = "Assess the fall with a bone";
 var N2_C2 = "You take a bone from the remains and let it drop into the pit. A few moments pass, but no sound is heard to indicate its landing.";
 var N2_C2_O1 = "Return from pit";
 
-var N3 = "The jewel fits evenly within the opening, returning the room to a state of darkness. The walls begin to rumble, and after a while they sink into the ground, leaving exposed the corridor of the cells. The light is brighter than ever.";
+var N3_1 = "The jewel fits evenly within the opening, returning the room to a state of darkness. The walls begin to rumble, and after a while they sink into the ground, leaving exposed the corridor of the cells. The light is brighter than ever.";
 var N3_O1 = "Examine lantern";
 var N3_O2 = "Investigate other cells";
 var N3_O3 = "Go to corridor's end";
+var N3_O3_alt = "Go to corridor's end ";
+
+var N3_2 = "Nothing left of use is in the cells."
+
+var N3_3 = "It's too dark to go any further."
 
 var N3_A1 = "The lantern is hanging from an arch between two walls. There is no way for you to reach it.";
 var N3_A1_O1 = "Return to corridor";
@@ -164,6 +220,9 @@ var N3_C1_O1 = "Return to the cells";
 
 var N3_C2 = "Strangely, it only takes a few moments to reach the corridor's end. Although the next room is too dark to enter, a long rod is leaning against the wall.";
 var N3_C2_O1 = "Take rod and return";
+
+var N3_C3 = "Even with the lantern, the room at the end is still shrouded in a thick, dark mist. You can barely manage to make out the details of what's ahead.";
+var N3_C3_O1 = "Advance";
 
 
 var updatePage = function(nar, hide2, hide3, a, b, c){
