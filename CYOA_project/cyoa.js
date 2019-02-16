@@ -1,8 +1,7 @@
 $(document).ready(function(){
 
     //Initialize narrative
-    updateNarrative(N1);
-    updateButtons(true, true, N1_O1);
+    updatePage(N1, true, true, N1_O1);
 
     $("#B1").click(function(){
 
@@ -46,7 +45,23 @@ $(document).ready(function(){
         else if ($("#B1").text() === N3_C2_O1){
             updatePage(N2_A1, false, false, N2_O1, N2_O2, N2_O3);
         }
+
+        //Examine lantern
+        else if ($("#B1").text() === N4_O1 && hasRod === false){
+            updatePage(N4_A1, true, true, N4_A1_O1);
+        }
+
+        //Return from lantern
+        else if ($("#B1").text() === N4_A1_O1){
+            updatePage(N4, false, false, N4_O1, N4_O2, N4_O3);
+        }
+
+        //Return from corridor
+        else if ($("#B1").text() === N4_C1_O1){
+            updatePage(N4, false, false, N4_O1, N4_O2, N4_O3);
+        }
     });
+
 
     $("#B2").click(function(){
 
@@ -69,8 +84,13 @@ $(document).ready(function(){
         else if ($("#B2").text() === N3_C1_O2){
             updatePage(N3_C2, true, true, N3_C2_O1);
         }
-
+        
+        //Investigate other cells
+        else if ($("#B1").text() === N4_O2){
+            
+        }
     });
+
 
     $("#B3").click(function(){
 
@@ -79,12 +99,18 @@ $(document).ready(function(){
             updatePage(N3_C1, false, true, N3_C1_O1, N3_C1_O2);
         }
 
+        //Go to corridor's end
+        else if ($("#B3").text() === N4_O3 && hasRod === false){
+            updatePage(N4_C1, true, true, N4_C1_O1);
+        }
         
     });
 
 });
 
 var hasJewel = false;
+var hasEye = false;
+var hasRod = false;
 
 var N1 = "You awake in an unlit chamber, and a faint glow of light emanates from a distance. It is blurred by fog.";
 var N1_O1 = "Continue";
@@ -104,7 +130,7 @@ var N3_A2 = "No sound is capable of exiting your mouth, and only a prolonged, bl
 var N3_A2_O1 = "Return to chamber";
 
 var N3_B1 = "Skeletal remains litter the ground, few with their flesh remaining. Among the dead is a large, black jewel of unusual shape. It seems to be designed for insertion into a specific place.";
-var N3_B1_O1 = "Take the jewel and return";
+var N3_B1_O1 = "Take jewel and return";
 
 var N3_C1 = "At the rear of the chamber is a hall which quickly breaks off into darkness. A gaping pit is at its end, and the concrete of the walls fade away into its cavernous stone. You can't recall whether it was an entrance or a deathtrap.";
 var N3_C1_O1 = "Return from hall";
@@ -114,9 +140,25 @@ var N3_C2 = "You take a bone from the remains and let it drop into the pit. A fe
 var N3_C2_O1 = "Return from pit";
 
 var N4 = "The jewel fits evenly within the opening, returning the room to a state of darkness. The walls begin to rumble, and after a while they sink into the ground, leaving exposed the corridor of the cells. The light is brighter than ever.";
-var N4_O1 = "A";
-var N4_O2 = "B";
-var N4_O3 = "C";
+var N4_O1 = "Examine lantern";
+var N4_O2 = "Investigate other cells";
+var N4_O3 = "Go to corridor's end";
+
+var N4_A1 = "The lantern is hanging from an arch between two walls. There is no way for you to reach it.";
+var N4_A1_O1 = "Return to corridor";
+
+var N4_A2 = "With the rod's length, you're able to bring the lantern down from the arch. Its red glow brings the entire corridor to light.";
+var N4_A2_O1 = "Take lantern and return";
+
+var N4_B1 = "All of the cell doors are locked, though one of the rooms holds an eye of unknown make. The bars are wide enough for you to take it.";
+var N4_B1_O1 = "Take eye and return";
+
+var N4_C1 = "You walk down the corridor for some time, but there doesn't seem to be an end to its length. Moreover, wandering further away from the light bears risks of its own.";
+var N4_C1_O1 = "Return to the cells";
+
+var N4_C2 = "Strangely, it only takes a few moments to reach the corridor's end. Although the next room is too dark to enter, a long rod is leaning against the wall.";
+var N4_C2_O1 = "Take rod and return";
+
 
 var updatePage = function(nar, hide2, hide3, a, b, c){
 
