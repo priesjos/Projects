@@ -1,50 +1,60 @@
 $(document).ready(function(){
 
     //Initialize narrative
+    $("footer").html(createButton("B1", N1_O1) + createButton("B2", "unused") + createButton("B3", "unused"));
+    $("#B2").hide();
+    $("#B3").hide();
     updatePage(N1, true, true, N1_O1);
-    
 
     $("#B1").click(function(){
 
         //Starts the story
         if ($("#B1").text() === N1_O1){
             updatePage(N2_1, false, false, N2_O1, N2_O2, N2_O3);
+            updateImage("4637561241_6d77f97087_z.jpg");
         }  
 
         //Approach light option, without jewel
         else if ($("#B1").text() === N2_O1 && hasJewel === false){
             updatePage(N2_A1, false, true, N2_A1_O1, N2_A1_O2);
+            //update image, unique one
         }   
 
         //Approach light option, with jewel
         else if ($("#B1").text() === N2_O1 && hasJewel === true){
             updatePage(N3_1, false, false, N3_O1, N3_O2, N3_O3);
+            //update image, unique one, serves as visual for narrative 3
         }   
 
         //Take jewel
         else if ($("#B1").text() === N2_B1_O1){
             hasJewel = true;
             updatePage(N2_1, false, false, N2_O1, N2_O2, N2_O3);
+            updateImage("4637561241_6d77f97087_z.jpg");
         }   
 
         //Return from opening
         else if ($("#B1").text() === N2_A1_O1){
             updatePage(N2_1, false, false, N2_O1, N2_O2, N2_O3);
+            updateImage("4637561241_6d77f97087_z.jpg");
         }
 
         //Return from opening after shouting
         else if ($("#B1").text() === N2_A2_O1){
             updatePage(N2_1, false, false, N2_O1, N2_O2, N2_O3);
+            updateImage("4637561241_6d77f97087_z.jpg");
         }
 
         //Return from hall
         else if ($("#B1").text() === N2_C1_O1){
             updatePage(N2_1, false, false, N2_O1, N2_O2, N2_O3);
+            updateImage("4637561241_6d77f97087_z.jpg");
         }
 
         //Return from pit
         else if ($("#B1").text() === N2_C2_O1){
             updatePage(N2_1, false, false, N2_O1, N2_O2, N2_O3);
+            updateImage("4637561241_6d77f97087_z.jpg");
         }
 
         //Examine lantern without rod
@@ -110,6 +120,7 @@ $(document).ready(function(){
         //Investigate remains
         else if ($("#B2").text() === N2_O2 && hasJewel === false){
             updatePage(N2_B1, true, true, N2_B1_O1);
+            //Update image here, unique
         }
 
         //Investigate remains, jewel added
@@ -139,6 +150,7 @@ $(document).ready(function(){
         //Investigate hole
         if ($("#B3").text() === N2_O3){
             updatePage(N2_C1, false, true, N2_C1_O1, N2_C1_O2);
+            //Update image here, unique
         }
 
         //Go to corridor's end, without eye
@@ -224,6 +236,9 @@ var N3_C2_O1 = "Take rod and return";
 var N3_C3 = "Even with the lantern, the room at the end is still shrouded in a thick, dark mist. You can barely manage to make out the details of what's ahead.";
 var N3_C3_O1 = "Advance";
 
+var createButton = function(id, text){
+    return "<button type=button id=" + id + ">" + text + "</button>"
+}
 
 var updatePage = function(nar, hide2, hide3, a, b, c){
 
@@ -246,4 +261,15 @@ var updatePage = function(nar, hide2, hide3, a, b, c){
     $("#B1").text(a);
     $("#B2").text(b);
     $("#B3").text(c);
+}
+
+var imageChange = function(a){
+    $("img").attr("src", a);
+}
+
+var updateImage = function(a){
+
+    $("img").fadeOut(imageChange(a));
+    $("img").fadeIn();
+    
 }

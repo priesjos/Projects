@@ -1,0 +1,17 @@
+body{
+    background-image: linear-gradient(to right, black, rgb(60, 40, 40), black);
+}
+
+h1{
+    text-align: center;
+    color: whitesmoke;
+}
+
+section{
+    text-align: center;
+    color: red;
+}
+
+article{
+    padding: 30px;
+}
