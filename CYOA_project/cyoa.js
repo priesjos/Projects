@@ -19,13 +19,13 @@ $(document).ready(function(){
         //Approach light option, without jewel
         else if ($("#B1").text() === N2_O1 && hasJewel === false){
             updatePage(N2_A1, false, true, N2_A1_O1, N2_A1_O2);
-            //update image, unique one
+            updateImage("opening.jpg");
         }   
 
         //Approach light option, with jewel
         else if ($("#B1").text() === N2_O1 && hasJewel === true){
             updatePage(N3_1, false, false, N3_O1, N3_O2, N3_O3);
-            //update image, unique one, serves as visual for narrative 3
+            updateImage("corridor.jpg");
         }   
 
         //Take jewel
@@ -62,16 +62,19 @@ $(document).ready(function(){
         //Examine lantern without rod
         else if ($("#B1").text() === N3_O1 && hasRod === false){
             updatePage(N3_A1, true, true, N3_A1_O1);
+            updateImage("lantern.jpeg");
         } 
 
         //Return from lantern
         else if ($("#B1").text() === N3_A1_O1){
             updatePage(N3_1, false, false, N3_O1, N3_O2, N3_O3);
+            updateImage("corridor.jpg");
         }
 
         //Examine lantern with rod
         else if ($("#B1").text() === N3_O1 && hasRod === true && hasLantern == false){
             updatePage(N3_A2, true, true, N3_A2_O1);
+            updateImage("lantern.jpeg");
         } 
 
         //Examine lantern with lantern
@@ -83,32 +86,41 @@ $(document).ready(function(){
         else if ($("#B1").text() === N3_A2_O1){
             hasLantern = true;
             updatePage(N3_1, false, false, N3_O1, N3_O2, N3_O3_alt);
+            updateImage("corridor.jpg");
         } 
 
         //Take eye
         else if ($("#B1").text() === N3_B1_O1){
             hasEye = true;
             updatePage(N3_1, false, false, N3_O1, N3_O2, N3_O3);
+            updateImage("corridor.jpg");
         }
 
-        //Return from corridor
+        //Return from corridor's length
         else if ($("#B1").text() === N3_C1_O1){
             updatePage(N3_1, false, false, N3_O1, N3_O2, N3_O3);
+            updateImage("corridor.jpg");
         }
 
         //Take rod
         else if ($("#B1").text() === N3_C2_O1){
             hasRod = true;
             updatePage(N3_1, false, false, N3_O1, N3_O2, N3_O3_alt);
+            updateImage("corridor.jpg");
         }
 
         //Advance
         else if ($("#B1").text() === N3_C3_O1){
-            $("article").fadeOut();
+            updateImage("darkness.jpg");
             $("#B1").hide();
             $("#B2").hide();
             $("#B3").hide();
-        }
+            $("audio").remove();
+            $("article").fadeOut(function(){
+                $("img").remove();
+                $("#story-visual").append("<video autoplay><source src='alia.mp4' type='video/mp4'></video>");
+            });
+        } 
     });
 
 
@@ -138,6 +150,7 @@ $(document).ready(function(){
         //Investigate other cells
         else if ($("#B2").text() === N3_O2 && hasEye === false){
             updatePage(N3_B1, true, true, N3_B1_O1);
+            updateImage("cell.jpg");
         }
 
         //Investigate other cells, eye obtained
@@ -158,11 +171,13 @@ $(document).ready(function(){
         //Go to corridor's end, without eye
         else if ($("#B3").text() === N3_O3 && hasEye === false){
             updatePage(N3_C1, true, true, N3_C1_O1);
+            updateImage("corridor-endless.jpg");
         }
 
         //Go to corridor's end, with eye
         else if ($("#B3").text() === N3_O3 && hasEye === true){
             updatePage(N3_C2, true, true, N3_C2_O1);
+            updateImage("corridor-end.jpg");
         }
 
         //Go to corridor's end, with rod already obtained and no lantern
@@ -173,6 +188,7 @@ $(document).ready(function(){
         //Go to corridor's end, lantern obtained
         else if ($("#B3").text() === N3_O3_alt && hasLantern === true){
             updatePage(N3_C3, true, true, N3_C3_O1);
+            updateImage("corridor-lamp-end.jpg");
         }
     });
 
@@ -263,6 +279,10 @@ var updatePage = function(nar, hide2, hide3, a, b, c){
     $("#B1").text(a);
     $("#B2").text(b);
     $("#B3").text(c);
+}
+
+var soundChange = function(a){
+    $("source").attr("src", a);
 }
 
 var imageChange = function(a){
