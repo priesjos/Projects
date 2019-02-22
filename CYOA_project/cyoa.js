@@ -150,7 +150,7 @@ $(document).ready(function(){
         //Investigate other cells
         else if ($("#B2").text() === N3_O2 && hasEye === false){
             updatePage(N3_B1, true, true, N3_B1_O1);
-            updateImage("cell.jpg");
+            updateImage("cell.JPG");
         }
 
         //Investigate other cells, eye obtained
