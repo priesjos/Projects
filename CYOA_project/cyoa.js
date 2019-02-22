@@ -281,10 +281,6 @@ var updatePage = function(nar, hide2, hide3, a, b, c){
     $("#B3").text(c);
 }
 
-var soundChange = function(a){
-    $("source").attr("src", a);
-}
-
 var imageChange = function(a){
     $("img").attr("src", a);
 }
