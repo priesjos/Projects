@@ -10,6 +10,7 @@ $(document).ready(function(){
 
         //Starts the story
         if ($("#B1").text() === N1_O1){
+            audioStuff()
             updatePage(N2_1, false, false, N2_O1, N2_O2, N2_O3);
             updateImage("4637561241_6d77f97087_z.jpg");
         }  
@@ -103,6 +104,7 @@ $(document).ready(function(){
         //Advance
         else if ($("#B1").text() === N3_C3_O1){
             $("article").fadeOut();
+            $("img").fadeOut();
             $("#B1").hide();
             $("#B2").hide();
             $("#B3").hide();
@@ -236,6 +238,12 @@ var N3_C2_O1 = "Take rod and return";
 var N3_C3 = "Even with the lantern, the room at the end is still shrouded in a thick, dark mist. You can barely manage to make out the details of what's ahead.";
 var N3_C3_O1 = "Advance";
 
+var audioStuff = function(){
+    var audioElement = document.createElement('audio');
+    audioElement.setAttribute('src', 'http://www.soundjay.com/misc/sounds/bell-ringing-01.mp3');
+    audioElement.play()
+}
+
 var createButton = function(id, text){
     return "<button type=button id=" + id + ">" + text + "</button>"
 }
@@ -269,7 +277,7 @@ var imageChange = function(a){
 
 var updateImage = function(a){
 
-    $("img").fadeOut(imageChange(a));
+    $("img").fadeOut(function(){imageChange(a)});
     $("img").fadeIn();
     
 }
