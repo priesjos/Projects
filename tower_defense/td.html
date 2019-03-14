@@ -14,58 +14,64 @@
     </head>
 
     <body>
-        <div>
-            <p id="test">AAAAA</p>
-        </div>
         <div class="row">
-            <table id="board" class="col-3">
-                <tr>
-                    <td id="tile-0"></td>
-                    <td id="tile-1"></td>
-                    <td id="tile-2"></td>
-                    <td id="tile-3"></td>
-                    <td id="tile-4"></td>
-                </tr>
+            <div>
+                <table id="board">
+                    <tr>
+                        <td id="tile-0"></td>
+                        <td id="tile-1"></td>
+                        <td id="tile-2"></td>
+                        <td id="tile-3"></td>
+                        <td id="tile-4"></td>
+                    </tr>
 
-                <tr>
-                    <td id="tile-10"></td>
-                    <td id="tile-9"></td>
-                    <td id="tile-8"></td>
-                    <td id="tile-7"></td>
-                    <td id="tile-6"></td>
-                </tr>
+                    <tr>
+                        <td id="tile-10"></td>
+                        <td id="tile-9"></td>
+                        <td id="tile-8"></td>
+                        <td id="tile-7"></td>
+                        <td id="tile-6"></td>
+                    </tr>
 
-                <tr>
-                    <td id="tile-11">11</td>
-                    <td id="tile-12">12</td>
-                    <td id="tile-13">13</td>
-                    <td id="tile-14">14</td>
-                    <td id="tile-15">15</td>
-                </tr>
+                    <tr>
+                        <td id="tile-11"></td>
+                        <td id="tile-12"></td>
+                        <td id="tile-13"></td>
+                        <td id="tile-14"></td>
+                        <td id="tile-15"></td>
+                    </tr>
 
-                <tr>
-                    <td id="tile-20">20</td>
-                    <td id="tile-19">19</td>
-                    <td id="tile-18">18</td>
-                    <td id="tile-17">17</td>
-                    <td id="tile-16">16</td>
-                </tr>
+                    <tr>
+                        <td id="tile-20"></td>
+                        <td id="tile-19"></td>
+                        <td id="tile-18"></td>
+                        <td id="tile-17"></td>
+                        <td id="tile-16"></td>
+                    </tr>
 
-                <tr>
-                    <td id="tile-21">21</td>
-                    <td id="tile-22">22</td>
-                    <td id="tile-23">23</td>
-                    <td id="tile-24">24</td>
-                    <td id="tile-25">25</td>
-                </tr>
-            </table>
+                    <tr>
+                        <td id="tile-21"></td>
+                        <td id="tile-22"></td>
+                        <td id="tile-23"></td>
+                        <td id="tile-24"></td>
+                        <td id="tile-25"></td>
+                    </tr>
+                </table>
+            </div>
+            
 
             <div id="interface">
+                <h3>BEGIN</h3>
+                <button id="start">RUN WAVE</button>
+
+                <br>
+
                 <h3>BUY UNITS</h3>
                 <div>
                     <h5>Money</h5>
                     <p id="money">300</p>
                 </div>
+
                 <section class="row">
                     <div class="col-6">
                         <p>
@@ -94,6 +100,7 @@
                 <h3>PLACE UNITS</h3>
                 <section class="row">
                     <div class="col-6">
+                        <p>Swordsmen</p>
                         <p id="sword_idle"></p>
                     </div>
                     
@@ -106,6 +113,7 @@
 
                 <section class="row">
                     <div class="col-6">
+                        <p>Snipers</p>
                         <p id="sniper_idle"></p>
                     </div>
                     <div class="col-6">

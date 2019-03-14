@@ -20,6 +20,14 @@ section{
 
 }
 
+#tile-0{
+    background-color: grey;
+}
+
+#tile-1{
+    background-color: grey;
+}
+
 #board tr td{
 
     width: 80px;
