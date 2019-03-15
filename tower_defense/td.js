@@ -2,15 +2,16 @@ $(document).ready(function(){
 
     var current_selection
 
-    
+    //update_slain()
+
     update_unit_total("sword", swords_total);
-    update_unit_total("sniper", snipers_total);
+    //update_unit_total("sniper", snipers_total);
 
     update_unit_idle("sword", swords_idle);
-    update_unit_idle("sniper", snipers_idle);
+    //update_unit_idle("sniper", snipers_idle);
 
     $("td").click(function(){
-        if (running === false && $(this).text() === "" && current_selection === sword && swords_idle > 0){
+        if (running === false && $(this).text() === "" && current_selection === sword && swords_idle > 0 && $(this).html() !== "#tile-0" && $(this).html() !== "#tile-1"){
             $(this).text(sword)
             swords_idle --
             update_unit_idle("sword", swords_idle);
@@ -19,7 +20,7 @@ $(document).ready(function(){
 
     $("#start").click(function(){
         if (running === false){
-            spawner(120, "I", sword, 3)
+            spawner(110, "(<o>)", sword, 5)
         }
     })
 
@@ -27,9 +28,9 @@ $(document).ready(function(){
         buy_unit("sword", 100)
     })
 
-    $("#buy_snipers").click(function(){
+    /*$("#buy_snipers").click(function(){
         buy_unit("sniper", 170)
-    })
+    })*/
 
     $("#place_sword").click(function(){
         if(swords_idle > 0){
@@ -38,21 +39,26 @@ $(document).ready(function(){
         
     })
 
-    $("#place_sniper").click(function(){
+    /*$("#place_sniper").click(function(){
         if(snipers_idle > 0){
             current_selection = sniper
         }
-    })
+    })*/
 })
 
 var sword = "<==}o"
-var sniper = "<--(|"
+//var sniper = "<--(|"
 
 var swords_total = 0
-var snipers_total = 0
+//var snipers_total = 0
 
 var swords_idle = 0
-var snipers_idle = 0
+//var snipers_idle = 0
+
+var kills_total = 0
+var hits_total = 0
+
+var unit_deaths = 0
 
 function read_board(){
 
@@ -81,12 +87,12 @@ function buy_unit(unit, price){
             update_unit_idle("sword", swords_idle);
         }
 
-        else if(unit === "sniper"){
+        /*else if(unit === "sniper"){
             snipers_total ++
             snipers_idle ++
             update_unit_total(unit, snipers_total);
             update_unit_idle("sniper", snipers_idle);
-        }
+        }*/
 
     }
 
@@ -101,12 +107,21 @@ function update_unit_idle(unit, amount){
     $("#" + unit + "_idle").text(amount + " idle")
 }
 
+function update_slain(){
+    var money = parseInt($("#money").text())
+    money = 50 * kills_total
+    $("#money").text(money)
+    $("#killcount").text(kills_total + " enemies slain")
+}
+
 var running = false
 
 function spawner(interval, runner, blocker, iterations){
     running = true
 
     var iterate = 0
+    var kills = 0
+    var hits = 0
     var counter = 0
     var next = counter + 1
     var clear = counter - 1
@@ -120,15 +135,32 @@ function spawner(interval, runner, blocker, iterations){
             counter = 0
             next = counter + 1
             clear = counter - 1
-            return
+            return 
         }
         
         if ($("#tile-" + next).text() === blocker){
+            $("#tile-" + clear).text("")
             $("#tile-" + counter).text("")
-            counter = 0
-            next = counter + 1
-            clear = counter - 1
+            $("#tile-" + next).css("background-color", "red")
+            hits++
+
+            if (hits >= 3){
+                $("#tile-" + next).css("background-color", "white")
+                $("#tile-" + next).text("")
+                swords_total --
+                update_unit_total("sword", swords_total)
+                hits = 0
+            }
+
+            else{
+                counter = 0
+                next = counter + 1
+                clear = counter - 1
+            }
+
             iterate ++
+            kills = iterate
+
         }
 
         $("#tile-" + clear).text("")
@@ -143,6 +175,8 @@ function spawner(interval, runner, blocker, iterations){
         }
 
         if (iterate === iterations){
+            kills_total += kills
+            update_slain()
             running = false
         }
         
