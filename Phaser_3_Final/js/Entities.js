@@ -11,110 +11,129 @@ class Entity extends Phaser.GameObjects.Sprite
     }
 }
 
+class Statics extends Entity
+{
+    constructor(scene, x, y, key)
+    {
+        super(scene, x, y, key, "Platform")
+    }
+}
+
 class Player extends Entity 
 {
     constructor(scene, x, y, key) 
     {
         super(scene, x, y, key, "Player");
         this.setData("speed", 200);
+        this.states = {
+            DEFAULT: "DEFAULT",
+            JUMP: "JUMP",
+            FALL: "FALL",
+            FIRE: "FIRE",
+            CROUCH: "CROUCH",
+            AERIAL: "AERIAL",
+            DASH: "DASH",
+            BACKSTEP: "BACKSTEP"
+        }
         this.setData("isAttacking", false);
         this.setData("timerSlashDelay", 8);
         this.setData("timerSlashTick", this.getData("timerSlashDelay") - 1);
-        //this.play("sprPlayer");
-        state = 0
+        this.play("idle");
     }
-
+    
     last_dir = 1
 
+    /*
     controls()
     {
-        left = -Number(keys.LEFT.isDown);
-        right = Number(keys.RIGHT.isDown);
+        left = -Number(this.LEFT.isDown);
+        right = Number(this.RIGHT.isDown);
         return(left+right);
     }
 
-    movement(body_param, speed)
+    movement(body_param, speed, bool1, bool2)
     {
-        body_param.setVelocityX(controls()*speed) //acceleration has to be accomplished with this
+        body_param.body.setVelocityX((-Number(bool1) + Number(bool2))*speed) //acceleration should be added
     }
-
-    state_default()
+    */
+    grounded()
     {
         movement(player, 340);
         //movement direction
-        if (controls() !== 0) {last_dir = controls()}
-        if (controls() < 0) {player.anims.play('left', true)}
-        else if (controls() > 0) {player.anims.play('right', true)}
-        else if(controls() == 0) {player.anims.play('idle')}
+        //if (controls() !== 0) {last_dir = -Number(keys.LEFT.isDown) + Number(keys.RIGHT.isDown)}
+        //if (controls() < 0) {player.anims.play('left', true)}
+        //else if (controls() > 0) {player.anims.play('right', true)}
+        //else if(controls() == 0) {player.anims.play('idle')}
+
         //state transitions
         if (Phaser.Input.Keyboard.JustDown(keys.UP) && player.body.touching.down)
         {
             player.setVelocityY(-720);
-            state = 1;
+            this.state = this.states.JUMP;
         }
         if (Phaser.Input.Keyboard.JustDown(keys.Q))
         {
             player.setVelocityX(0);
-            state = 3
+            this.state = this.states.FIRE
         }
         if (keys.DOWN.isDown)
         {
             player.setVelocityX(0);
-            state = 4;
+            this.state = this.states.CROUCH;
         }
-        if (Phaser.Input.Keyboard.JustDown(keys.SPACE)) {state = 6}
+        if (Phaser.Input.Keyboard.JustDown(keys.SPACE)) {this.state = this.states.DASH}
         
-        if (Phaser.Input.Keyboard.JustDown(keys.SHIFT)) {state = 7}
+        if (Phaser.Input.Keyboard.JustDown(keys.SHIFT)) {this.state = this.states.BACKSTEP}
         
-        if (player.body.velocity.y > 0) {state = 2}
+        if (player.body.velocity.y > 0) {this.state = this.states.FALL}
     }
 
-    state_jump()
+    jump()
     {
-        movement(player, 340);
+        //movement(player, 340);
         player.anims.play('jump', true);
         if (keys.UP.isUp) {player.body.velocity.y *= 0.65}
-        if (Phaser.Input.Keyboard.JustDown(keys.Q)) {state = 5}
-        if (player.body.velocity.y > 0) {state = 2}
-        if (player.body.touching.down) {state = 0}
+        if (Phaser.Input.Keyboard.JustDown(keys.Q)) {this.state = this.states.AERIAL}
+        if (player.body.velocity.y > 0) {this.state = this.states.FALL}
+        if (player.body.touching.down) {this.state = this.states.DEFAULT;}
     }
 
-    state_fall()
+    fall()
     {
-        movement(player, 340);
+        //movement(player, 340);
         player.anims.play('fall', true);
-        if (Phaser.Input.Keyboard.JustDown(keys.Q)) {state = 5}
-        if (player.body.touching.down) {state = 0}
+        if (Phaser.Input.Keyboard.JustDown(keys.Q)) {this.state = this.states.AERIAL}
+        if (player.body.touching.down) {this.state = this.states.DEFAULT;}
     }
 
-    state_fire()
+    fire()
     {
         //something.disableBody(true,true) //this method will be used to delete the slash sprite from attacks
         player.anims.play('fire', true)
 
-        if (player.anims.getProgress() == 1) {state = 0}
+        if (player.anims.getProgress() == 1) {this.state = this.states.DEFAULT;}
     }
 
-    state_crouch()
+    crouch()
     {
         player.anims.play('crouch');
-        if(keys.DOWN.isUp) {state = 0}
+        if(keys.DOWN.isUp) {this.state = this.states.DEFAULT;}
     }
 
-    state_aerial()
+    aerial()
     {
-        movement(player, 340);
+        //movement(player, 340);
         player.anims.play('fire', true);
         
         if (player.anims.getProgress() == 1) 
         {
-            if (player.body.velocity.y > 0) {state = 2}
-            else state = 1
+            if (player.body.velocity.y > 0) {this.state = this.states.FALL}
+            else this.state = this.states.JUMP
         }
-        if (player.body.touching.down) {state = 0}
+        if (player.body.touching.down) {this.state = this.states.DEFAULT;}
     }
 
-    state_dash()
+    dash()
     {
         player.anims.play('fire', true);
 
@@ -124,11 +143,11 @@ class Player extends Entity
         if (player.anims.getProgress() == 1) 
         {
             player.setVelocityX(0);
-            state = 0;
+            this.state = this.states.DEFAULT;
         }
     }
 
-    state_backstep()
+    backstep()
     {
         player.anims.play('fall', true);
 
@@ -138,40 +157,42 @@ class Player extends Entity
         if (player.anims.getProgress() == 1) 
         {
             player.setVelocityX(0);
-            state = 0;
+            this.state = this.states.DEFAULT;
         }
     }
-
+    
     update()
     {
-        switch (state)
+        /*
+        switch (this.state)
         {
-            case 0: 
-                state_default();
+            case this.states.DEFAULT: 
+                grounded();
                 break;
-            case 1: 
-                state_jump();
+            case this.states.JUMP: 
+                jump();
                 break;
-            case 2:
-                state_fall();
+            case this.states.FALL:
+                fall();
                 break;
-            case 3:
-                state_fire();
+            case this.states.FIRE:
+                fire();
                 break;
-            case 4:
-                state_crouch();
+            case this.states.CROUCH:
+                crouch();
                 break;
-            case 5:
-                state_aerial();
+            case this.states.AERIAL:
+                aerial();
                 break;
-            case 6:
-                state_dash();
+            case this.states.DASH:
+                dash();
                 break;
-            case 7:
-                state_backstep();
+            case this.states.BACKSTEP:
+                backstep();
                 break;
             default:
-                state_default();
+                grounded();
         }
+        */
     }
 }
