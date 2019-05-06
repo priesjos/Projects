@@ -12,7 +12,7 @@ class Scene1 extends Phaser.Scene
 
     create()
     {
-        platform = new Platform(this, 300, 400, "ground")
+        //platform = new Platform(this, 300, 400, "ground")
 
         //player animations
         this.anims.create({
@@ -74,13 +74,9 @@ class Scene1 extends Phaser.Scene
     update()
     {
         this.player.update();
-        if (this.LEFT.isDown){this.player.body.setVelocityX(-320)}
-        // this.player.movement(this.player, 340, this.LEFT.isDown, this.RIGHT.isDown);
-        //movement direction
-        /*
-        if (this.player.controls() !== 0) {last_dir = controls()}
-        if (this.player.controls() < 0) {player.anims.play('left', true)}
-        else if (this.player.controls() > 0) {player.anims.play('right', true)}
-        else if(this.player.controls() == 0) {player.anims.play('idle')}*/
+        if (this.LEFT.isDown){this.player.moveLeft()}
+        if (this.RIGHT.isDown){this.player.moveRight()}
+        if (this.UP.isDown){this.player.jump()} //this.player.body.touching.down probably works as another condition, just have to implement platforms
+        
     }
 }
