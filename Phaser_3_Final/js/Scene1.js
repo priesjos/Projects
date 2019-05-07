@@ -59,7 +59,11 @@ class Scene1 extends Phaser.Scene
         })
 
         this.player = new Player(this, this.game.config.width * 0.5, this.game.config.height * 0.5, "idle")
-        
+        this.ground = new Concrete(this, this.game.config.width * 0.5, this.game.config.height * 0.9, 800, 40, "ground")
+        this.player.body.checkWorldBounds()
+    
+        //collisions
+        this.physics.add.collider(this.player, this.ground)
 
         //input detection
         this.UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -74,9 +78,17 @@ class Scene1 extends Phaser.Scene
     update()
     {
         this.player.update();
+        this.ground.update()
+
+        if (this.player.body.onFloor()){this.player.state == "GROUNDED"}
         if (this.LEFT.isDown){this.player.moveLeft()}
         if (this.RIGHT.isDown){this.player.moveRight()}
-        if (this.UP.isDown){this.player.jump()} //this.player.body.touching.down probably works as another condition, just have to implement platforms
+        if (this.UP.isDown && this.player.state == "GROUNDED")
+        {
+            this.player.state = "JUMPING"
+            this.player.jump()
+        } 
+        //this.player.body.touching.down probably works as another condition for jump input, just have to implement platforms
         
     }
 }

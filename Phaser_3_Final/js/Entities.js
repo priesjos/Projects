@@ -11,20 +11,23 @@ class Entity extends Phaser.GameObjects.Sprite
     }
 }
 
-class Statics extends Entity
-{
-    constructor(scene, x, y, key)
-    {
-        super(scene, x, y, key, "Platform")
-    }
-}
-
 class Player extends Entity 
 {
     constructor(scene, x, y, key) 
     {
         super(scene, x, y, key, "Player");
         this.setData("speed", 320);
+        this.states = {
+            GROUNDED: "GROUNDED",
+            JUMPING: "JUMPING",
+            FALLING: "FALLING",
+            ATTACKING: "ATTACKING",
+            CROUCHING: "CROUCHING",
+            AERIAL: "AERIAL",
+            DASH: "DASH",
+            BACKSTEP: "BACKSTEP"
+        }
+        this.state = this.states.FALLING
         /*
         this.setData("isAttacking", false);
         this.setData("timerSlashDelay", 8);
