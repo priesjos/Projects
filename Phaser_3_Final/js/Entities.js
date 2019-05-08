@@ -28,24 +28,22 @@ class Player extends Entity
             BACKSTEP: "BACKSTEP"
         }
         this.state = this.states.FALL
-        this.setData("direction", -1) //-1 is left, 1 is right
+        this.setData("direction", 1) //-1 is left, 1 is right
         this.setData("isAttacking", false);
         this.setData("timerSwingDelay", 12);
         this.setData("timerSwingTick", this.getData("timerSwingDelay") - 1);
         this.play("idle");
     }
 
-    //last dir can be connected to the move left/right functions
-    //figure out how to develop states and their functions
     moveLeft() 
     {
-        this.body.velocity.x = -this.getData("speed")
         this.setData("direction", -1)
+        this.body.velocity.x = -this.getData("speed")
     }
     moveRight() 
     {
-        this.body.velocity.x = this.getData("speed")
         this.setData("direction", 1)
+        this.body.velocity.x = this.getData("speed")
     }
     jump() {this.body.velocity.y = -760}
     crouch() {this.body.velocity.x = 0}
