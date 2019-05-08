@@ -18,35 +18,61 @@ class Player extends Entity
         super(scene, x, y, key, "Player");
         this.setData("speed", 320);
         this.states = {
-            GROUNDED: "GROUNDED",
-            JUMPING: "JUMPING",
-            FALLING: "FALLING",
-            ATTACKING: "ATTACKING",
-            CROUCHING: "CROUCHING",
+            GROUND: "GROUND",
+            JUMP: "JUMP",
+            FALL: "FALL",
+            ATTACK: "ATTACK",
+            CROUCH: "CROUCH",
             AERIAL: "AERIAL",
             DASH: "DASH",
             BACKSTEP: "BACKSTEP"
         }
-        this.state = this.states.FALLING
-        /*
+        this.state = this.states.FALL
+        this.setData("direction", -1) //-1 is left, 1 is right
         this.setData("isAttacking", false);
-        this.setData("timerSlashDelay", 8);
-        this.setData("timerSlashTick", this.getData("timerSlashDelay") - 1);*/
+        this.setData("timerSwingDelay", 12);
+        this.setData("timerSwingTick", this.getData("timerSwingDelay") - 1);
         this.play("idle");
     }
-    
-    last_dir = 1
+
     //last dir can be connected to the move left/right functions
     //figure out how to develop states and their functions
-    moveLeft() {this.body.velocity.x = -this.getData("speed")}
-    moveRight() {this.body.velocity.x = this.getData("speed")}
-    jump() {this.body.velocity.y = -720}
+    moveLeft() 
+    {
+        this.body.velocity.x = -this.getData("speed")
+        this.setData("direction", -1)
+    }
+    moveRight() 
+    {
+        this.body.velocity.x = this.getData("speed")
+        this.setData("direction", 1)
+    }
+    jump() {this.body.velocity.y = -760}
+    crouch() {this.body.velocity.x = 0}
 
     update()
     {
         this.body.setVelocityX(0);
 
-        this.x = Phaser.Math.Clamp(this.x, 0, this.scene.game.config.width);
-        this.y = Phaser.Math.Clamp(this.y, 0, this.scene.game.config.height);
+        if (this.getData("isAttacking"))
+        {
+            if (this.getData("timerSwingTick") < this.getData("timerSwingDelay")) {
+                this.setData("timerSwingTick", this.getData("timerSwingTick") + 1); // every game update, increase timerSwingTick by one until we reach the value of timerShootDelay
+            }
+            else { // when the "manual timer" is triggered:
+                var slash = new PlayerSlash(this.scene, this.x, this.y, this.getData("direction"));
+                this.scene.playerSlashes.add(slash);
+            
+                this.setData("timerSwingTick", 0);
+            }
+        }
+    }
+}
+
+class PlayerSlash extends Entity
+{
+    constructor(scene, x, y, dir) {
+        super(scene, x, y, "star");
+        this.body.velocity.x = 200 * dir;
     }
 }

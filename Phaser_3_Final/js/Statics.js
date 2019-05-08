@@ -5,7 +5,7 @@ class Statics extends Phaser.GameObjects.TileSprite
         super(scene, x, y, width, height, key)
         this.scene = scene
         this.scene.add.existing(this);
-        this.scene.physics.world.enableBody(this, 0);
+        this.scene.physics.world.enableBody(this, 1);
         this.setData("type", type);
     }
 }
@@ -17,9 +17,4 @@ class Concrete extends Statics
         super(scene, x, y, width, height, key, "Concrete")
     }
 
-    update()
-    {
-        this.x = Phaser.Math.Clamp(this.x, 0, this.scene.game.config.width);
-        this.y = Phaser.Math.Clamp(this.y, 0, this.scene.game.config.height);
-    }
 }
