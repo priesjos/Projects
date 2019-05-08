@@ -74,6 +74,7 @@ class Scene1 extends Phaser.Scene
         this.Q = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         this.SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+        this.keys = this.input.keyboard.addKeys('W, A, S, D, Q');
     }
 
     update()
@@ -105,7 +106,7 @@ class Scene1 extends Phaser.Scene
 
         if (this.DOWN.isDown && this.player.body.velocity.y != 0) {this.player.body.velocity.y += 25} //diving down
 
-        if (this.Q.isDown) 
+        if (this.Q.isDown /*Phaser.Input.Keyboard.JustDown(this.keys.Q)*/) 
         {
             this.player.state = "ATTACK"
             this.player.setData("isAttacking", true)

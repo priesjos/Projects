@@ -69,7 +69,8 @@ class Player extends Entity
 
 class PlayerSlash extends Entity
 {
-    constructor(scene, x, y, dir) {
+    constructor(scene, x, y, dir) 
+    {
         super(scene, x, y, "star");
         this.body.velocity.x = 200 * dir;
     }
