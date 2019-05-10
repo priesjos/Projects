@@ -59,8 +59,10 @@ class Scene1 extends Phaser.Scene
 
         this.player = new Player(this, this.game.config.width * 0.5, this.game.config.height * 0.5, "idle")
         this.ground = new Concrete(this, this.game.config.width * 0.5, this.game.config.height * 0.9, 800, 40, "ground")
+        this.ground2 = new Concrete(this, 300, 600, 700, 40, "ground")
 
         this.playerSlashes = this.add.group()
+        this.platforms = this.add.group()
 
         this.cameras.main.startFollow(this.player, false, 0.1, 0.1);
     

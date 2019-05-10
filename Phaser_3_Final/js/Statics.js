@@ -15,6 +15,8 @@ class Concrete extends Statics
     constructor(scene, x, y, width, height, key)
     {
         super(scene, x, y, width, height, key, "Concrete")
+        //var platform = new Concrete(this.scene, this.x, this.y, this.width, this.height, this.key)
+        //this.scene.platforms.add()
     }
 
 }
