@@ -16,18 +16,8 @@ class Player extends Entity
     constructor(scene, x, y, key) 
     {
         super(scene, x, y, key, "Player");
+        this.state = "FALL"
         this.setData("speed", 320);
-        this.states = {
-            GROUND: "GROUND",
-            JUMP: "JUMP",
-            FALL: "FALL",
-            ATTACK: "ATTACK",
-            CROUCH: "CROUCH",
-            AERIAL: "AERIAL",
-            DASH: "DASH",
-            BACKSTEP: "BACKSTEP"
-        }
-        this.state = this.states.FALL
         this.setData("direction", 1) //-1 is left, 1 is right
         this.setData("isAttacking", false);
         this.setData("timerSwingDelay", 12);
@@ -47,6 +37,8 @@ class Player extends Entity
     }
     jump() {this.body.velocity.y = -760}
     crouch() {this.body.velocity.x = 0}
+
+    dash() {this.body.velocity.x = this.getData("speed") * 2.4 * this.getData("direction")}
 
     update()
     {
@@ -69,8 +61,10 @@ class Player extends Entity
 
 class PlayerSlash extends Entity
 {
-    constructor(scene, x, y, dir) {
+    constructor(scene, x, y, dir) 
+    {
         super(scene, x, y, "star");
-        this.body.velocity.x = 200 * dir;
+        this.body.velocity.x = 650 * dir;
+        this.body.setGravityY(-1600)
     }
 }

@@ -12,8 +12,6 @@ class Scene1 extends Phaser.Scene
 
     create()
     {
-        //platform = new Platform(this, 300, 400, "ground")
-
         //player animations
         this.anims.create({
             key: 'left',
@@ -34,6 +32,7 @@ class Scene1 extends Phaser.Scene
             frameRate: 10,
             repeat: -1
         })
+
         this.anims.create({
             key: 'fire',
             frames: this.anims.generateFrameNumbers('player_sheet', {start: 11, end: 14}),
@@ -104,6 +103,13 @@ class Scene1 extends Phaser.Scene
         }
 
         if (this.DOWN.isDown && this.player.body.velocity.y != 0) {this.player.body.velocity.y += 25} //diving down
+
+        if (Phaser.Input.Keyboard.JustDown(this.SPACE) && this.player.state == "GROUND")
+        {
+            this.player.state = "DASH"
+            this.player.dash()
+            if (this.player.anims.getProgress() == 1){this.player.state = "GROUND"}
+        }
 
         if (this.Q.isDown) 
         {
