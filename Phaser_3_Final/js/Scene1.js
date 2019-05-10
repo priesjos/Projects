@@ -61,6 +61,8 @@ class Scene1 extends Phaser.Scene
         this.ground = new Concrete(this, this.game.config.width * 0.5, this.game.config.height * 0.9, 800, 40, "ground")
 
         this.playerSlashes = this.add.group()
+
+        this.cameras.main.startFollow(this.player, false, 0.1, 0.1);
     
         //collisions
         this.physics.add.collider(this.player, this.ground)
