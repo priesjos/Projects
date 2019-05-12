@@ -109,9 +109,6 @@ class Scene1 extends Phaser.Scene
 
         if (this.DOWN.isDown && this.player.body.velocity.y != 0) {this.player.body.velocity.y += 25} //diving down
 
-<<<<<<< HEAD
-        if (this.Q.isDown /*Phaser.Input.Keyboard.JustDown(this.keys.Q)*/) 
-=======
         if (Phaser.Input.Keyboard.JustDown(this.SPACE) && this.player.state == "GROUND")
         {
             this.player.state = "DASH"
@@ -119,8 +116,7 @@ class Scene1 extends Phaser.Scene
             if (this.player.anims.getProgress() == 1){this.player.state = "GROUND"}
         }
 
-        if (this.Q.isDown) 
->>>>>>> 78da9066a72acf1ac3c12e9de3ee7d9bb9f9c3d7
+        if (this.Q.isDown /*Phaser.Input.Keyboard.JustDown(this.keys.Q)*/) 
         {
             this.player.state = "ATTACK"
             this.player.setData("isAttacking", true)
