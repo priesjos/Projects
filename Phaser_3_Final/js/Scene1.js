@@ -86,7 +86,7 @@ class Scene1 extends Phaser.Scene
 
         //this is a mess, but this series of code right here will set states based on conditions
 
-        if (this.player.body.onFloor()) {this.player.state = "GROUND"} //sets ground state
+        if (this.player.body.onFloor() && this.player.state != "DASH") {this.player.state = "GROUND"} //sets ground state
 
         if (this.player.body.velocity.y < 0) {this.player.state = "JUMP"} //sets jump state
 
@@ -111,9 +111,10 @@ class Scene1 extends Phaser.Scene
 
         if (Phaser.Input.Keyboard.JustDown(this.SPACE) && this.player.state == "GROUND")
         {
+            this.player.setData("isDashing", true)
             this.player.state = "DASH"
             this.player.dash()
-            if (this.player.anims.getProgress() == 1){this.player.state = "GROUND"}
+            if (this.player.getData("isDashing") == false){this.player.state = "GROUND"}
         }
 
         if (this.Q.isDown /*Phaser.Input.Keyboard.JustDown(this.keys.Q)*/) 

@@ -20,8 +20,10 @@ class Player extends Entity
         this.setData("speed", 320);
         this.setData("direction", 1) //-1 is left, 1 is right
         this.setData("isAttacking", false);
+        this.setData("isDashing", false);
         this.setData("timerSwingDelay", 12);
         this.setData("timerSwingTick", this.getData("timerSwingDelay") - 1);
+        this.setData("dashTick", 0)
         this.play("idle");
     }
 
@@ -38,7 +40,12 @@ class Player extends Entity
     jump() {this.body.velocity.y = -760}
     crouch() {this.body.velocity.x = 0}
 
-    dash() {this.body.velocity.x = this.getData("speed") * 2.4 * this.getData("direction")}
+    dash() 
+    {
+        this.body.velocity.x = this.getData("speed") * 2.4 * this.getData("direction")
+        this.setData("dashTick", this.getData("dashTick") + 1)
+        
+    }
 
     update()
     {
@@ -56,6 +63,13 @@ class Player extends Entity
                 this.setData("timerSwingTick", 0);
             }
         }
+            if (this.getData("dashTick") >= 11) 
+            {
+                this.setData("isDashing", false)
+                this.setData("dashTick", 0)
+            }
+            
+        
     }
 }
 
