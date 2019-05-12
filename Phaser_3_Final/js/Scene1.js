@@ -124,6 +124,7 @@ class Scene1 extends Phaser.Scene
                     }
 
                 if (Phaser.Input.Keyboard.JustDown(this.SPACE)) {this.player.state = "DASH"}
+                if (Phaser.Input.Keyboard.JustDown(this.SHIFT)) {this.player.state = "BACKSTEP"}
                 
                 if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
                 break;
@@ -170,14 +171,12 @@ class Scene1 extends Phaser.Scene
 
             case "ATTACK":
                 this.player.anims.play("fire", true);
-
                 if (this.player.anims.getProgress() == 1) {this.player.state = "GROUND"}
                 break;
             
             case "CROUCH":
                 this.player.crouch();
                 this.player.anims.play("crouch", true);
-
                 if (this.DOWN.isUp){this.player.state = "GROUND"}
                 break;
 
@@ -199,7 +198,14 @@ class Scene1 extends Phaser.Scene
             case "DASH":
                 this.player.dash();
                 this.player.anims.play("fire", true);
+                if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
+                if (this.player.anims.getProgress() == 1) {this.player.state = "GROUND"}
+                break;
 
+            case "BACKSTEP":
+                this.player.backstep();
+                this.player.anims.play("fall", true);
+                if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
                 if (this.player.anims.getProgress() == 1) {this.player.state = "GROUND"}
                 break;
 

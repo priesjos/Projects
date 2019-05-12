@@ -40,6 +40,7 @@ class Player extends Entity
     crouch() {this.body.velocity.x = 0}
 
     dash() {this.body.velocity.x = this.getData("speed") * 2.7 * this.getData("direction")}
+    backstep() {this.body.velocity.x = this.getData("speed") * 1.7 * -this.getData("direction")}
 
     update()
     {
