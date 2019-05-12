@@ -64,10 +64,13 @@ class Scene1 extends Phaser.Scene
         this.playerSlashes = this.add.group()
         this.platforms = this.add.group()
 
+        this.platforms.add(this.ground)
+        this.platforms.add(this.ground2)
+
         this.cameras.main.startFollow(this.player, false, 0.1, 0.1);
     
         //collisions
-        this.physics.add.collider(this.player, this.ground)
+        this.physics.add.collider(this.player, this.platforms)
 
         //input detection
         this.UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -77,7 +80,6 @@ class Scene1 extends Phaser.Scene
         this.Q = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         this.SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-        this.keys = this.input.keyboard.addKeys('W, A, S, D, Q');
     }
 
     update()
@@ -86,7 +88,7 @@ class Scene1 extends Phaser.Scene
 
         //this is a mess, but this series of code right here will set states based on conditions
 
-        if (this.player.body.onFloor() && this.player.state != "DASH") {this.player.state = "GROUND"} //sets ground state
+        if (this.player.body.onFloor()) {this.player.state = "GROUND"} //sets ground state
 
         if (this.player.body.velocity.y < 0) {this.player.state = "JUMP"} //sets jump state
 
@@ -108,14 +110,6 @@ class Scene1 extends Phaser.Scene
         }
 
         if (this.DOWN.isDown && this.player.body.velocity.y != 0) {this.player.body.velocity.y += 25} //diving down
-
-        if (Phaser.Input.Keyboard.JustDown(this.SPACE) && this.player.state == "GROUND")
-        {
-            this.player.setData("isDashing", true)
-            this.player.state = "DASH"
-            this.player.dash()
-            if (this.player.getData("isDashing") == false){this.player.state = "GROUND"}
-        }
 
         if (this.Q.isDown /*Phaser.Input.Keyboard.JustDown(this.keys.Q)*/) 
         {
@@ -150,12 +144,6 @@ class Scene1 extends Phaser.Scene
                 break;
             case "AERIAL":
                 this.player.anims.play("fire", true);
-                break;
-            case "DASH":
-                this.player.anims.play("fire", true);
-                break;
-            case "BACKSTEP":
-                this.player.anims.play("dash", true);
                 break;
             default:
                 this.player.anims.play("idle", true);
