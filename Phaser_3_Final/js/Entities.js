@@ -39,6 +39,8 @@ class Player extends Entity
     jump() {this.body.velocity.y = -760}
     crouch() {this.body.velocity.x = 0}
 
+    dash() {this.body.velocity.x = this.getData("speed") * 2.7 * this.getData("direction")}
+
     update()
     {
         this.body.setVelocityX(0);
@@ -55,8 +57,6 @@ class Player extends Entity
                 this.setData("timerSwingTick", 0);
             }
         }
-        
-            
         
     }
 }
