@@ -12,6 +12,7 @@ class Scene1 extends Phaser.Scene
 
     create()
     {
+        this.add.image(300, 500, 'sky')
         //player animations
         this.anims.create({
             key: 'left',
