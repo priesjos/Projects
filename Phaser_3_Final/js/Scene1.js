@@ -58,20 +58,29 @@ class Scene1 extends Phaser.Scene
             frameRate: 20
         })
 
-        this.player = new Player(this, this.game.config.width * 0.5, this.game.config.height * 0.5, "idle")
-        this.ground = new Concrete(this, this.game.config.width * 0.5, this.game.config.height * 0.9, 800, 40, "ground")
-        this.ground2 = new Concrete(this, 300, 600, 700, 40, "ground")
+        this.player = new Player(this, 500, 250, "idle");
+        this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
+        this.ground2 = new Concrete(this, 200, 600, 700, 40, "ground");
+        this.ground3 = new Concrete(this, -500, 400, 800, 40, "ground");
+        
+        this.playerSlashes = this.add.group();
+        this.platforms = this.physics.add.staticGroup();
+        this.entities = this.physics.add.group();
+        
+        for (var i = 0; i < 6; i++){this.platforms.create(i * 200, 740 + (i * 40), "ground")}
+        this.entities.create(505, 200, "player_sheet");
+        //this.dummy.anims.play("idle");
+        
+        this.platforms.add(this.ground);
+        this.platforms.add(this.ground2);
+        this.platforms.add(this.ground3);
 
-        this.playerSlashes = this.add.group()
-        this.platforms = this.add.group()
-
-        this.platforms.add(this.ground)
-        this.platforms.add(this.ground2)
+        this.entities.add(this.player);
 
         this.cameras.main.startFollow(this.player, false, 0.1, 0.1);
     
         //collisions
-        this.physics.add.collider(this.player, this.platforms)
+        this.physics.add.collider(this.entities, this.platforms);
 
         //input detection
         this.UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -81,8 +90,6 @@ class Scene1 extends Phaser.Scene
         this.Q = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         this.SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-
-        
     }
 
     update()
@@ -103,7 +110,7 @@ class Scene1 extends Phaser.Scene
                     this.player.anims.play("left", true);
                     this.player.moveLeft();
                 }
-                else {this.player.anims.play("idle", true)}
+                else this.player.anims.play("idle", true);
 
                 if (this.DOWN.isDown) {this.player.state = "CROUCH"}
 
@@ -116,13 +123,9 @@ class Scene1 extends Phaser.Scene
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
                 {
                     this.player.state = "ATTACK";
-                    this.player.setData("isAttacking", true);
+                    this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.player.getData("direction"));
+                    this.playerSlashes.add(this.slash);
                 }
-                    else 
-                    {
-                        this.player.setData("timerSwingTick", this.player.getData("timerSwingDelay") - 1);
-                        this.player.setData("isAttacking", false);
-                    }
 
                 if (Phaser.Input.Keyboard.JustDown(this.SPACE)) {this.player.state = "DASH"}
                 if (Phaser.Input.Keyboard.JustDown(this.SHIFT)) {this.player.state = "BACKSTEP"}
@@ -140,7 +143,8 @@ class Scene1 extends Phaser.Scene
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
                 {
                     this.player.state = "AERIAL";
-                    this.player.setData("isAttacking", true);
+                    this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.player.getData("direction"));
+                    this.playerSlashes.add(this.slash);
                 }
                     else 
                     {
@@ -159,7 +163,8 @@ class Scene1 extends Phaser.Scene
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
                 {
                     this.player.state = "AERIAL";
-                    this.player.setData("isAttacking", true);
+                    this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.player.getData("direction"));
+                    this.playerSlashes.add(this.slash);
                 }
                     else 
                     {
@@ -213,8 +218,6 @@ class Scene1 extends Phaser.Scene
             default:
                 this.player.anims.play("idle", true);
         }
-        
-        
         
     }
     
