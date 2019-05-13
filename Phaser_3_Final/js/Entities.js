@@ -16,7 +16,7 @@ class PlayerSlash extends Entity
     constructor(scene, x, y, dir) 
     {
         super(scene, x, y, "star");
-        this.body.velocity.x = 650 * dir;
+        this.body.velocity.x = 750 * dir;
         this.body.setGravityY(-1600);
     }
 }

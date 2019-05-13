@@ -134,7 +134,7 @@ class Scene1 extends Phaser.Scene
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
                 {
                     this.player.state = "ATTACK";
-                    this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.playerDir);
+                    this.slash = new PlayerSlash(this, this.player.x + (27 * this.playerDir), this.player.y, this.playerDir);
                     this.playerSlashes.add(this.slash);
                 }
 
@@ -154,7 +154,7 @@ class Scene1 extends Phaser.Scene
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
                 {
                     this.player.state = "AERIAL";
-                    this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.playerDir);
+                    this.slash = new PlayerSlash(this, this.player.x + (27 * this.playerDir), this.player.y, this.playerDir);
                     this.playerSlashes.add(this.slash);
                 }
 
@@ -169,11 +169,11 @@ class Scene1 extends Phaser.Scene
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
                 {
                     this.player.state = "AERIAL";
-                    this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.playerDir);
+                    this.slash = new PlayerSlash(this, this.player.x + (27 * this.playerDir), this.player.y, this.playerDir);
                     this.playerSlashes.add(this.slash);
                 }
 
-                if (this.player.body.onFloor()) {this.player.state = "GROUND"}
+                if (this.player.body.touching.down) {this.player.state = "GROUND"}
                 break;
 
             case "ATTACK":
