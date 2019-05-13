@@ -58,11 +58,14 @@ class Scene1 extends Phaser.Scene
             frameRate: 20
         })
 
-        //formation of player
+        //formation of player and properties
         this.player = this.physics.add.sprite(500, 255, "player_sheet");
         this.player.anims.play("idle");
+        this.playerSpeed = 350;
         this.playerDir = 1; //facing right
+        //this.playerHurtBox = new HurtBox(this, this.player.x, this.player.y, 95, 20, 0xffffff, 0.7);
         this.player.state = "FALL";
+
 
         this.dummy = this.physics.add.sprite(525, 255, "player_sheet");
         this.dummy.anims.play("crouch");
@@ -73,6 +76,7 @@ class Scene1 extends Phaser.Scene
         this.ground3 = new Concrete(this, -500, 400, 800, 40, "ground");
         
         this.playerSlashes = this.add.group();
+        this.realPlayerSlashes = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
         this.entities = this.physics.add.group();
         
@@ -87,8 +91,10 @@ class Scene1 extends Phaser.Scene
 
         this.cameras.main.startFollow(this.player, false, 0.1, 0.1);
     
-        //collisions
+        //collision
         this.physics.add.collider(this.entities, this.platforms);
+        this.physics.add.overlap(this.realPlayerSlashes, this.dummy, function(){console.log("hitting")});
+        
 
         //input detection
         this.UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -104,6 +110,8 @@ class Scene1 extends Phaser.Scene
     update()
     {
         this.player.setVelocityX(0);
+        //this.playerHurtBox.x = this.player.x + (50 * this.playerDir);
+        //this.playerHurtBox.y = this.player.y;
 
         //rudimentary player state machine
         switch (this.player.state)
@@ -112,13 +120,13 @@ class Scene1 extends Phaser.Scene
                 if (this.RIGHT.isDown)
                 {
                     this.player.anims.play("right", true);
-                    this.player.setVelocityX(320); 
+                    this.player.setVelocityX(this.playerSpeed); 
                     this.playerDir = 1;
                 }
                 else if (this.LEFT.isDown)
                 {
                     this.player.anims.play("left", true);
-                    this.player.setVelocityX(-320); 
+                    this.player.setVelocityX(-this.playerSpeed); 
                     this.playerDir = -1;
                 }
                 else this.player.anims.play("idle", true);
@@ -128,14 +136,15 @@ class Scene1 extends Phaser.Scene
                 if (Phaser.Input.Keyboard.JustDown(this.UP)) 
                 {
                     this.player.state = "JUMP";
-                    this.player.setVelocityY(-760);
+                    this.player.setVelocityY(-720);
                 }
 
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
                 {
                     this.player.state = "ATTACK";
-                    this.slash = new PlayerSlash(this, this.player.x + (27 * this.playerDir), this.player.y, this.playerDir);
-                    this.playerSlashes.add(this.slash);
+                    //this.slash = new PlayerSlash(this, this.player.x + (27 * this.playerDir), this.player.y, this.playerDir);
+                    //this.playerSlashes.add(this.slash);
+                    this.realPlayerSlashes.create(new HurtBox(this, this.player.x + (50 * this.playerDir), this.player.y, 95, 20, 0xffffff, 0.7));
                 }
 
                 if (Phaser.Input.Keyboard.JustDown(this.SPACE)) {this.player.state = "DASH"}
@@ -162,14 +171,15 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "FALL":
-                if (this.RIGHT.isDown) {this.player.setVelocityX(320); this.playerDir = 1}
-                else if (this.LEFT.isDown) {this.player.setVelocityX(-320); this.playerDir = -1}
+                if (this.RIGHT.isDown) {this.player.setVelocityX(this.playerSpeed); this.playerDir = 1}
+                else if (this.LEFT.isDown) {this.player.setVelocityX(-this.playerSpeed); this.playerDir = -1}
                 this.player.anims.play("fall", true);
 
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
                 {
                     this.player.state = "AERIAL";
                     this.slash = new PlayerSlash(this, this.player.x + (27 * this.playerDir), this.player.y, this.playerDir);
+                    
                     this.playerSlashes.add(this.slash);
                 }
 
@@ -177,10 +187,14 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "ATTACK":
-                if (this.RIGHT.isDown) {this.player.setVelocityX(320); this.playerDir = 1}
-                else if (this.LEFT.isDown) {this.player.setVelocityX(-320); this.playerDir = -1}
+                if (this.RIGHT.isDown) {this.player.setVelocityX(this.playerSpeed); this.playerDir = 1}
+                else if (this.LEFT.isDown) {this.player.setVelocityX(-this.playerSpeed); this.playerDir = -1}
                 this.player.anims.play("fire", true);
-                if (this.player.anims.getProgress() == 1) {this.player.state = "GROUND"}
+                if (this.player.anims.getProgress() == 1) 
+                {
+                    this.realPlayerSlashes.clear(true, true);
+                    this.player.state = "GROUND";
+                }
                 break;
             
             case "CROUCH":
@@ -190,8 +204,8 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "AERIAL":
-                if (this.RIGHT.isDown) {this.player.setVelocityX(320); this.playerDir = 1}
-                else if (this.LEFT.isDown) {this.player.setVelocityX(-320); this.playerDir = -1}
+                if (this.RIGHT.isDown) {this.player.setVelocityX(this.playerSpeed); this.playerDir = 1}
+                else if (this.LEFT.isDown) {this.player.setVelocityX(-this.playerSpeed); this.playerDir = -1}
                 
                 this.player.anims.play("fire", true);
 
@@ -205,14 +219,14 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "DASH":
-                this.player.setVelocityX(864 * this.playerDir)
+                this.player.setVelocityX(this.playerSpeed * 2.7 * this.playerDir)
                 this.player.anims.play("fire", true);
                 if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
                 if (this.player.anims.getProgress() == 1) {this.player.state = "GROUND"}
                 break;
 
             case "BACKSTEP":
-                this.player.setVelocityX(544 * -this.playerDir)
+                this.player.setVelocityX(this.playerSpeed * 1.7 * -this.playerDir)
                 this.player.anims.play("fall", true);
                 if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
                 if (this.player.anims.getProgress() == 1) {this.player.state = "GROUND"}
