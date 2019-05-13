@@ -163,8 +163,9 @@ class Scene1 extends Phaser.Scene
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
                 {
                     this.player.state = "AERIAL";
-                    this.slash = new PlayerSlash(this, this.player.x + (27 * this.playerDir), this.player.y, this.playerDir);
-                    this.playerSlashes.add(this.slash);
+                    //this.slash = new PlayerSlash(this, this.player.x + (27 * this.playerDir), this.player.y, this.playerDir);
+                    //this.playerSlashes.add(this.slash);
+                    this.realPlayerSlashes.create(new HurtBox(this, this.player.x + (50 * this.playerDir), this.player.y, 95, 20, 0xffffff, 0.7));
                 }
 
                 if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
@@ -178,9 +179,9 @@ class Scene1 extends Phaser.Scene
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
                 {
                     this.player.state = "AERIAL";
-                    this.slash = new PlayerSlash(this, this.player.x + (27 * this.playerDir), this.player.y, this.playerDir);
-                    
-                    this.playerSlashes.add(this.slash);
+                    //this.slash = new PlayerSlash(this, this.player.x + (27 * this.playerDir), this.player.y, this.playerDir);
+                    //this.playerSlashes.add(this.slash);
+                    this.realPlayerSlashes.create(new HurtBox(this, this.player.x + (50 * this.playerDir), this.player.y, 95, 20, 0xffffff, 0.7));
                 }
 
                 if (this.player.body.touching.down) {this.player.state = "GROUND"}
