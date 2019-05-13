@@ -136,7 +136,7 @@ class Scene1 extends Phaser.Scene
                     this.player.state = "ATTACK";
                     this.slash = new PlayerSlash(this, this.player.x + (27 * this.playerDir), this.player.y, this.playerDir);
                     this.hurtBox = new PlayerHurtBox(this, this.player.x + (27 * this.playerDir), this.player.y, 120, 50);
-                    alert(this.hurtBox.x);
+                    this.hurtBox.active = true;
                     this.playerSlashes.add(this.slash);
                 }
 
