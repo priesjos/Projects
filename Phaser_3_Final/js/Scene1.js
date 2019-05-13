@@ -64,6 +64,10 @@ class Scene1 extends Phaser.Scene
         this.playerDir = 1; //facing right
         this.player.state = "FALL";
 
+        this.dummy = this.physics.add.sprite(525, 255, "player_sheet");
+        this.dummy.anims.play("crouch");
+        this.dummyDir = -1 //facing left
+
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
         this.ground2 = new Concrete(this, 200, 600, 700, 40, "ground");
         this.ground3 = new Concrete(this, -500, 400, 800, 40, "ground");
@@ -79,7 +83,7 @@ class Scene1 extends Phaser.Scene
         this.platforms.add(this.ground3);
 
         this.entities.add(this.player);
-        //this.entities.add(this.player2)
+        this.entities.add(this.dummy)
 
         this.cameras.main.startFollow(this.player, false, 0.1, 0.1);
     
@@ -150,7 +154,7 @@ class Scene1 extends Phaser.Scene
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
                 {
                     this.player.state = "AERIAL";
-                    this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.player.getData("direction"));
+                    this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.playerDir);
                     this.playerSlashes.add(this.slash);
                 }
 
@@ -165,7 +169,7 @@ class Scene1 extends Phaser.Scene
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
                 {
                     this.player.state = "AERIAL";
-                    this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.player.getData("direction"));
+                    this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.playerDir);
                     this.playerSlashes.add(this.slash);
                 }
 
@@ -188,7 +192,6 @@ class Scene1 extends Phaser.Scene
             case "AERIAL":
                 if (this.RIGHT.isDown) {this.player.setVelocityX(320); this.playerDir = 1}
                 else if (this.LEFT.isDown) {this.player.setVelocityX(-320); this.playerDir = -1}
-                //if (this.UP.isUp) {this.player.body.velocity.y *= 0.65} //less airtime when up released
                 
                 this.player.anims.play("fire", true);
 
