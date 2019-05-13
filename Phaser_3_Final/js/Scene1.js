@@ -58,7 +58,12 @@ class Scene1 extends Phaser.Scene
             frameRate: 20
         })
 
-        this.player = new Player(this, 500, 250, "idle");
+        //formation of player
+        this.player = this.physics.add.sprite(500, 255, "player_sheet");
+        this.player.anims.play("idle");
+        this.playerDir = 1; //facing right
+        this.player.state = "FALL";
+
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
         this.ground2 = new Concrete(this, 200, 600, 700, 40, "ground");
         this.ground3 = new Concrete(this, -500, 400, 800, 40, "ground");
@@ -68,14 +73,13 @@ class Scene1 extends Phaser.Scene
         this.entities = this.physics.add.group();
         
         for (var i = 0; i < 6; i++){this.platforms.create(i * 200, 740 + (i * 40), "ground")}
-        this.entities.create(505, 200, "player_sheet");
-        //this.dummy.anims.play("idle");
         
         this.platforms.add(this.ground);
         this.platforms.add(this.ground2);
         this.platforms.add(this.ground3);
 
         this.entities.add(this.player);
+        //this.entities.add(this.player2)
 
         this.cameras.main.startFollow(this.player, false, 0.1, 0.1);
     
@@ -90,11 +94,12 @@ class Scene1 extends Phaser.Scene
         this.Q = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         this.SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+        
     }
 
     update()
     {
-        this.player.update();
+        this.player.setVelocityX(0);
 
         //rudimentary player state machine
         switch (this.player.state)
@@ -103,12 +108,14 @@ class Scene1 extends Phaser.Scene
                 if (this.RIGHT.isDown)
                 {
                     this.player.anims.play("right", true);
-                    this.player.moveRight();
+                    this.player.setVelocityX(320); 
+                    this.playerDir = 1;
                 }
                 else if (this.LEFT.isDown)
                 {
                     this.player.anims.play("left", true);
-                    this.player.moveLeft();
+                    this.player.setVelocityX(-320); 
+                    this.playerDir = -1;
                 }
                 else this.player.anims.play("idle", true);
 
@@ -117,13 +124,13 @@ class Scene1 extends Phaser.Scene
                 if (Phaser.Input.Keyboard.JustDown(this.UP)) 
                 {
                     this.player.state = "JUMP";
-                    this.player.jump();
+                    this.player.setVelocityY(-760);
                 }
 
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
                 {
                     this.player.state = "ATTACK";
-                    this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.player.getData("direction"));
+                    this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.playerDir);
                     this.playerSlashes.add(this.slash);
                 }
 
@@ -134,8 +141,8 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "JUMP": 
-                if (this.RIGHT.isDown){this.player.moveRight()}
-                if (this.LEFT.isDown){this.player.moveLeft()}
+                if (this.RIGHT.isDown) {this.player.setVelocityX(320); this.playerDir = 1}
+                if (this.LEFT.isDown) {this.player.setVelocityX(-320); this.playerDir = -1}
                 if (this.UP.isUp) {this.player.body.velocity.y *= 0.65} //less airtime when up released
 
                 this.player.anims.play("jump", true);
@@ -146,18 +153,13 @@ class Scene1 extends Phaser.Scene
                     this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.player.getData("direction"));
                     this.playerSlashes.add(this.slash);
                 }
-                    else 
-                    {
-                        this.player.setData("timerSwingTick", this.player.getData("timerSwingDelay") - 1);
-                        this.player.setData("isAttacking", false);
-                    }
 
                 if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
                 break;
 
             case "FALL":
-                if (this.RIGHT.isDown){this.player.moveRight()}
-                else if (this.LEFT.isDown){this.player.moveLeft()}
+                if (this.RIGHT.isDown) {this.player.setVelocityX(320); this.playerDir = 1}
+                else if (this.LEFT.isDown) {this.player.setVelocityX(-320); this.playerDir = -1}
                 this.player.anims.play("fall", true);
 
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) 
@@ -166,29 +168,27 @@ class Scene1 extends Phaser.Scene
                     this.slash = new PlayerSlash(this, this.player.x, this.player.y, this.player.getData("direction"));
                     this.playerSlashes.add(this.slash);
                 }
-                    else 
-                    {
-                        this.player.setData("timerSwingTick", this.player.getData("timerSwingDelay") - 1);
-                        this.player.setData("isAttacking", false);
-                    }
-                
+
                 if (this.player.body.onFloor()) {this.player.state = "GROUND"}
                 break;
 
             case "ATTACK":
+                if (this.RIGHT.isDown) {this.player.setVelocityX(320); this.playerDir = 1}
+                else if (this.LEFT.isDown) {this.player.setVelocityX(-320); this.playerDir = -1}
                 this.player.anims.play("fire", true);
                 if (this.player.anims.getProgress() == 1) {this.player.state = "GROUND"}
                 break;
             
             case "CROUCH":
-                this.player.crouch();
+                this.player.body.velocity.x = 0
                 this.player.anims.play("crouch", true);
                 if (this.DOWN.isUp){this.player.state = "GROUND"}
                 break;
 
             case "AERIAL":
-                if (this.RIGHT.isDown){this.player.moveRight()}
-                else if (this.LEFT.isDown){this.player.moveLeft()}
+                if (this.RIGHT.isDown) {this.player.setVelocityX(320); this.playerDir = 1}
+                else if (this.LEFT.isDown) {this.player.setVelocityX(-320); this.playerDir = -1}
+                //if (this.UP.isUp) {this.player.body.velocity.y *= 0.65} //less airtime when up released
                 
                 this.player.anims.play("fire", true);
 
@@ -202,14 +202,14 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "DASH":
-                this.player.dash();
+                this.player.setVelocityX(864 * this.playerDir)
                 this.player.anims.play("fire", true);
                 if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
                 if (this.player.anims.getProgress() == 1) {this.player.state = "GROUND"}
                 break;
 
             case "BACKSTEP":
-                this.player.backstep();
+                this.player.setVelocityX(544 * -this.playerDir)
                 this.player.anims.play("fall", true);
                 if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
                 if (this.player.anims.getProgress() == 1) {this.player.state = "GROUND"}

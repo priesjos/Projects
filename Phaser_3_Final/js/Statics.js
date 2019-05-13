@@ -2,8 +2,8 @@ class Statics extends Phaser.GameObjects.TileSprite
 {
     constructor(scene, x, y, width, height, key, type) 
     {
-        super(scene, x, y, width, height, key)
-        this.scene = scene
+        super(scene, x, y, width, height, key);
+        this.scene = scene;
         this.scene.add.existing(this);
         this.scene.physics.world.enableBody(this, 1);
         this.setData("type", type);
@@ -14,9 +14,7 @@ class Concrete extends Statics
 {
     constructor(scene, x, y, width, height, key)
     {
-        super(scene, x, y, width, height, key, "Concrete")
-        //var platform = new Concrete(this.scene, this.x, this.y, this.width, this.height, this.key)
-        //this.scene.platforms.add()
+        super(scene, x, y, width, height, key, "Concrete");
     }
 
 }
