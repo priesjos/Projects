@@ -8,11 +8,3 @@ class Zone extends Phaser.GameObjects.Zone
         this.setData("type", type);
     }
 }
-
-class PlayerHurtBox extends Zone
-{
-    constructor(scene, x, y, width, height)
-    {
-        super(scene, x, y, width, height, "playerHurtBox");
-    }
-}
