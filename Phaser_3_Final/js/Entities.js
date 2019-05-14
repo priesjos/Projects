@@ -11,7 +11,7 @@ class Entity extends Phaser.GameObjects.Sprite
     }
 }
 
-class PlayerSlash extends Entity
+class Projectile extends Entity
 {
     constructor(scene, x, y, dir) 
     {

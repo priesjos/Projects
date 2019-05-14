@@ -63,21 +63,18 @@ class Scene1 extends Phaser.Scene
         this.player.anims.play("idle");
         this.player.speed = 350;
         this.player.dir = 1; //facing right
-        //this.playerHurtBox = new HurtBox(this, this.player.x, this.player.y, 95, 20, 0xffffff, 0.7);
         this.player.state = "FALL";
-        this.hurtBoxWidthBase = 35 * this.player.dir;
-
 
         this.dummy = this.physics.add.sprite(525, 255, "player_sheet");
         this.dummy.anims.play("crouch");
-        this.dummyDir = -1 //facing left
+        this.dummy.dir = -1; //facing left
+        this.dummy.state = "IDLE";
 
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
         this.ground2 = new Concrete(this, 200, 600, 700, 40, "ground");
         this.ground3 = new Concrete(this, -500, 400, 800, 40, "ground");
         
         this.playerSlashes = this.add.group();
-        this.realPlayerSlashes = this.physics.add.group();
         this.platforms = this.physics.add.staticGroup();
         this.entities = this.physics.add.group();
         
@@ -88,14 +85,20 @@ class Scene1 extends Phaser.Scene
         this.platforms.add(this.ground3);
 
         this.entities.add(this.player);
-        this.entities.add(this.dummy)
+        this.entities.add(this.dummy);
 
         this.cameras.main.startFollow(this.player, false, 0.1, 0.1);
     
         //collision
         this.physics.add.collider(this.entities, this.platforms);
-        this.physics.add.overlap(this.realPlayerSlashes, this.dummy, function(){console.log("hitting")});
-        
+        this.physics.add.overlap(this.playerSlashes, this.dummy, function(){
+            //if (this.dummy.state != "HITSTUN")
+            //{
+                //this.dummy.emit("hit");
+                console.log("hitting");
+                return;
+            //}
+        });
 
         //input detection
         this.UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -111,8 +114,6 @@ class Scene1 extends Phaser.Scene
     update()
     {
         this.player.setVelocityX(0);
-        //this.playerHurtBox.x = this.player.x + (50 * this.player.dir);
-        //this.playerHurtBox.y = this.player.y;
 
         //rudimentary player state machine
         switch (this.player.state)
@@ -134,18 +135,18 @@ class Scene1 extends Phaser.Scene
 
                 if (this.DOWN.isDown) {this.player.state = "CROUCH"}
 
+                if (Phaser.Input.Keyboard.JustDown(this.Q)) {this.player.state = "ATTACK"}
+
                 if (Phaser.Input.Keyboard.JustDown(this.UP)) 
                 {
                     this.player.state = "JUMP";
                     this.player.setVelocityY(-720);
                 }
 
-                if (Phaser.Input.Keyboard.JustDown(this.Q)) {this.player.state = "ATTACK"}
-
+                if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
+                
                 if (Phaser.Input.Keyboard.JustDown(this.SPACE)) {this.player.state = "DASH"}
                 if (Phaser.Input.Keyboard.JustDown(this.SHIFT)) {this.player.state = "BACKSTEP"}
-                
-                if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
                 break;
 
             case "JUMP": 
@@ -179,18 +180,20 @@ class Scene1 extends Phaser.Scene
 
             case "ATTACK":
                 this.player.anims.play("fire", true);
-                if (this.realPlayerSlashes.getLength() < 1)
+                if (this.playerSlashes.getLength() < 1 && this.player.anims.getProgress() >= 0.45)
                 {
-                    this.realPlayerSlashes.create(new HurtBox(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20, 0xffffff, 0.7));
-                    console.log(this.realPlayerSlashes.getChildren());
+                    this.playerHurtBox = new HurtBox(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20, 0xffffff, 0.7);
+                    this.physics.world.enable(this.playerHurtBox, 0);
+                    this.playerHurtBox.body.moves = false;
+                    
+                    this.playerSlashes.add(this.playerHurtBox);
                 }
                 
                 if (this.player.anims.getProgress() == 1) 
                 {
-                    this.realPlayerSlashes.clear(true, true);
+                    this.playerSlashes.clear(true, true);
                     this.player.state = "GROUND";
                 }
-
                 break;
             
             case "AERIAL":
@@ -199,22 +202,24 @@ class Scene1 extends Phaser.Scene
                 
                 this.player.anims.play("fire", true);
 
-                if (this.realPlayerSlashes.getLength() < 1)
+                if (this.playerSlashes.getLength() < 1 && this.player.anims.getProgress() >= 0.45)
                 {
-                    this.realPlayerSlashes.create(new HurtBox(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20, 0xffffff, 0.7));
-                    console.log(this.realPlayerSlashes.getChildren());
+                    this.playerHurtBox = new HurtBox(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20, 0xffffff, 0.7);
+                    this.physics.world.enable(this.playerHurtBox, 0);
+                    this.playerHurtBox.body.moves = false;
+                    this.playerSlashes.add(this.playerHurtBox);
                 }
 
                 if (this.player.anims.getProgress() == 1) 
                 {
-                    this.realPlayerSlashes.clear(true, true);
+                    this.playerSlashes.clear(true, true);
                     if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
                     else this.player.state = "JUMP";
                 }
 
-                if (this.player.body.onFloor()) 
+                if (this.player.body.touching.down)
                 {
-                    this.realPlayerSlashes.clear(true, true);
+                    this.playerSlashes.clear(true, true);
                     this.player.state = "GROUND";
                 }
                 break;
@@ -235,6 +240,22 @@ class Scene1 extends Phaser.Scene
 
             default:
                 this.player.anims.play("idle", true);
+        }
+
+        //dummy state machine
+        switch(this.dummy.state)
+        {
+            case "IDLE":
+                this.dummy.anims.play("idle");
+                break;
+            case "HITSTUN":
+                this.dummy.anims.play("right");
+                break;
+            case "ATTACK":
+                this.dummy.anims.play("fire");
+                break;
+            default:
+                this.dummy.state = "IDLE";
         }
         
     }
