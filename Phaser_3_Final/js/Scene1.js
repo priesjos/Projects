@@ -91,8 +91,8 @@ class Scene1 extends Phaser.Scene
     
         //collision
         this.physics.add.collider(this.entities, this.platforms);
-        this.physics.add.overlap(this.playerSlashes, this.dummy, function(){console.log("hitting")});
-        this.physics.add.overlap(this.player, this.dummy, function(){console.log("getting hit")});
+        this.physics.add.overlap(this.playerSlashes, this.dummy, this.body_hit);
+        this.physics.add.overlap(this.dummy, this.player, this.aaaaa);
             
 
         //input detection
@@ -104,6 +104,21 @@ class Scene1 extends Phaser.Scene
         this.SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
         
+    }
+
+    body_hit(body1, body2)
+    {
+        if (body2.state !== "HITSTUN")
+        {
+            console.log("is hit");
+            body2.state = "HITSTUN";
+        }
+        console.log(body1, body2);
+    }
+
+    aaaaa()
+    {
+        console.log("getting hit");
     }
 
     update()
@@ -262,13 +277,16 @@ class Scene1 extends Phaser.Scene
         switch(this.dummy.state)
         {
             case "IDLE":
-                this.dummy.anims.play("idle");
+                this.dummy.setVelocityX(0);
+                this.dummy.anims.play("idle", true);
                 break;
             case "HITSTUN":
-                this.dummy.anims.play("right");
+                this.dummy.anims.play("right", true);
+                this.dummy.setVelocityX(90 * -this.dummy.dir);
+                if (this.dummy.anims.getProgress() == 1) {this.dummy.state = "IDLE"}
                 break;
             case "ATTACK":
-                this.dummy.anims.play("fire");
+                this.dummy.anims.play("fire", true);
                 break;
             default:
                 this.dummy.state = "IDLE";
