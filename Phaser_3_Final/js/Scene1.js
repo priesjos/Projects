@@ -179,12 +179,20 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "ATTACK":
+                this.playerSlashes.clear(true, true);
+
+                this.player.setVelocityX(95 * this.player.dir);
                 this.player.anims.play("fire", true);
                 if (this.playerSlashes.getLength() < 1 && this.player.anims.getProgress() >= 0.45)
                 {
+                    //rectangle for debug
                     this.playerHurtBox = new HurtBox(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20, 0xffffff, 0.7);
                     this.physics.world.enable(this.playerHurtBox, 0);
                     this.playerHurtBox.body.moves = false;
+
+                    this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
+                    this.physics.world.enable(this.playerHitZone, 0);
+                    this.playerHitZone.body.moves = false;
                     
                     this.playerSlashes.add(this.playerHurtBox);
                 }
@@ -197,16 +205,24 @@ class Scene1 extends Phaser.Scene
                 break;
             
             case "AERIAL":
+                this.playerSlashes.clear(true, true);
+
                 if (this.RIGHT.isDown) {this.player.setVelocityX(this.player.speed); this.player.dir = 1}
                 else if (this.LEFT.isDown) {this.player.setVelocityX(-this.player.speed); this.player.dir = -1}
                 
                 this.player.anims.play("fire", true);
 
-                if (this.playerSlashes.getLength() < 1 && this.player.anims.getProgress() >= 0.45)
+                if (this.playerSlashes.getLength() < 1 && this.player.anims.getProgress() >= 0.35)
                 {
+                    //rectangle for debug
                     this.playerHurtBox = new HurtBox(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20, 0xffffff, 0.7);
                     this.physics.world.enable(this.playerHurtBox, 0);
                     this.playerHurtBox.body.moves = false;
+
+                    this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
+                    this.physics.world.enable(this.playerHitZone, 0);
+                    this.playerHitZone.body.moves = false;
+
                     this.playerSlashes.add(this.playerHurtBox);
                 }
 

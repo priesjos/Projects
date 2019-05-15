@@ -8,3 +8,11 @@ class Zone extends Phaser.GameObjects.Zone
         this.setData("type", type);
     }
 }
+
+class HitZone extends Zone
+{
+    constructor(scene, x, y, width, height)
+    {
+        super(scene, x, y, width, height, "HitZone");
+    }
+}
