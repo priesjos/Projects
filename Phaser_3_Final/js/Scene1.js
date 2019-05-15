@@ -112,6 +112,7 @@ class Scene1 extends Phaser.Scene
         {
             console.log("is hit");
             body2.state = "HITSTUN";
+            body2.dir = body1.dir;
         }
         console.log(body1, body2);
     }
@@ -200,11 +201,13 @@ class Scene1 extends Phaser.Scene
                     this.physics.world.enable(this.playerHurtBox, 0);
                     this.playerHurtBox.body.moves = false;
                     this.playerHurtBox.body.onOverlap = true;
+                    this.playerHurtBox.dir = this.player.dir;
 
                     this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
                     this.physics.world.enable(this.playerHitZone, 0);
                     this.playerHitZone.body.moves = false;
                     this.playerHitZone.body.onOverlap = true;
+                    this.playerHitZone.dir = this.player.dir;
                     
                     this.playerSlashes.add(this.playerHurtBox);
                 }
@@ -232,11 +235,13 @@ class Scene1 extends Phaser.Scene
                     this.physics.world.enable(this.playerHurtBox, 0);
                     this.playerHurtBox.body.moves = false;
                     this.playerHurtBox.body.onOverlap = true;
+                    this.playerHurtBox.dir = this.player.dir;
 
                     this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
                     this.physics.world.enable(this.playerHitZone, 0);
                     this.playerHitZone.body.moves = false;
                     this.playerHitZone.body.onOverlap = true;
+                    this.playerHitZone.dir = this.player.dir;
 
                     this.playerSlashes.add(this.playerHurtBox);
                 }
@@ -282,7 +287,7 @@ class Scene1 extends Phaser.Scene
                 break;
             case "HITSTUN":
                 this.dummy.anims.play("right", true);
-                this.dummy.setVelocityX(90 * -this.dummy.dir);
+                this.dummy.setVelocityX(90 * this.dummy.dir);
                 if (this.dummy.anims.getProgress() == 1) {this.dummy.state = "IDLE"}
                 break;
             case "ATTACK":
