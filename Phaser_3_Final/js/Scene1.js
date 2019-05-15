@@ -231,13 +231,13 @@ class Scene1 extends Phaser.Scene
                 if (this.playerSlashes.getLength() < 1 && this.player.anims.getProgress() >= 0.25)
                 {
                     //rectangle for debug
-                    this.playerHurtBox = new HurtBox(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20, 0xffffff, 0.7);
+                    this.playerHurtBox = new HurtBox(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 33, 0xffffff, 0.7);
                     this.physics.world.enable(this.playerHurtBox, 0);
                     this.playerHurtBox.body.moves = false;
                     this.playerHurtBox.body.onOverlap = true;
                     this.playerHurtBox.dir = this.player.dir;
 
-                    this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
+                    this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 33);
                     this.physics.world.enable(this.playerHitZone, 0);
                     this.playerHitZone.body.moves = false;
                     this.playerHitZone.body.onOverlap = true;
