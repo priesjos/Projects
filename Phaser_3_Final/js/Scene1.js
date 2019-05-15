@@ -91,14 +91,9 @@ class Scene1 extends Phaser.Scene
     
         //collision
         this.physics.add.collider(this.entities, this.platforms);
-        this.physics.add.overlap(this.playerSlashes, this.dummy, function(){
-            //if (this.dummy.state != "HITSTUN")
-            //{
-                //this.dummy.emit("hit");
-                console.log("hitting");
-                return;
-            //}
-        });
+        this.physics.add.overlap(this.playerSlashes, this.dummy, function(){console.log("hitting")});
+        this.physics.add.overlap(this.player, this.dummy, function(){console.log("getting hit")});
+            
 
         //input detection
         this.UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -189,10 +184,12 @@ class Scene1 extends Phaser.Scene
                     this.playerHurtBox = new HurtBox(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20, 0xffffff, 0.7);
                     this.physics.world.enable(this.playerHurtBox, 0);
                     this.playerHurtBox.body.moves = false;
+                    this.playerHurtBox.body.onOverlap = true;
 
                     this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
                     this.physics.world.enable(this.playerHitZone, 0);
                     this.playerHitZone.body.moves = false;
+                    this.playerHitZone.body.onOverlap = true;
                     
                     this.playerSlashes.add(this.playerHurtBox);
                 }
@@ -209,19 +206,22 @@ class Scene1 extends Phaser.Scene
 
                 if (this.RIGHT.isDown) {this.player.setVelocityX(this.player.speed); this.player.dir = 1}
                 else if (this.LEFT.isDown) {this.player.setVelocityX(-this.player.speed); this.player.dir = -1}
-                
+                if (this.UP.isUp) {this.player.body.velocity.y *= 0.85} //air swings leave player airborne for a while
+
                 this.player.anims.play("fire", true);
 
-                if (this.playerSlashes.getLength() < 1 && this.player.anims.getProgress() >= 0.35)
+                if (this.playerSlashes.getLength() < 1 && this.player.anims.getProgress() >= 0.25)
                 {
                     //rectangle for debug
                     this.playerHurtBox = new HurtBox(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20, 0xffffff, 0.7);
                     this.physics.world.enable(this.playerHurtBox, 0);
                     this.playerHurtBox.body.moves = false;
+                    this.playerHurtBox.body.onOverlap = true;
 
                     this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
                     this.physics.world.enable(this.playerHitZone, 0);
                     this.playerHitZone.body.moves = false;
+                    this.playerHitZone.body.onOverlap = true;
 
                     this.playerSlashes.add(this.playerHurtBox);
                 }
