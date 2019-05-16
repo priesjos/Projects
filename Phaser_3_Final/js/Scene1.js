@@ -64,7 +64,7 @@ class Scene1 extends Phaser.Scene
         this.player.speed = 350;
         this.player.dir = 1; //facing right
         this.player.state = "FALL";
-        this.player.hitbox = new HurtBox(this, this.player.x, this.player.y, this.player.width, this.player.height, 0x000000, 0.4);
+        this.player.hitbox = new HurtBox(this, this.player.x, this.player.y, this.player.width - 10, this.player.height - 10, 0x000000, 0.4);
         this.physics.world.enable(this.player.hitbox, 0);
         this.player.hitbox.body.moves = false;
         this.player.hitbox.overlapping = false;
