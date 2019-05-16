@@ -94,6 +94,8 @@ class Scene1 extends Phaser.Scene
         this.entities.add(this.dummy);
 
         this.cameras.main.startFollow(this.player, false, 0.1, 0.1);
+
+        //this.add.text()
     
         //collision
         this.physics.add.collider(this.entities, this.platforms);
@@ -168,6 +170,8 @@ class Scene1 extends Phaser.Scene
 
                 if (Phaser.Input.Keyboard.JustDown(this.Q)) {this.player.state = "ATTACK"}
 
+                if (this.SHIFT.isDown && this.Q.isDown) {this.player.state = "CHAINHOLD"}
+
                 if (Phaser.Input.Keyboard.JustDown(this.UP)) 
                 {
                     this.player.state = "JUMP";
@@ -177,7 +181,7 @@ class Scene1 extends Phaser.Scene
                 if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
                 
                 if (Phaser.Input.Keyboard.JustDown(this.SPACE)) {this.player.state = "DASH"}
-                if (Phaser.Input.Keyboard.JustDown(this.SHIFT)) {this.player.state = "BACKSTEP"}
+                //if (Phaser.Input.Keyboard.JustDown(this.SHIFT)) {this.player.state = "BACKSTEP"}
                 break;
 
             case "JUMP": 
@@ -247,7 +251,11 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "ATTACK":
-                if (this.player.hitbox.overlapping){this.player.state = "HITSTUN"}
+                if (this.player.hitbox.overlapping)
+                {
+                    this.player.state = "HITSTUN";
+                    this.player.health -= 1;
+                }
                 this.playerSlashes.clear(true, true);
 
                 this.player.setVelocityX(95 * this.player.dir);
@@ -261,11 +269,13 @@ class Scene1 extends Phaser.Scene
                     this.playerHurtBox.body.onOverlap = true;
                     this.playerHurtBox.dir = this.player.dir;
 
+                    /*
                     this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
                     this.physics.world.enable(this.playerHitZone, 0);
                     this.playerHitZone.body.moves = false;
                     this.playerHitZone.body.onOverlap = true;
                     this.playerHitZone.dir = this.player.dir;
+                    */
                     
                     this.playerSlashes.add(this.playerHurtBox);
                 }
@@ -275,6 +285,63 @@ class Scene1 extends Phaser.Scene
                     this.playerSlashes.clear(true, true);
                     this.player.state = "GROUND";
                 }
+                break;
+            
+            case "CHAINHOLD":
+                if (this.player.hitbox.overlapping)
+                {
+                    this.player.state = "HITSTUN";
+                    this.player.health -= 1;
+                }
+
+                this.playerSlashes.clear(true, true);
+
+                if (this.RIGHT.isDown)
+                {
+                    this.player.anims.play("right", true);
+                    this.player.setVelocityX(this.player.speed * 0.4); 
+                    this.player.dir = 1;
+                }
+                else if (this.LEFT.isDown)
+                {
+                    this.player.anims.play("left", true);
+                    this.player.setVelocityX(-this.player.speed * 0.4);
+                    this.player.dir = -1;
+                }
+                else this.player.anims.play("fire", true);
+
+                if (this.playerSlashes.getLength() < 1)
+                {
+                    //rectangle for debug
+                    this.playerHurtBox = new HurtBox(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20, 0xffffff, 0.7);
+                    this.physics.world.enable(this.playerHurtBox, 0);
+                    this.playerHurtBox.body.moves = false;
+                    this.playerHurtBox.body.onOverlap = true;
+                    this.playerHurtBox.dir = this.player.dir;
+
+                    /*
+                    this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
+                    this.physics.world.enable(this.playerHitZone, 0);
+                    this.playerHitZone.body.moves = false;
+                    this.playerHitZone.body.onOverlap = true;
+                    this.playerHitZone.dir = this.player.dir;
+                    */
+                    
+                    this.playerSlashes.add(this.playerHurtBox);
+                }
+
+                if (this.Q.isUp || this.SHIFT.isUp)
+                {
+                    this.playerSlashes.clear(true, true);
+                    this.player.state = "GROUND";
+                }
+
+                if (this.player.body.velocity.y > 0) 
+                {
+                    this.playerSlashes.clear(true, true);
+                    this.player.state = "FALL"
+                }
+
                 break;
             
             case "AERIAL":
@@ -301,11 +368,13 @@ class Scene1 extends Phaser.Scene
                     this.playerHurtBox.body.onOverlap = true;
                     this.playerHurtBox.dir = this.player.dir;
 
+                    /*
                     this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 33);
                     this.physics.world.enable(this.playerHitZone, 0);
                     this.playerHitZone.body.moves = false;
                     this.playerHitZone.body.onOverlap = true;
                     this.playerHitZone.dir = this.player.dir;
+                    */
 
                     this.playerSlashes.add(this.playerHurtBox);
                 }
