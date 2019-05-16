@@ -64,6 +64,11 @@ class Scene1 extends Phaser.Scene
         this.player.speed = 350;
         this.player.dir = 1; //facing right
         this.player.state = "FALL";
+        this.player.hitbox = new HurtBox(this, this.player.x, this.player.y, this.player.width, this.player.height, 0x000000, 0.4);
+        this.physics.world.enable(this.player.hitbox, 0);
+        this.player.hitbox.body.moves = false;
+        this.player.hitbox.overlapping = false;
+        this.player.health = 10;
 
         this.dummy = this.physics.add.sprite(525, 255, "player_sheet");
         this.dummy.anims.play("crouch");
@@ -92,8 +97,7 @@ class Scene1 extends Phaser.Scene
         //collision
         this.physics.add.collider(this.entities, this.platforms);
         this.physics.add.overlap(this.playerSlashes, this.dummy, this.body_hit);
-        this.physics.add.overlap(this.dummy, this.player, this.aaaaa);
-            
+        this.physics.add.overlap(this.player.hitbox, this.dummy, this.hitbox_overlap);
 
         //input detection
         this.UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -114,22 +118,37 @@ class Scene1 extends Phaser.Scene
             body2.state = "HITSTUN";
             body2.dir = body1.dir;
         }
-        console.log(body1, body2);
     }
 
-    aaaaa()
+    hitbox_overlap(body1, body2)
     {
-        console.log("getting hit");
+        if (!body1.overlapping && body2.state !== "HITSTUN")
+        {
+            body1.overlapping = true;
+            console.log("getting hit");
+        }
+    }
+
+    update_hitbox()
+    {
+        this.player.hitbox.x = this.player.x;
+        this.player.hitbox.y = this.player.y;
     }
 
     update()
     {
         this.player.setVelocityX(0);
+        this.update_hitbox();
 
         //rudimentary player state machine
         switch (this.player.state)
         {
             case "GROUND":    
+                if (this.player.hitbox.overlapping)
+                {
+                    this.player.health -= 1;
+                    this.player.state = "HITSTUN";
+                }
                 if (this.RIGHT.isDown)
                 {
                     this.player.anims.play("right", true);
@@ -139,7 +158,7 @@ class Scene1 extends Phaser.Scene
                 else if (this.LEFT.isDown)
                 {
                     this.player.anims.play("left", true);
-                    this.player.setVelocityX(-this.player.speed); 
+                    this.player.setVelocityX(-this.player.speed);
                     this.player.dir = -1;
                 }
                 else this.player.anims.play("idle", true);
@@ -161,6 +180,12 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "JUMP": 
+                if (this.player.hitbox.overlapping)
+                {
+                    this.player.health -= 1;
+                    this.player.setVelocityY(-400);
+                    this.player.state = "HITSTUN";
+                }
                 if (this.RIGHT.isDown) {this.player.setVelocityX(this.player.speed); this.player.dir = 1}
                 if (this.LEFT.isDown) {this.player.setVelocityX(-this.player.speed); this.player.dir = -1}
                 if (this.UP.isUp) {this.player.body.velocity.y *= 0.65} //less airtime when up released
@@ -174,6 +199,12 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "FALL":
+                if (this.player.hitbox.overlapping)
+                {   
+                    this.player.health -= 1;
+                    this.player.setVelocityY(-400);
+                    this.player.state = "HITSTUN";
+                }
                 if (this.RIGHT.isDown) {this.player.setVelocityX(this.player.speed); this.player.dir = 1}
                 else if (this.LEFT.isDown) {this.player.setVelocityX(-this.player.speed); this.player.dir = -1}
                 this.player.anims.play("fall", true);
@@ -184,12 +215,38 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "CROUCH":
-                this.player.body.velocity.x = 0
+                if (this.player.hitbox.overlapping)
+                {
+                    this.player.health -= 1;
+                    this.player.state = "HITSTUN";
+                }
+                this.player.body.velocity.x = 0;
                 this.player.anims.play("crouch", true);
                 if (this.DOWN.isUp){this.player.state = "GROUND"}
                 break;
 
+            case "HITSTUN":
+                this.playerSlashes.clear(true, true);
+                if (this.player.health <= 0)
+                {
+                    console.log("YOU SHOULD BE DEAD");
+                    this.player.state = "DEAD";
+                }
+
+                this.player.hitbox.overlapping = false;
+                this.player.anims.play("right", true);
+                this.player.setVelocityX(225 * -this.player.dir);
+                if (this.player.anims.getProgress() == 1) 
+                {
+                    console.log(this.player.health);
+                    if (this.player.body.velocity.y < 0){this.player.state = "FALL"}
+                    this.player.state = "GROUND";
+                }
+                
+                break;
+
             case "ATTACK":
+                if (this.player.hitbox.overlapping){this.player.state = "HITSTUN"}
                 this.playerSlashes.clear(true, true);
 
                 this.player.setVelocityX(95 * this.player.dir);
@@ -220,6 +277,12 @@ class Scene1 extends Phaser.Scene
                 break;
             
             case "AERIAL":
+                if (this.player.hitbox.overlapping)
+                {
+                    this.player.health -= 1;
+                    this.player.setVelocityY(-400);
+                    this.player.state = "HITSTUN";
+                }
                 this.playerSlashes.clear(true, true);
 
                 if (this.RIGHT.isDown) {this.player.setVelocityX(this.player.speed); this.player.dir = 1}
@@ -261,6 +324,7 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "DASH":
+                //this.player.hitbox.overlapping = false;  //might enable this for some kind of upgraded dash
                 this.player.setVelocityX(this.player.speed * 2.7 * this.player.dir)
                 this.player.anims.play("fire", true);
                 if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
@@ -272,6 +336,10 @@ class Scene1 extends Phaser.Scene
                 this.player.anims.play("fall", true);
                 if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
                 if (this.player.anims.getProgress() == 1) {this.player.state = "GROUND"}
+                break;
+            
+            case "DEAD":
+                this.player.disableBody(true, true);
                 break;
 
             default:
