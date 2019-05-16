@@ -146,8 +146,8 @@ class Scene1 extends Phaser.Scene
             case "GROUND":    
                 if (this.player.hitbox.overlapping)
                 {
-                    this.player.health -= 1;
                     this.player.state = "HITSTUN";
+                    this.player.health -= 1;
                 }
                 if (this.RIGHT.isDown)
                 {
@@ -182,9 +182,9 @@ class Scene1 extends Phaser.Scene
             case "JUMP": 
                 if (this.player.hitbox.overlapping)
                 {
-                    this.player.health -= 1;
                     this.player.setVelocityY(-400);
                     this.player.state = "HITSTUN";
+                    this.player.health -= 1;
                 }
                 if (this.RIGHT.isDown) {this.player.setVelocityX(this.player.speed); this.player.dir = 1}
                 if (this.LEFT.isDown) {this.player.setVelocityX(-this.player.speed); this.player.dir = -1}
@@ -201,9 +201,9 @@ class Scene1 extends Phaser.Scene
             case "FALL":
                 if (this.player.hitbox.overlapping)
                 {   
-                    this.player.health -= 1;
                     this.player.setVelocityY(-400);
                     this.player.state = "HITSTUN";
+                    this.player.health -= 1;
                 }
                 if (this.RIGHT.isDown) {this.player.setVelocityX(this.player.speed); this.player.dir = 1}
                 else if (this.LEFT.isDown) {this.player.setVelocityX(-this.player.speed); this.player.dir = -1}
@@ -217,8 +217,8 @@ class Scene1 extends Phaser.Scene
             case "CROUCH":
                 if (this.player.hitbox.overlapping)
                 {
-                    this.player.health -= 1;
                     this.player.state = "HITSTUN";
+                    this.player.health -= 1;
                 }
                 this.player.body.velocity.x = 0;
                 this.player.anims.play("crouch", true);
