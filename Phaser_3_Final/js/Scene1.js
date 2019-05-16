@@ -82,6 +82,8 @@ class Scene1 extends Phaser.Scene
         this.dummy2.dir = 1; //facing left
         this.dummy2.state = "IDLE";
 
+        //this.create_dummy(this.dummy3, 300, 200, "player_sheet", "crouch", 1, "IDLE");
+
         //platforms
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
         this.ground2 = new Concrete(this, 200, 600, 700, 40, "ground");
@@ -126,6 +128,18 @@ class Scene1 extends Phaser.Scene
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
         
     }
+
+    /*
+    create_dummy(name, x, y, sheet, anim, dir, state)
+    {
+        name = this.physics.add.sprite(x, y, sheet);
+        name.anims.play(anim);
+        name.dir = dir; 
+        name.state = state;
+        this.entities.add(name);
+        this.enemies.add(name);
+    }
+    */
 
     body_hit(body1, body2)
     {
@@ -468,6 +482,7 @@ class Scene1 extends Phaser.Scene
         //dummy state machine
         this.enemy_state_switch(this.dummy);
         this.enemy_state_switch(this.dummy2);
+        //this.enemy_state_switch(this.dummy3);
         
         
     }
