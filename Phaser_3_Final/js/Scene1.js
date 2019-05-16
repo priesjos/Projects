@@ -113,7 +113,7 @@ class Scene1 extends Phaser.Scene
 
         //collision
         this.physics.add.collider(this.entities, this.platforms);
-        this.physics.add.overlap(this.playerSlashes, this.dummy, this.body_hit);
+        this.physics.add.overlap(this.playerSlashes, this.enemies, this.body_hit);
         this.physics.add.overlap(this.player.hitbox, this.enemies, this.hitbox_overlap);
 
         //input detection
@@ -152,6 +152,27 @@ class Scene1 extends Phaser.Scene
         this.player.hitbox.y = this.player.y;
     }
 
+    enemy_state_switch(body)
+    {
+        switch(body.state)
+        {
+            case "IDLE":
+                body.setVelocityX(0);
+                body.anims.play("idle", true);
+                break;
+            case "HITSTUN":
+                body.anims.play("right", true);
+                body.setVelocityX(90 * body.dir);
+                if (body.anims.getProgress() == 1) {body.state = "IDLE"}
+                break;
+            case "ATTACK":
+                body.anims.play("fire", true);
+                break;
+            default:
+                body.state = "IDLE";
+        }
+    }
+
     update()
     {
         this.player.setVelocityX(0);
@@ -160,7 +181,7 @@ class Scene1 extends Phaser.Scene
         this.healthText.y = this.player.y - 50;
         this.healthText.text = "Health:" + this.player.health;
 
-        //rudimentary player state machine
+        //rudimentary player state machine, not contained in its own function
         switch (this.player.state)
         {
             case "GROUND":    
@@ -445,23 +466,9 @@ class Scene1 extends Phaser.Scene
         }
 
         //dummy state machine
-        switch(this.dummy.state)
-        {
-            case "IDLE":
-                this.dummy.setVelocityX(0);
-                this.dummy.anims.play("idle", true);
-                break;
-            case "HITSTUN":
-                this.dummy.anims.play("right", true);
-                this.dummy.setVelocityX(90 * this.dummy.dir);
-                if (this.dummy.anims.getProgress() == 1) {this.dummy.state = "IDLE"}
-                break;
-            case "ATTACK":
-                this.dummy.anims.play("fire", true);
-                break;
-            default:
-                this.dummy.state = "IDLE";
-        }
+        this.enemy_state_switch(this.dummy);
+        this.enemy_state_switch(this.dummy2);
+        
         
     }
     
