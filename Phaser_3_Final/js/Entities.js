@@ -11,6 +11,42 @@ class Entity extends Phaser.GameObjects.Sprite
     }
 }
 
+class EnemyOne extends Phaser.GameObjects.Sprite
+{
+    constructor(scene, x, y) 
+    {
+        super(scene, x, y, key, "Enemy");
+        this.states = {
+            IDLE: "IDLE",
+            FOLLOW: "FOLLOW",
+            HITSTUN: "HITSTUN",
+            ATTACK: "ATTACK"
+        }
+        this.state = this.states.IDLE;
+    }
+
+    
+
+    
+}
+
+class EnemyTwo extends Phaser.GameObjects.Sprite
+{
+    constructor(scene, x, y) 
+    {
+        super(scene, x, y, key, "Enemy");
+    }
+}
+
+class EnemyThree extends Phaser.GameObjects.Sprite
+{
+    constructor(scene, x, y) 
+    {
+        super(scene, x, y, key, "Enemy");
+    }
+}
+
+
 class Projectile extends Entity
 {
     constructor(scene, x, y, dir) 

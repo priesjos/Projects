@@ -63,26 +63,35 @@ class Scene1 extends Phaser.Scene
         this.player.anims.play("idle");
         this.player.speed = 350;
         this.player.dir = 1; //facing right
+        this.player.health = 10;
         this.player.state = "FALL";
         this.player.hitbox = new HurtBox(this, this.player.x, this.player.y, this.player.width - 10, this.player.height - 10, 0x000000, 0.4);
         this.physics.world.enable(this.player.hitbox, 0);
         this.player.hitbox.body.moves = false;
         this.player.hitbox.overlapping = false;
         this.player.hitbox.dir = this.player.dir;
-        this.player.health = 10;
-
-        this.dummy = this.physics.add.sprite(525, 255, "player_sheet");
+        
+        //enemy object
+        this.dummy = this.physics.add.sprite(585, 255, "player_sheet");
         this.dummy.anims.play("crouch");
         this.dummy.dir = -1; //facing left
         this.dummy.state = "IDLE";
 
+        this.dummy2 = this.physics.add.sprite(425, 255, "player_sheet");
+        this.dummy2.anims.play("crouch");
+        this.dummy2.dir = 1; //facing left
+        this.dummy2.state = "IDLE";
+
+        //platforms
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
         this.ground2 = new Concrete(this, 200, 600, 700, 40, "ground");
         this.ground3 = new Concrete(this, -500, 400, 800, 40, "ground");
         
+        //groups
         this.playerSlashes = this.add.group();
         this.platforms = this.physics.add.staticGroup();
         this.entities = this.physics.add.group();
+        this.enemies = this.physics.add.group();
         
         for (var i = 0; i < 6; i++){this.platforms.create(i * 200, 740 + (i * 40), "ground")}
         
@@ -91,16 +100,21 @@ class Scene1 extends Phaser.Scene
         this.platforms.add(this.ground3);
 
         this.entities.add(this.player);
+
         this.entities.add(this.dummy);
+        this.entities.add(this.dummy2);
 
+        this.enemies.add(this.dummy);
+        this.enemies.add(this.dummy2);
+
+        //camera/text
         this.cameras.main.startFollow(this.player, false, 0.1, 0.1);
+        this.healthText = this.add.text(this.cameras.main.x,this.cameras.main.y, 'Health:' + this.player.health, {fontSize:'14px', fill:'#FFF'});
 
-        //this.add.text()
-    
         //collision
         this.physics.add.collider(this.entities, this.platforms);
         this.physics.add.overlap(this.playerSlashes, this.dummy, this.body_hit);
-        this.physics.add.overlap(this.player.hitbox, this.dummy, this.hitbox_overlap);
+        this.physics.add.overlap(this.player.hitbox, this.enemies, this.hitbox_overlap);
 
         //input detection
         this.UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -142,6 +156,9 @@ class Scene1 extends Phaser.Scene
     {
         this.player.setVelocityX(0);
         this.update_hitbox();
+        this.healthText.x = this.player.x - 35;
+        this.healthText.y = this.player.y - 50;
+        this.healthText.text = "Health:" + this.player.health;
 
         //rudimentary player state machine
         switch (this.player.state)
@@ -420,6 +437,7 @@ class Scene1 extends Phaser.Scene
             
             case "DEAD":
                 this.player.disableBody(true, true);
+                this.healthText.destroy();
                 break;
 
             default:
