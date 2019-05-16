@@ -82,7 +82,7 @@ class Scene1 extends Phaser.Scene
         this.dummy2.dir = 1; //facing left
         this.dummy2.state = "IDLE";
 
-        //this.create_dummy(this.dummy3, 300, 200, "player_sheet", "crouch", 1, "IDLE");
+        //
 
         //platforms
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
@@ -94,6 +94,7 @@ class Scene1 extends Phaser.Scene
         this.platforms = this.physics.add.staticGroup();
         this.entities = this.physics.add.group();
         this.enemies = this.physics.add.group();
+        this.create_dummy(this.dummy3, 300, 200, "player_sheet", "crouch", 1, "IDLE");
         
         for (var i = 0; i < 6; i++){this.platforms.create(i * 200, 740 + (i * 40), "ground")}
         
@@ -129,7 +130,7 @@ class Scene1 extends Phaser.Scene
         
     }
 
-    /*
+    
     create_dummy(name, x, y, sheet, anim, dir, state)
     {
         name = this.physics.add.sprite(x, y, sheet);
@@ -139,7 +140,7 @@ class Scene1 extends Phaser.Scene
         this.entities.add(name);
         this.enemies.add(name);
     }
-    */
+    
 
     body_hit(body1, body2)
     {
