@@ -59,30 +59,15 @@ class Scene1 extends Phaser.Scene
         })
 
         //formation of player and properties
-        this.player = this.physics.add.sprite(500, 255, "player_sheet");
-        this.player.anims.play("idle");
-        this.player.speed = 350;
-        this.player.dir = 1; //facing right
-        this.player.health = 10;
-        this.player.state = "FALL";
-        this.player.hitbox = new HurtBox(this, this.player.x, this.player.y, this.player.width - 10, this.player.height - 10, 0x000000, 0.4);
+        this.player = new Player(this, 500, 255, "player_sheet", null, 350, 1, 10, "FALL");
+        this.player.hitbox = new HurtBox(this, this.player.x, this.player.y, this.player.width - 10, this.player.height - 10, 0x000000, 0.4, false, this.player.dir);
         this.physics.world.enable(this.player.hitbox, 0);
         this.player.hitbox.body.moves = false;
-        this.player.hitbox.overlapping = false;
-        this.player.hitbox.dir = this.player.dir;
         
         //enemy object
-        this.dummy = this.physics.add.sprite(585, 255, "player_sheet");
-        this.dummy.anims.play("crouch");
-        this.dummy.dir = -1; //facing left
-        this.dummy.state = "IDLE";
-
-        this.dummy2 = this.physics.add.sprite(425, 255, "player_sheet");
-        this.dummy2.anims.play("crouch");
-        this.dummy2.dir = 1; //facing left
-        this.dummy2.state = "IDLE";
-
-        //
+        this.dummy = new Dummy(this, 585, 255, "player_sheet", null, -1, "FALL");
+        this.dummy2 = new Dummy(this, 425, 255, "player_sheet", null, -1, "FALL");
+        this.dummy3 = new Dummy(this, 200, 240, "player_sheet", null, 1, "FALL");
 
         //platforms
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
@@ -94,7 +79,6 @@ class Scene1 extends Phaser.Scene
         this.platforms = this.physics.add.staticGroup();
         this.entities = this.physics.add.group();
         this.enemies = this.physics.add.group();
-        this.create_dummy(this.dummy3, 300, 200, "player_sheet", "crouch", 1, "IDLE");
         
         for (var i = 0; i < 6; i++){this.platforms.create(i * 200, 740 + (i * 40), "ground")}
         
@@ -102,13 +86,22 @@ class Scene1 extends Phaser.Scene
         this.platforms.add(this.ground2);
         this.platforms.add(this.ground3);
 
-        this.entities.add(this.player);
-
-        this.entities.add(this.dummy);
-        this.entities.add(this.dummy2);
-
         this.enemies.add(this.dummy);
         this.enemies.add(this.dummy2);
+        this.enemies.add(this.dummy3);
+
+        for (var i = 0; i < 4; i++)
+        {
+            var enemy = new Dummy(this, 100 * i, 255, "player_sheet", null, -1, "FALL");
+            this.enemies.add(enemy);
+            this.entities.add(enemy);
+            console.log(this.entities.getChildren());
+        }
+
+        this.entities.add(this.player);
+        this.entities.add(this.dummy);
+        this.entities.add(this.dummy2);
+        this.entities.add(this.dummy3);
 
         //camera/text
         this.cameras.main.startFollow(this.player, false, 0.1, 0.1);
@@ -127,20 +120,7 @@ class Scene1 extends Phaser.Scene
         this.Q = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         this.SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-        
     }
-
-    
-    create_dummy(name, x, y, sheet, anim, dir, state)
-    {
-        name = this.physics.add.sprite(x, y, sheet);
-        name.anims.play(anim);
-        name.dir = dir; 
-        name.state = state;
-        this.entities.add(name);
-        this.enemies.add(name);
-    }
-    
 
     body_hit(body1, body2)
     {
@@ -156,8 +136,8 @@ class Scene1 extends Phaser.Scene
     {
         if (!body1.overlapping && body2.state !== "HITSTUN")
         {
-            body1.overlapping = true;
             console.log("getting hit");
+            body1.overlapping = true;
         }
     }
 
@@ -167,36 +147,16 @@ class Scene1 extends Phaser.Scene
         this.player.hitbox.y = this.player.y;
     }
 
-    enemy_state_switch(body)
-    {
-        switch(body.state)
-        {
-            case "IDLE":
-                body.setVelocityX(0);
-                body.anims.play("idle", true);
-                break;
-            case "HITSTUN":
-                body.anims.play("right", true);
-                body.setVelocityX(90 * body.dir);
-                if (body.anims.getProgress() == 1) {body.state = "IDLE"}
-                break;
-            case "ATTACK":
-                body.anims.play("fire", true);
-                break;
-            default:
-                body.state = "IDLE";
-        }
-    }
-
     update()
     {
-        this.player.setVelocityX(0);
-        this.update_hitbox();
         this.healthText.x = this.player.x - 35;
         this.healthText.y = this.player.y - 50;
         this.healthText.text = "Health:" + this.player.health;
 
-        //rudimentary player state machine, not contained in its own function
+        this.player.setVelocityX(0);
+        this.update_hitbox();
+
+        //rudimentary player state machine, not contained in its own function since inputs are connected to this scene
         switch (this.player.state)
         {
             case "GROUND":    
@@ -480,11 +440,10 @@ class Scene1 extends Phaser.Scene
                 this.player.anims.play("idle", true);
         }
 
-        //dummy state machine
-        this.enemy_state_switch(this.dummy);
-        this.enemy_state_switch(this.dummy2);
-        //this.enemy_state_switch(this.dummy3);
-        
+        //dummy updates
+        this.dummy.update();
+        this.dummy2.update();
+        this.dummy3.update();
         
     }
     

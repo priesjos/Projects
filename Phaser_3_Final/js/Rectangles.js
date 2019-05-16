@@ -11,8 +11,8 @@ class Rectangle extends Phaser.GameObjects.Rectangle
 
 class HurtBox extends Rectangle
 {
-    constructor(scene, x, y, width, height, fillColor, fillAlpha)
+    constructor(scene, x, y, width, height, fillColor, fillAlpha, overlapping, dir)
     {
-        super(scene, x, y, width, height, fillColor, fillAlpha, "playerHurtBox");
+        super(scene, x, y, width, height, fillColor, fillAlpha, "playerHurtBox", overlapping, dir);
     }
 }
