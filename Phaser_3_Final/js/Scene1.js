@@ -68,6 +68,7 @@ class Scene1 extends Phaser.Scene
         this.physics.world.enable(this.player.hitbox, 0);
         this.player.hitbox.body.moves = false;
         this.player.hitbox.overlapping = false;
+        this.player.hitbox.dir = this.player.dir;
         this.player.health = 10;
 
         this.dummy = this.physics.add.sprite(525, 255, "player_sheet");
@@ -324,6 +325,11 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "DASH":
+                if (this.player.hitbox.overlapping)
+                {
+                    this.player.state = "HITSTUN";
+                    this.player.health -= 1;
+                }
                 //this.player.hitbox.overlapping = false;  //might enable this for some kind of upgraded dash
                 this.player.setVelocityX(this.player.speed * 2.7 * this.player.dir)
                 this.player.anims.play("fire", true);
@@ -332,6 +338,11 @@ class Scene1 extends Phaser.Scene
                 break;
 
             case "BACKSTEP":
+                if (this.player.hitbox.overlapping)
+                {
+                    this.player.state = "HITSTUN";
+                    this.player.health -= 1;
+                }
                 this.player.setVelocityX(this.player.speed * 1.7 * -this.player.dir)
                 this.player.anims.play("fall", true);
                 if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
