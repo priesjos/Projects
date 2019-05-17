@@ -20,6 +20,7 @@ class Player extends PhysicsEntity
         this.speed = speed;
         this.dir = dir; 
         this.health = health;
+        this.hits = 0;
     }
 }
 
@@ -47,7 +48,7 @@ class Dummy extends PhysicsEntity
             case "HITSTUN":
                 this.anims.play("right", true);
                 this.setVelocityX(50 * this.knockback * this.dir);
-                if (!this.body.touching.down) {this.setVelocityY(-35)}
+                if (!this.body.touching.down) {this.setVelocityY(-30)}
                 if (this.anims.getProgress() == 1)
                 {
                     if (!this.body.touching.down) {this.state = "FALL"}

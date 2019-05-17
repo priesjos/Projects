@@ -63,55 +63,36 @@ class Scene1 extends Phaser.Scene
         this.player.hitbox = new HurtBox(this, this.player.x, this.player.y, this.player.width - 10, this.player.height - 10, 0x000000, 0.4, false, this.player.dir);
         this.physics.world.enable(this.player.hitbox, 0);
         this.player.hitbox.body.moves = false;
-        
-        //enemy object
-        this.dummy = new Dummy(this, 585, 255, "player_sheet", null, -1, "FALL");
-        this.dummy2 = new Dummy(this, 425, 255, "player_sheet", null, -1, "FALL");
-        this.dummy3 = new Dummy(this, 200, 240, "player_sheet", null, 1, "FALL");
-        
 
         //platforms
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
         this.ground2 = new Concrete(this, 200, 600, 700, 40, "ground");
         this.ground3 = new Concrete(this, -500, 400, 800, 40, "ground");
         
-        //groups
+        //groups and arrays
         this.playerSlashes = this.add.group();
         this.platforms = this.physics.add.staticGroup();
         this.entities = this.physics.add.group();
         this.enemies = this.physics.add.group();
+        this.dummy_array = [];
         
         for (var i = 0; i < 6; i++){this.platforms.create(i * 200, 740 + (i * 40), "ground")}
         
+        //group addings
         this.platforms.add(this.ground);
         this.platforms.add(this.ground2);
         this.platforms.add(this.ground3);
 
-        this.enemies.add(this.dummy);
-        this.enemies.add(this.dummy2);
-        this.enemies.add(this.dummy3);
-
-        //this.create_dummy(this.dummy4, 100, 240, -1);
-
-        /*
-        for (var i = 0; i < 4; i++)
-        {
-            var enemy = new Dummy(this, 100 * i, 255, "player_sheet", null, -1, "FALL");
-            this.enemies.add(enemy);
-            this.entities.add(enemy);
-            console.log(this.entities.getChildren());
-        }
-        */
-
+        this.create_dummy("this.dummy" + 4, 100, 240, -1);
+        for (var i = 0; i < 5; i++){this.create_dummy("dummy" + i, 100 * i, 240, 1)}
+        
         this.entities.add(this.player);
-        this.entities.add(this.dummy);
-        this.entities.add(this.dummy2);
-        this.entities.add(this.dummy3);
 
         //camera/text
         this.cameras.main.startFollow(this.player, false, 0.1, 0.1);
-        this.healthText = this.add.text(this.cameras.main.x,this.cameras.main.y, 'Health:' + this.player.health, {fontSize:'14px', fill:'#FFF'});
-
+        this.healthText = this.add.text(this.cameras.main.x, this.cameras.main.y, 'Health:' + this.player.health, {fontSize:'14px', fill:'#FFF'});
+        this.hitsText = this.add.text(this.cameras.main.x, 265, 'Hits:' + this.player.hits, {fontSize:'14px', fill:'#FFF'});
+        
         //collision
         this.physics.add.collider(this.entities, this.platforms);
         this.physics.add.overlap(this.playerSlashes, this.enemies, this.body_hit);
@@ -127,6 +108,8 @@ class Scene1 extends Phaser.Scene
         this.D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+
+        
     }
 
     create_dummy(obj, x, y, dir)
@@ -134,6 +117,7 @@ class Scene1 extends Phaser.Scene
         obj = new Dummy(this, x, y, "player_sheet", null, dir, "FALL");
         this.enemies.add(obj);
         this.entities.add(obj);
+        this.dummy_array.push(obj);
         return obj;
     }
 
@@ -141,7 +125,9 @@ class Scene1 extends Phaser.Scene
     {
         if (body2.state !== "HITSTUN")
         {
+            body1.hits++;
             console.log("is hit");
+            console.log(body1.hits);
             if (body1.force > 2) 
             {
                 body2.setVelocityY(-650);
@@ -175,6 +161,7 @@ class Scene1 extends Phaser.Scene
         this.healthText.x = this.player.x - 35;
         this.healthText.y = this.player.y - 50;
         this.healthText.text = "Health:" + this.player.health;
+        this.hitsText.text = "Hits:" + this.player.hits;
 
         this.player.setVelocityX(0);
         this.update_hitbox();
@@ -309,9 +296,9 @@ class Scene1 extends Phaser.Scene
                     this.physics.world.enable(this.playerHurtBox, 0);
                     this.playerHurtBox.body.moves = false;
                     this.playerHurtBox.body.onOverlap = true;
+                    this.playerHurtBox.hits = 0;
                     this.playerHurtBox.dir = this.player.dir;
                     this.playerHurtBox.force = 1.5;
-
                     /*
                     this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
                     this.physics.world.enable(this.playerHitZone, 0);
@@ -322,6 +309,7 @@ class Scene1 extends Phaser.Scene
                     */
                     
                     this.playerSlashes.add(this.playerHurtBox);
+                    this.player.hits += this.playerHurtBox.hits;
                 }
                 
                 if (this.player.anims.getProgress() == 1) 
@@ -563,10 +551,7 @@ class Scene1 extends Phaser.Scene
         }
 
         //dummy updates
-        this.dummy.update();
-        this.dummy2.update();
-        this.dummy3.update();
-        
+        for(var i = 0; i < this.dummy_array.length; i++) {this.dummy_array[i].update()}
     }
     
 }
