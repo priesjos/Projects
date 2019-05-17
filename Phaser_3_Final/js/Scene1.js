@@ -90,6 +90,7 @@ class Scene1 extends Phaser.Scene
         this.enemies.add(this.dummy2);
         this.enemies.add(this.dummy3);
 
+        /*
         for (var i = 0; i < 4; i++)
         {
             var enemy = new Dummy(this, 100 * i, 255, "player_sheet", null, -1, "FALL");
@@ -97,6 +98,7 @@ class Scene1 extends Phaser.Scene
             this.entities.add(enemy);
             console.log(this.entities.getChildren());
         }
+        */
 
         this.entities.add(this.player);
         this.entities.add(this.dummy);
