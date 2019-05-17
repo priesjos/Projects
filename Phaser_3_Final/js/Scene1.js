@@ -119,7 +119,9 @@ class Scene1 extends Phaser.Scene
         this.DOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.LEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         this.RIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        this.Q = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        this.A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     }
@@ -129,14 +131,22 @@ class Scene1 extends Phaser.Scene
         if (body2.state !== "HITSTUN")
         {
             console.log("is hit");
-            body2.state = "HITSTUN";
+            if (body1.force > 2) 
+            {
+                body2.setVelocityY(-650);
+                body2.state = "LAUNCHED"
+            }
+            else body2.state = "HITSTUN";
+
             body2.dir = body1.dir;
+            body2.knockback = body1.force;
+            body2.damage = body1.force * 3;
         }
     }
 
     hitbox_overlap(body1, body2)
     {
-        if (!body1.overlapping && body2.state !== "HITSTUN")
+        if (!body1.overlapping && body2.state !== "HITSTUN" && body2.state !== "LAUNCHED")
         {
             console.log("getting hit");
             body1.overlapping = true;
@@ -183,9 +193,13 @@ class Scene1 extends Phaser.Scene
 
                 if (this.DOWN.isDown) {this.player.state = "CROUCH"}
 
-                if (Phaser.Input.Keyboard.JustDown(this.Q)) {this.player.state = "ATTACK"}
+                if (Phaser.Input.Keyboard.JustDown(this.A)) {this.player.state = "ATTACK"}
 
-                if (this.SHIFT.isDown && this.Q.isDown) {this.player.state = "CHAINHOLD"}
+                if (this.SHIFT.isDown && this.A.isDown) {this.player.state = "CHAIN_HOLD"}
+
+                if (Phaser.Input.Keyboard.JustDown(this.S)) {this.player.state = "ATTACK_HARD"}
+
+                if (Phaser.Input.Keyboard.JustDown(this.D)){this.player.state = "ATTACK_LAUNCH"} 
 
                 if (Phaser.Input.Keyboard.JustDown(this.UP)) 
                 {
@@ -208,11 +222,11 @@ class Scene1 extends Phaser.Scene
                 }
                 if (this.RIGHT.isDown) {this.player.setVelocityX(this.player.speed); this.player.dir = 1}
                 if (this.LEFT.isDown) {this.player.setVelocityX(-this.player.speed); this.player.dir = -1}
-                if (this.UP.isUp) {this.player.body.velocity.y *= 0.65} //less airtime when up released
+                if (this.UP.isUp) {this.player.body.velocity.y *= 0.35} //less airtime when up released
 
                 this.player.anims.play("jump", true);
 
-                if (Phaser.Input.Keyboard.JustDown(this.Q)) {this.player.state = "AERIAL"}
+                if (Phaser.Input.Keyboard.JustDown(this.A)) {this.player.state = "AERIAL"}
 
                 if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
                 if (this.player.body.touching.down) {this.player.state = "GROUND"}
@@ -229,7 +243,7 @@ class Scene1 extends Phaser.Scene
                 else if (this.LEFT.isDown) {this.player.setVelocityX(-this.player.speed); this.player.dir = -1}
                 this.player.anims.play("fall", true);
 
-                if (Phaser.Input.Keyboard.JustDown(this.Q)) {this.player.state = "AERIAL"}
+                if (Phaser.Input.Keyboard.JustDown(this.A)) {this.player.state = "AERIAL"}
 
                 if (this.player.body.touching.down) {this.player.state = "GROUND"}
                 break;
@@ -275,6 +289,8 @@ class Scene1 extends Phaser.Scene
 
                 this.player.setVelocityX(95 * this.player.dir);
                 this.player.anims.play("fire", true);
+                
+                //attack hurt zone
                 if (this.playerSlashes.getLength() < 1 && this.player.anims.getProgress() >= 0.45)
                 {
                     //rectangle for debug
@@ -283,6 +299,7 @@ class Scene1 extends Phaser.Scene
                     this.playerHurtBox.body.moves = false;
                     this.playerHurtBox.body.onOverlap = true;
                     this.playerHurtBox.dir = this.player.dir;
+                    this.playerHurtBox.force = 1.5;
 
                     /*
                     this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
@@ -290,6 +307,7 @@ class Scene1 extends Phaser.Scene
                     this.playerHitZone.body.moves = false;
                     this.playerHitZone.body.onOverlap = true;
                     this.playerHitZone.dir = this.player.dir;
+                    this.playerHitZone.force = 1.5;
                     */
                     
                     this.playerSlashes.add(this.playerHurtBox);
@@ -301,8 +319,9 @@ class Scene1 extends Phaser.Scene
                     this.player.state = "GROUND";
                 }
                 break;
+
             
-            case "CHAINHOLD":
+            case "CHAIN_HOLD":
                 if (this.player.hitbox.overlapping)
                 {
                     this.player.state = "HITSTUN";
@@ -310,7 +329,7 @@ class Scene1 extends Phaser.Scene
                 }
 
                 this.playerSlashes.clear(true, true);
-
+            
                 if (this.RIGHT.isDown)
                 {
                     this.player.anims.play("right", true);
@@ -324,7 +343,8 @@ class Scene1 extends Phaser.Scene
                     this.player.dir = -1;
                 }
                 else this.player.anims.play("fire", true);
-
+                
+                //attack hurt zone
                 if (this.playerSlashes.getLength() < 1)
                 {
                     //rectangle for debug
@@ -333,6 +353,7 @@ class Scene1 extends Phaser.Scene
                     this.playerHurtBox.body.moves = false;
                     this.playerHurtBox.body.onOverlap = true;
                     this.playerHurtBox.dir = this.player.dir;
+                    this.playerHurtBox.force = 1.1;
 
                     /*
                     this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
@@ -340,12 +361,13 @@ class Scene1 extends Phaser.Scene
                     this.playerHitZone.body.moves = false;
                     this.playerHitZone.body.onOverlap = true;
                     this.playerHitZone.dir = this.player.dir;
+                    this.playerHitZone.force = 1.1;
                     */
                     
                     this.playerSlashes.add(this.playerHurtBox);
                 }
 
-                if (this.Q.isUp || this.SHIFT.isUp)
+                if (this.A.isUp || this.SHIFT.isUp)
                 {
                     this.playerSlashes.clear(true, true);
                     this.player.state = "GROUND";
@@ -355,6 +377,91 @@ class Scene1 extends Phaser.Scene
                 {
                     this.playerSlashes.clear(true, true);
                     this.player.state = "FALL"
+                }
+                break;
+
+            case "ATTACK_HARD":
+                if (this.player.hitbox.overlapping)
+                {
+                    this.player.state = "HITSTUN";
+                    this.player.health -= 1;
+                }
+                this.playerSlashes.clear(true, true);
+
+                this.player.setVelocityX(45 * this.player.dir);
+                this.player.anims.play("fire", true);
+
+                //attack hurt zone
+                if (this.playerSlashes.getLength() < 1 && this.player.anims.getProgress() >= 0.45)
+                {
+                    //rectangle for debug
+                    this.playerHurtBox = new HurtBox(this, this.player.x + (50 * this.player.dir), this.player.y, 75, 40, 0xffffff, 0.7);
+                    this.physics.world.enable(this.playerHurtBox, 0);
+                    this.playerHurtBox.body.moves = false;
+                    this.playerHurtBox.body.onOverlap = true;
+                    this.playerHurtBox.dir = this.player.dir;
+                    this.playerHurtBox.force = 2.0;
+
+                    /*
+                    this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
+                    this.physics.world.enable(this.playerHitZone, 0);
+                    this.playerHitZone.body.moves = false;
+                    this.playerHitZone.body.onOverlap = true;
+                    this.playerHitZone.dir = this.player.dir;
+                    this.playerHitZone.force = 2.0;
+                    */
+                    
+                    this.playerSlashes.add(this.playerHurtBox);
+                }
+                
+                if (this.player.anims.getProgress() == 1) 
+                {
+                    this.playerSlashes.clear(true, true);
+                    this.player.state = "GROUND";
+                }
+                break;
+            
+            case "ATTACK_LAUNCH":
+                if (this.player.hitbox.overlapping)
+                {
+                    this.player.state = "HITSTUN";
+                    this.player.health -= 1;
+                }
+                this.playerSlashes.clear(true, true);
+
+                this.player.setVelocityX(35 * this.player.dir);
+                this.player.anims.play("fire", true);
+
+                //attack hurt zone
+                if (this.playerSlashes.getLength() < 1 && this.player.anims.getProgress() >= 0.45)
+                {
+                    //this.player.setVelocityY(-720);
+                    //rectangle for debug
+                    this.playerHurtBox = new HurtBox(this, this.player.x + (50 * this.player.dir), this.player.y, 75, 40, 0xffffff, 0.7);
+                    this.physics.world.enable(this.playerHurtBox, 0);
+                    this.playerHurtBox.body.moves = false;
+                    this.playerHurtBox.body.onOverlap = true;
+                    this.playerHurtBox.dir = this.player.dir;
+                    this.playerHurtBox.force = 2.2;
+
+                    /*
+                    this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 20);
+                    this.physics.world.enable(this.playerHitZone, 0);
+                    this.playerHitZone.body.moves = false;
+                    this.playerHitZone.body.onOverlap = true;
+                    this.playerHitZone.dir = this.player.dir;
+                    this.playerHitZone.force = 2.2;
+                    */
+                    
+                    this.playerSlashes.add(this.playerHurtBox);
+                }
+                
+                if (this.player.anims.getProgress() == 1) 
+                {
+                    this.playerSlashes.clear(true, true);
+                    //this.player.setVelocityY(-720);
+                    //if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
+                    this.player.state = "JUMP";
                 }
 
                 break;
@@ -373,7 +480,8 @@ class Scene1 extends Phaser.Scene
                 if (this.UP.isUp) {this.player.body.velocity.y *= 0.85} //air swings leave player airborne for a while
 
                 this.player.anims.play("fire", true);
-
+                
+                //attack hurt zone
                 if (this.playerSlashes.getLength() < 1 && this.player.anims.getProgress() >= 0.25)
                 {
                     //rectangle for debug
@@ -382,6 +490,7 @@ class Scene1 extends Phaser.Scene
                     this.playerHurtBox.body.moves = false;
                     this.playerHurtBox.body.onOverlap = true;
                     this.playerHurtBox.dir = this.player.dir;
+                    this.playerHurtBox.force = 1.3;
 
                     /*
                     this.playerHitZone = new HitZone(this, this.player.x + (50 * this.player.dir), this.player.y, 95, 33);
@@ -389,6 +498,7 @@ class Scene1 extends Phaser.Scene
                     this.playerHitZone.body.moves = false;
                     this.playerHitZone.body.onOverlap = true;
                     this.playerHitZone.dir = this.player.dir;
+                    this.playerHitZone.force = 1.3;
                     */
 
                     this.playerSlashes.add(this.playerHurtBox);
@@ -397,8 +507,7 @@ class Scene1 extends Phaser.Scene
                 if (this.player.anims.getProgress() == 1) 
                 {
                     this.playerSlashes.clear(true, true);
-                    if (this.player.body.velocity.y > 0) {this.player.state = "FALL"}
-                    else this.player.state = "JUMP";
+                    this.player.state = "JUMP";
                 }
 
                 if (this.player.body.touching.down)

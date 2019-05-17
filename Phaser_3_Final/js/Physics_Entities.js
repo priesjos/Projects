@@ -46,8 +46,12 @@ class Dummy extends PhysicsEntity
                 break;
             case "HITSTUN":
                 this.anims.play("right", true);
-                this.setVelocityX(90 * this.dir);
+                this.setVelocityX(50 * this.knockback * this.dir);
+                if (!this.body.touching.down) {this.setVelocityY(-35)}
                 if (this.anims.getProgress() == 1) {this.state = "IDLE"}
+                break;
+            case "LAUNCHED":
+                this.anims.play("right", true);
                 break;
             case "ATTACK":
                 this.anims.play("fire", true);
