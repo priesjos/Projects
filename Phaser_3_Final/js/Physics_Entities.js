@@ -48,10 +48,12 @@ class Dummy extends PhysicsEntity
                 this.anims.play("right", true);
                 this.setVelocityX(50 * this.knockback * this.dir);
                 if (!this.body.touching.down) {this.setVelocityY(-35)}
+                if (this.body.touching.down) {this.state = "IDLE"}
                 if (this.anims.getProgress() == 1) {this.state = "IDLE"}
                 break;
             case "LAUNCHED":
                 this.anims.play("right", true);
+               
                 break;
             case "ATTACK":
                 this.anims.play("fire", true);
