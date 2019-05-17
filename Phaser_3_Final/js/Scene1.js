@@ -68,6 +68,7 @@ class Scene1 extends Phaser.Scene
         this.dummy = new Dummy(this, 585, 255, "player_sheet", null, -1, "FALL");
         this.dummy2 = new Dummy(this, 425, 255, "player_sheet", null, -1, "FALL");
         this.dummy3 = new Dummy(this, 200, 240, "player_sheet", null, 1, "FALL");
+        
 
         //platforms
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
@@ -89,6 +90,8 @@ class Scene1 extends Phaser.Scene
         this.enemies.add(this.dummy);
         this.enemies.add(this.dummy2);
         this.enemies.add(this.dummy3);
+
+        //this.create_dummy(this.dummy4, 100, 240, -1);
 
         /*
         for (var i = 0; i < 4; i++)
@@ -126,6 +129,14 @@ class Scene1 extends Phaser.Scene
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     }
 
+    create_dummy(obj, x, y, dir)
+    {
+        obj = new Dummy(this, x, y, "player_sheet", null, dir, "FALL");
+        this.enemies.add(obj);
+        this.entities.add(obj);
+        return obj;
+    }
+
     body_hit(body1, body2)
     {
         if (body2.state !== "HITSTUN")
@@ -134,7 +145,7 @@ class Scene1 extends Phaser.Scene
             if (body1.force > 2) 
             {
                 body2.setVelocityY(-650);
-                body2.state = "LAUNCHED"
+                body2.state = "LAUNCHED";
             }
             else body2.state = "HITSTUN";
 
