@@ -67,9 +67,10 @@ class Scene1 extends Phaser.Scene
 
         //formation of player and properties
         this.player = new Player(this, 500, 255, "player_sheet", null, 350, 1, 10, "FALL");
+        /*
         this.player.hitbox = new HurtBox(this, this.player.x, this.player.y, this.player.width - 10, this.player.height - 10, 0x000000, 0.4, false, this.player.dir);
         this.physics.world.enable(this.player.hitbox, 0);
-        this.player.hitbox.body.moves = false;
+        this.player.hitbox.body.moves = false;*/
 
         //platforms
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
@@ -82,8 +83,7 @@ class Scene1 extends Phaser.Scene
         this.platforms.add(this.ground2);
         this.platforms.add(this.ground3);
 
-        this.create_dummy("this.dummy" + 4, 100, 240, -1);
-        for (var i = 0; i < 5; i++){this.create_dummy("dummy" + i, 100 * i, 240, 1)}
+        for (var i = 0; i < 5; i++){this.create_dummy("dummy" + i, 100 * i, 240, 20, 1)}
         
         this.entities.add(this.player);
 
@@ -110,9 +110,9 @@ class Scene1 extends Phaser.Scene
         
     }
 
-    create_dummy(obj, x, y, dir)
+    create_dummy(obj, x, y, dir, health)
     {
-        obj = new Dummy(this, x, y, "player_sheet", null, dir, "FALL");
+        obj = new Dummy(this, x, y, "player_sheet", null, dir, health, "FALL");
         this.enemies.add(obj);
         this.entities.add(obj);
         this.dummy_array.push(obj);
@@ -148,23 +148,15 @@ class Scene1 extends Phaser.Scene
         }
     }
 
-    update_hitbox()
-    {
-        this.player.hitbox.x = this.player.x;
-        this.player.hitbox.y = this.player.y;
-    }
-
     update()
     {
         this.healthText.x = this.player.x - 35;
         this.healthText.y = this.player.y - 50;
         this.healthText.text = "Health:" + this.player.health;
         this.hitsText.text = "Hits:" + this.player.hits;
-
-        this.player.setVelocityX(0);
-        this.update_hitbox();
-
+        
         //rudimentary player state machine, not contained in its own function since inputs are connected to this scene
+        this.player.update();
         switch (this.player.state)
         {
             case "GROUND":    

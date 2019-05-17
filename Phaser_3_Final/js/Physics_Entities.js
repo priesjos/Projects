@@ -21,20 +21,40 @@ class Player extends PhysicsEntity
         this.dir = dir; 
         this.health = health;
         this.hits = 0;
+
+        this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width - 10, this.height - 10, 0x000000, 0.4, false, this.dir);
+        this.scene.physics.world.enable(this.hitbox, 0);
+        this.hitbox.body.moves = false;
+    }
+
+    update()
+    {
+        this.setVelocityX(0);
+        this.hitbox.x = this.x;
+        this.hitbox.y = this.y;
     }
 }
 
 class Dummy extends PhysicsEntity
 {
-    constructor(scene, x, y, key, frame, dir, state) 
+    constructor(scene, x, y, key, frame, dir, health, state) 
     {
         super(scene, x, y, key, frame, dir, "Enemy");
         this.state = state;
         this.dir = dir; 
+        this.health = health;
+        
+        this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width, this.height, 0x000000, 0.4, false, this.dir);
+        this.scene.physics.world.enable(this.hitbox, 0);
+        this.hitbox.body.moves = false;
+        
     }
 
     update()
     {
+        this.hitbox.x = this.x;
+        this.hitbox.y = this.y;
+
         switch(this.state)
         {
             case "IDLE":
