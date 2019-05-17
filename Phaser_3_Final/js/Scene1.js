@@ -58,6 +58,13 @@ class Scene1 extends Phaser.Scene
             frameRate: 20
         })
 
+        //groups and arrays
+        this.playerSlashes = this.add.group();
+        this.platforms = this.physics.add.staticGroup();
+        this.entities = this.physics.add.group();
+        this.enemies = this.physics.add.group();
+        this.dummy_array = [];
+
         //formation of player and properties
         this.player = new Player(this, 500, 255, "player_sheet", null, 350, 1, 10, "FALL");
         this.player.hitbox = new HurtBox(this, this.player.x, this.player.y, this.player.width - 10, this.player.height - 10, 0x000000, 0.4, false, this.player.dir);
@@ -68,14 +75,6 @@ class Scene1 extends Phaser.Scene
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
         this.ground2 = new Concrete(this, 200, 600, 700, 40, "ground");
         this.ground3 = new Concrete(this, -500, 400, 800, 40, "ground");
-        
-        //groups and arrays
-        this.playerSlashes = this.add.group();
-        this.platforms = this.physics.add.staticGroup();
-        this.entities = this.physics.add.group();
-        this.enemies = this.physics.add.group();
-        this.dummy_array = [];
-        
         for (var i = 0; i < 6; i++){this.platforms.create(i * 200, 740 + (i * 40), "ground")}
         
         //group addings
@@ -108,7 +107,6 @@ class Scene1 extends Phaser.Scene
         this.D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-
         
     }
 
