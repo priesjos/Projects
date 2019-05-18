@@ -64,6 +64,7 @@ class Scene1 extends Phaser.Scene
         this.entities = this.physics.add.group();
         this.enemies = this.physics.add.group();
         this.dummy_array = [];
+        this.enemyHitBoxes = [];
 
         //formation of player and properties
         this.player = new Player(this, 500, 255, "player_sheet", null, 350, 1, 10, "FALL");
@@ -90,8 +91,8 @@ class Scene1 extends Phaser.Scene
         
         //collision
         this.physics.add.collider(this.entities, this.platforms);
-        this.physics.add.overlap(this.playerSlashes, this.enemies, this.body_hit);
-        this.physics.add.overlap(this.player.hitbox, this.enemies, this.hitbox_overlap);
+        this.physics.add.overlap(this.playerSlashes, this.enemies /*REPLACE WITH this.enemyHitBoxes SOMEHOW*/, this.body_hit);
+        this.physics.add.overlap(this.player.hitbox, this.enemyHitBoxes, this.hitbox_overlap);
 
         //input detection
         this.UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -112,6 +113,7 @@ class Scene1 extends Phaser.Scene
         this.enemies.add(obj);
         this.entities.add(obj);
         this.dummy_array.push(obj);
+        this.enemyHitBoxes.push(obj.hitbox);
         //return obj;
     }
 
