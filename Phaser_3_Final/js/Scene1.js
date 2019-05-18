@@ -73,7 +73,7 @@ class Scene1 extends Phaser.Scene
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
         this.ground2 = new Concrete(this, 200, 600, 700, 40, "ground");
         this.ground3 = new Concrete(this, -500, 400, 800, 40, "ground");
-        for (var i = 0; i < 6; i++){this.platforms.create(i * 200, 740 + (i * 40), "ground")}
+        for (var i = -8; i < 7; i++){this.platforms.create((i * 250) + 150, 800 + (i * 40), "ground")}
         
         //group addings
         this.platforms.add(this.ground);
@@ -91,7 +91,7 @@ class Scene1 extends Phaser.Scene
         
         //collision
         this.physics.add.collider(this.entities, this.platforms);
-        this.physics.add.overlap(this.playerSlashes,  this.enemyHitBoxes /*this.enemiesREPLACE WITH this.enemyHitBoxes SOMEHOW*/, this.body_hit);
+        this.physics.add.overlap(this.playerSlashes,  this.enemyHitBoxes, this.body_hit);
         this.physics.add.overlap(this.player.hitbox, this.enemyHitBoxes, this.hitbox_overlap);
 
         //input detection
