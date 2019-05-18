@@ -163,16 +163,6 @@ class Scene1 extends Phaser.Scene
         }
     }
 
-    player_hit_detection()
-    {
-        if (this.player.hitbox.overlapping)
-        {
-            this.player.state = "HITSTUN";
-            this.player.health -= 1;
-            if (!this.player.body.touching.down) {this.player.setVelocityY(-450)}
-        }
-    }
-
     update()
     {
         //giant mess of input conditionals, serves to aid in player state machine
