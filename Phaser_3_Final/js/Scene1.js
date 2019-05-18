@@ -104,7 +104,6 @@ class Scene1 extends Phaser.Scene
         this.D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-        
     }
 
     create_dummy(obj, x, y, dir, health)
@@ -131,25 +130,6 @@ class Scene1 extends Phaser.Scene
             body2.damage = body1.force * 3;
         }
     }
-
-    /*
-    body_hit(body1, body2)
-    {
-        if (body2.hit_severity = 0)
-        {
-            body1.hits ++;
-            console.log("is hit");
-            console.log(body1.hits);
-
-            if (body1.force > 2) {body2.hit_severity = 2}
-            else body2.hit_severity = 1;
-
-            body2.dir = body1.dir;
-            //body2.knockback = body1.force;
-            //body2.damage = body1.force * 3;
-        }
-    }
-    */
 
     hitbox_overlap(body1, body2)
     {
