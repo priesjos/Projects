@@ -80,7 +80,7 @@ class Scene1 extends Phaser.Scene
         this.platforms.add(this.ground2);
         this.platforms.add(this.ground3);
 
-        for (var i = 0; i < 5; i++){this.create_dummy("dummy" + i, 100 * i, 240, 20, 1)}
+        for (var i = 0; i < 9; i++){this.create_dummy("dummy" + i, -500 + (100 * i), 240, 20, 1)}
         
         this.entities.add(this.player);
 
