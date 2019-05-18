@@ -295,7 +295,7 @@ class Player extends PhysicsEntity
                    this.playerHurtBox.body.moves = false;
                    this.playerHurtBox.body.onOverlap = true;
                    this.playerHurtBox.dir = this.dir;
-                   this.playerHurtBox.force = 2.2;
+                   this.playerHurtBox.force = 2.3;
 
                    /*
                    this.playerHitZone = new HitZone(this, this.x + (50 * this.dir), this.y, 95, 20);
@@ -303,7 +303,7 @@ class Player extends PhysicsEntity
                    this.playerHitZone.body.moves = false;
                    this.playerHitZone.body.onOverlap = true;
                    this.playerHitZone.dir = this.dir;
-                   this.playerHitZone.force = 2.2;
+                   this.playerHitZone.force = 2.3;
                    */
                    
                    this.scene.playerSlashes.add(this.playerHurtBox);
@@ -406,24 +406,21 @@ class Dummy extends PhysicsEntity
         this.scene.physics.world.enable(this.hitbox, 0);
         this.hitbox.body.moves = false;
         this.hitbox.hit_severity = 0; //0 means not hit, 1 induces knockback, 2 is launching
+        this.hitbox.damaging = true;
         
     }
 
-    /*
+    
     hitbox_check()
     {
-        if (this.hitbox.hit_severity > 0)
-        {
-            if (this.hitbox.hit_severity = 1) {this.state = "HITSTUN"}
-            else if (this.hitbox.hit_severity = 2)
-                {
-                    this.setVelocityY(-650);
-                    this.state = "LAUNCHED";
-                }
-        }
-        
+        if (this.hitbox.hit_severity == 1) {this.state = "HITSTUN"}
+        else if (this.hitbox.hit_severity >= 2)
+            {
+                this.setVelocityY(-650);
+                this.state = "LAUNCHED";
+            }
     }
-    */
+    
 
     update()
     {
@@ -433,50 +430,45 @@ class Dummy extends PhysicsEntity
         switch(this.state)
         {
             case "IDLE":
-                //this.hitbox_check();
-                /*
                 this.hitbox_check();
-                if (this.hitbox.hit_severity > 0)
-                {
-                    if (this.hitbox.hit_severity = 1) {this.state = "HITSTUN"}
-                    else if (this.hitbox.hit_severity = 2)
-                        {
-                            this.setVelocityY(-650);
-                            this.state = "LAUNCHED";
-                        }
-                }
-
-                */
                 this.setVelocityX(0);
                 this.anims.play("idle", true);
                 break;
             case "FALL":
+                this.hitbox_check();
                 this.anims.play("fall", true);
                 if (this.body.touching.down) {this.state = "GROUND"}
                 break;
             case "HITSTUN":
+                this.hitbox.damaging = false;
                 this.anims.play("right", true);
-                //this.hitbox.hit_severity = 0;
-                this.setVelocityX(50 * this.knockback * this.dir);
+                this.hitbox.hit_severity = 0;
+                this.setVelocityX(50 * this.hitbox.knockback * this.hitbox.dir);
                 if (!this.body.touching.down) {this.setVelocityY(-30)}
                 if (this.anims.getProgress() == 1)
                 {
                     if (!this.body.touching.down) {this.state = "FALL"}
                     else this.state = "IDLE"
+                    this.hitbox.damaging = true;
                 }
                 break;
             case "LAUNCHED":
+                this.hitbox.damaging = false;
                 this.anims.play("right", true);
-                //this.hitbox.hit_severity = 0;
+                this.hitbox.hit_severity = 0;
                 if (this.anims.getProgress() == 1)
                 {
                     if (!this.body.touching.down) {this.state = "FALL"}
                     else this.state = "IDLE"
+                    this.hitbox.damaging = true;
                 }
                 break;
             case "ATTACK":
+                this.hitbox_check();
                 this.anims.play("fire", true);
                 break;
+            case "BLOCK":
+                this.anims.play("crouch", true);
             default:
                 this.state = "IDLE";
         }

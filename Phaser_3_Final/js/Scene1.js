@@ -91,7 +91,7 @@ class Scene1 extends Phaser.Scene
         
         //collision
         this.physics.add.collider(this.entities, this.platforms);
-        this.physics.add.overlap(this.playerSlashes, this.enemies /*REPLACE WITH this.enemyHitBoxes SOMEHOW*/, this.body_hit);
+        this.physics.add.overlap(this.playerSlashes,  this.enemyHitBoxes /*this.enemiesREPLACE WITH this.enemyHitBoxes SOMEHOW*/, this.body_hit);
         this.physics.add.overlap(this.player.hitbox, this.enemyHitBoxes, this.hitbox_overlap);
 
         //input detection
@@ -119,20 +119,15 @@ class Scene1 extends Phaser.Scene
 
     body_hit(body1, body2)
     {
-        if (body2.state !== "HITSTUN")
+        if (body2.damaging == true)
         {
             //body1.hits++;
-            console.log(body2 + " is hit");
             //console.log(body1.hits);
-            if (body1.force > 2) 
-            {
-                body2.setVelocityY(-650);
-                body2.state = "LAUNCHED";
-            }
-            else body2.state = "HITSTUN";
+            if (body1.force > 2) {body2.hit_severity = 2}
+            else {body2.hit_severity = 1} 
 
             body2.dir = body1.dir;
-            body2.knockback = body1.force;
+            body2.knockback = body1.force; 
             body2.damage = body1.force * 3;
         }
     }
@@ -158,7 +153,7 @@ class Scene1 extends Phaser.Scene
 
     hitbox_overlap(body1, body2)
     {
-        if (!body1.overlapping && body2.state !== "HITSTUN" && body2.state !== "LAUNCHED")
+        if (!body1.overlapping && body2.damaging == true)
         {
             console.log("getting hit");
             body1.overlapping = true;
