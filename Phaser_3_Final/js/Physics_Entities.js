@@ -474,7 +474,7 @@ class Dummy extends PhysicsEntity
         this.dir = dir; 
         this.health = health;
         
-        this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width, this.height, 0x000000, 0.4, false, this.dir);
+        this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width, this.height + 50, 0x000000, 0.4, false, this.dir);
         this.scene.physics.world.enable(this.hitbox, 0);
         this.hitbox.body.moves = false;
         this.hitbox.hit_severity = 0; //0 means not hit, 1 induces knockback, 2 is launching
@@ -506,17 +506,19 @@ class Dummy extends PhysicsEntity
             case "IDLE":
                 this.hitbox_check();
                 this.setVelocityX(0);
-                this.anims.play("idle", true);
+                this.anims.play("walker_idle", true);
                 this.state = "PATROL";
                 break;
             case "PATROL":
                 this.hitbox_check();
+                this.anims.play("walker_walk", true);
                 this.setVelocityX(45 * this.dir);
+                if (!this.body.touching.down){this.state = "FALL"}
                 break;
             case "FALL":
                 this.hitbox.damaging = false;
                 this.hitbox_check();
-                this.anims.play("fall", true);
+                this.anims.play("walker_fall", true);
                 if (this.body.touching.down) 
                 {
                     this.hitbox.damaging = true;
@@ -526,7 +528,7 @@ class Dummy extends PhysicsEntity
             case "HITSTUN":
                 this.hitbox.damaging = false;
                 this.hitbox.active = false;
-                this.anims.play("right", true);
+                this.anims.play("walker_hitstun", true);
                 this.hitbox.hit_severity = 0;
                 this.setVelocityX(50 * this.hitbox.knockback * this.hitbox.dir);
                 if (!this.body.touching.down) {this.setVelocityY(-30)}
@@ -544,7 +546,7 @@ class Dummy extends PhysicsEntity
             case "LAUNCHED":
                 this.hitbox.damaging = false;
                 this.hitbox.active = false;
-                this.anims.play("right", true);
+                this.anims.play("walker_hitstun", true);
                 this.hitbox.hit_severity = 0;
                 if (this.anims.getProgress() == 1)
                 {

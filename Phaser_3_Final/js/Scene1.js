@@ -4,15 +4,17 @@ class Scene1 extends Phaser.Scene
 
     preload()
     {
-        this.load.image("ground", "assets/concrete.png")
-        this.load.image("sky", "assets/sky.png")
-        this.load.image("star", "assets/star.png")
-        this.load.spritesheet("player_sheet", "assets/prototype_sprites.png", {frameWidth: 24, frameHeight: 48})
+        this.load.image("ground", "assets/concrete.png");
+        this.load.image("sky", "assets/sky.png");
+        this.load.image("star", "assets/star.png");
+        this.load.spritesheet("player_sheet", "assets/prototype_sprites.png", {frameWidth: 24, frameHeight: 48});
+        this.load.spritesheet("walker_sheet", "assets/walker.png", {frameWidth: 62, frameHeight: 94});
     }
 
     create()
     {
-        this.add.image(300, 500, 'sky')
+        this.add.image(300, 500, 'sky');
+
         //player animations
         this.anims.create({
             key: 'left',
@@ -58,6 +60,31 @@ class Scene1 extends Phaser.Scene
             frameRate: 20
         })
 
+        //walker anims
+        this.anims.create({
+            key: 'walker_idle',
+            frames: [{ key: 'walker_sheet', frame: 1}],
+            frameRate: 20
+        })
+
+        this.anims.create({
+            key: 'walker_walk',
+            frames: this.anims.generateFrameNumbers('walker_sheet', {start:2, end: 6}),
+            frameRate: 8
+        })
+
+        this.anims.create({
+            key: 'walker_fall',
+            frames: [{ key: 'walker_sheet', frame: 7}],
+            frameRate: 20
+        })
+
+        this.anims.create({
+            key: 'walker_hitstun',
+            frames: this.anims.generateFrameNumbers('walker_sheet', {start:8, end: 12}),
+            frameRate: 10
+        })
+
         //groups and arrays
         this.playerSlashes = this.add.group();
         this.platforms = this.physics.add.staticGroup();
@@ -91,6 +118,7 @@ class Scene1 extends Phaser.Scene
         
         //collision
         this.physics.add.collider(this.entities, this.platforms);
+        this.physics.add.collider(this.enemyHitBoxes, this.platforms);
         this.physics.add.overlap(this.playerSlashes,  this.enemyHitBoxes, this.body_hit);
         this.physics.add.overlap(this.player.hitbox, this.enemyHitBoxes, this.hitbox_overlap);
 
@@ -108,7 +136,7 @@ class Scene1 extends Phaser.Scene
 
     create_dummy(obj, x, y, dir, health)
     {
-        obj = new Dummy(this, x, y, "player_sheet", null, dir, health, "FALL");
+        obj = new Dummy(this, x, y, "walker", null, dir, health, "FALL");
         this.enemies.add(obj);
         this.entities.add(obj);
         this.dummy_array.push(obj);
