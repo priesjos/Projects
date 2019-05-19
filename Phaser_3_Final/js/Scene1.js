@@ -80,7 +80,7 @@ class Scene1 extends Phaser.Scene
         this.platforms.add(this.ground2);
         this.platforms.add(this.ground3);
 
-        for (var i = 0; i < 9; i++){this.create_dummy("dummy" + i, -500 + (100 * i), 240, 20, 1)}
+        for (var i = 0; i < 9; i++){this.create_dummy("dummy" + i, -500 + (100 * i), 240, 1, 20)}
         
         this.entities.add(this.player);
 
@@ -118,7 +118,7 @@ class Scene1 extends Phaser.Scene
 
     body_hit(body1, body2)
     {
-        if (body2.damaging == true)
+        if (body2.active == true)
         {
             //body1.hits++;
             //console.log(body1.hits);
@@ -151,6 +151,9 @@ class Scene1 extends Phaser.Scene
 
         if (this.UP.isDown) {this.player.setData("UpDown", true)}
         else {this.player.setData("UpDown", false)}
+
+        if (this.DOWN.isDown) {this.player.setData("DownDown", true)}
+        else {this.player.setData("DownDown", false)}
 
         if (this.A.isDown) {this.player.setData("ADown", true)}
         else {this.player.setData("ADown", false)}
