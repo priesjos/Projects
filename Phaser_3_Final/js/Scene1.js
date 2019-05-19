@@ -4,58 +4,87 @@ class Scene1 extends Phaser.Scene
 
     preload()
     {
-        this.load.image("ground", "assets/concrete.png")
-        this.load.image("sky", "assets/sky.png")
-        this.load.image("star", "assets/star.png")
-        this.load.spritesheet("player_sheet", "assets/prototype_sprites.png", {frameWidth: 24, frameHeight: 48})
+        this.load.image("ground", "assets/concrete.png");
+        this.load.image("sky", "assets/sky.png");
+        this.load.image("star", "assets/star.png");
+        this.load.spritesheet("player_sheet", "assets/prototype_sprites.png", {frameWidth: 24, frameHeight: 48});
+        this.load.spritesheet("walker_sheet", "assets/walker.png", {frameWidth: 62, frameHeight: 94});
     }
 
     create()
     {
-        this.add.image(300, 500, 'sky')
+        this.add.image(300, 500, 'sky');
+
         //player animations
         this.anims.create({
-            key: 'move',
+            key: 'player_move',
             frames: this.anims.generateFrameNumbers('player_sheet', { start: 0, end: 4 }),
             frameRate: 10,
             repeat: -1
         })
 
         this.anims.create({
-            key: 'idle',
+            key: 'player_idle',
             frames: [ { key: 'player_sheet', frame: 5 } ],
             frameRate: 20
         })
 
         this.anims.create({
-            key: 'hitstun',
+            key: 'player_hitstun',
             frames: this.anims.generateFrameNumbers('player_sheet', { start: 6, end: 10 }),
             frameRate: 10,
             repeat: -1
         })
 
         this.anims.create({
-            key: 'fire',
+            key: 'player_fire',
             frames: this.anims.generateFrameNumbers('player_sheet', {start: 11, end: 14}),
             frameRate: 20
         })
 
         this.anims.create({
-            key: 'jump',
+            key: 'player_jump',
             frames: this.anims.generateFrameNumbers('player_sheet', {start: 15, end: 17}),
             frameRate: 10,
         })
 
         this.anims.create({
-            key: 'fall',
+            key: 'player_fall',
             frames: this.anims.generateFrameNumbers('player_sheet', {start: 18, end: 20}),
             frameRate: 10
         })
 
         this.anims.create({
-            key: 'crouch',
-            frames: [ { key: 'player_sheet', frame: 20 } ],
+            key: 'player_crouch',
+            frames: [{ key: 'player_sheet', frame: 20 }],
             frameRate: 20
+        })
+
+        //walker anims
+        this.anims.create({
+            key: 'walker_idle',
+            frames: [{ key: 'walker_sheet', frame: 0 }],
+            frameRate: 20
+        })
+
+        this.anims.create({
+            key: 'walker_move',
+            frames: this.anims.generateFrameNumbers('walker_sheet', { start: 1, end: 5}),
+            frameRate: 10,
+            repeat: -1
+        })
+
+        this.anims.create({
+            key: 'walker_fall',
+            frames: [{ key: 'walker_sheet', frame: 6}],
+            frameRate: 10
+        })
+
+        this.anims.create({
+            key: 'walker_hitstun',
+            frames: this.anims.generateFrameNumbers('walker_sheet', { start: 7, end: 11 }),
+            frameRate: 10,
+            repeat: -1
         })
 
         //groups and arrays
@@ -63,7 +92,7 @@ class Scene1 extends Phaser.Scene
         this.platforms = this.physics.add.staticGroup();
         this.entities = this.physics.add.group();
         this.enemies = this.physics.add.group();
-        this.dummy_array = [];
+        this.walker_array = [];
         this.enemyHitBoxes = [];
 
         //formation of player and properties
@@ -80,7 +109,7 @@ class Scene1 extends Phaser.Scene
         this.platforms.add(this.ground2);
         this.platforms.add(this.ground3);
 
-        for (var i = 0; i < 9; i++){this.create_dummy("dummy" + i, -500 + (100 * i), 240, 1, 20)}
+        for (var i = 0; i < 9; i++){this.create_walker("walker" + i, -500 + (100 * i), 240, 1, 20)}
         
         this.entities.add(this.player);
 
@@ -106,12 +135,12 @@ class Scene1 extends Phaser.Scene
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     }
 
-    create_dummy(obj, x, y, dir, health)
+    create_walker(obj, x, y, dir, health)
     {
-        obj = new Dummy(this, x, y, "player_sheet", null, dir, health, "FALL");
+        obj = new Walker(this, x, y, "walker_sheet", null, dir, health, "FALL");
         this.enemies.add(obj);
         this.entities.add(obj);
-        this.dummy_array.push(obj);
+        this.walker_array.push(obj);
         this.enemyHitBoxes.push(obj.hitbox);
         //return obj;
     }
@@ -178,8 +207,8 @@ class Scene1 extends Phaser.Scene
 
         this.player.update();
 
-        //dummy updates
-        for(var i = 0; i < this.dummy_array.length; i++) {this.dummy_array[i].update()}
+        //walker updates
+        for(var i = 0; i < this.walker_array.length; i++) {this.walker_array[i].update()}
 
         this.healthText.x = this.player.x - 35;
         this.healthText.y = this.player.y - 50;
