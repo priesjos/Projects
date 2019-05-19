@@ -55,19 +55,22 @@ class Player extends PhysicsEntity
         this.hitbox.x = this.x;
         this.hitbox.y = this.y;
 
+        if (this.dir == 1){this.flipX = false}
+        else if (this.dir == -1){this.flipX = true}
+
         switch (this.state)
         {
             case "GROUND":    
                 this.player_hit_detection();
                 if (this.getData("RightDown") == true)
                 {
-                    this.anims.play("right", true);
+                    this.anims.play("move", true);
                     this.setVelocityX(this.speed); 
                     this.dir = 1;
                 }
                 else if (this.getData("LeftDown") == true)
                 {
-                    this.anims.play("left", true);
+                    this.anims.play("move", true);
                     this.setVelocityX(-this.speed);
                     this.dir = -1;
                 }
@@ -143,7 +146,7 @@ class Player extends PhysicsEntity
 
                 this.hitbox.height = this.height - 10;
                 this.hitbox.overlapping = false;
-                this.anims.play("right", true);
+                this.anims.play("hitstun", true);
                 this.setVelocityX(225 * -this.dir);
                 if (this.anims.getProgress() == 1) 
                 {
@@ -180,7 +183,6 @@ class Player extends PhysicsEntity
                     this.playerHitZone.dir = this.dir;
                     this.playerHitZone.force = 1.5;
                     */
-                    
                     
                     this.scene.playerSlashes.add(this.playerHurtBox);
                     this.hits += this.playerHurtBox.hits;
@@ -225,13 +227,13 @@ class Player extends PhysicsEntity
             
                 if (this.getData("RightDown") == true)
                 {
-                    this.anims.play("right", true);
+                    this.anims.play("move", true);
                     this.setVelocityX(this.speed * 0.4); 
                     this.dir = 1;
                 }
                 else if (this.getData("LeftDown") == true)
                 {
-                    this.anims.play("left", true);
+                    this.anims.play("move", true);
                     this.setVelocityX(-this.speed * 0.4);
                     this.dir = -1;
                 }
@@ -526,7 +528,7 @@ class Dummy extends PhysicsEntity
             case "HITSTUN":
                 this.hitbox.damaging = false;
                 this.hitbox.active = false;
-                this.anims.play("right", true);
+                this.anims.play("hitstun", true);
                 this.hitbox.hit_severity = 0;
                 this.setVelocityX(50 * this.hitbox.knockback * this.hitbox.dir);
                 if (!this.body.touching.down) {this.setVelocityY(-30)}
@@ -544,7 +546,7 @@ class Dummy extends PhysicsEntity
             case "LAUNCHED":
                 this.hitbox.damaging = false;
                 this.hitbox.active = false;
-                this.anims.play("right", true);
+                this.anims.play("hitstun", true);
                 this.hitbox.hit_severity = 0;
                 if (this.anims.getProgress() == 1)
                 {

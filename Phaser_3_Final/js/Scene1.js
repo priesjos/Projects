@@ -15,7 +15,7 @@ class Scene1 extends Phaser.Scene
         this.add.image(300, 500, 'sky')
         //player animations
         this.anims.create({
-            key: 'left',
+            key: 'move',
             frames: this.anims.generateFrameNumbers('player_sheet', { start: 0, end: 4 }),
             frameRate: 10,
             repeat: -1
@@ -28,7 +28,7 @@ class Scene1 extends Phaser.Scene
         })
 
         this.anims.create({
-            key: 'right',
+            key: 'hitstun',
             frames: this.anims.generateFrameNumbers('player_sheet', { start: 6, end: 10 }),
             frameRate: 10,
             repeat: -1
