@@ -476,7 +476,8 @@ class Walker extends PhysicsEntity
         this.dir = dir; 
         this.health = health;
         
-        this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width - 27, this.height - 13, 0x000000, 0.4, false, this.dir);
+        //this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width - 35, this.height - 13, 0x000000, 0.4, false, this.dir);
+        this.hitbox = new HitZone(this.scene, this.x, this.y, this.width - 35, this.height - 13, this.dir);
         this.scene.physics.world.enable(this.hitbox, 0);
         this.hitbox.body.moves = false;
         this.hitbox.hit_severity = 0; //0 means not hit, 1 induces knockback, 2 is launching
@@ -495,12 +496,18 @@ class Walker extends PhysicsEntity
             }
         this.setVelocityX(0);
     }
-    
+    //this.timedEvent = this.scene.time.delayedCall(2300, function(){this.dir *= -1}, [], this.scene, loop: true)
+    //this.time.addEvent({ delay: 500, callback: onEvent, callbackScope: this, loop: true });
 
     update()
     {
         this.hitbox.x = this.x;
         this.hitbox.y = this.y;
+
+        if (this.dir == 1){this.flipX = false}
+        else if (this.dir == -1){this.flipX = true}
+
+        this.dir_switcher = -1
 
         switch(this.state)
         {
@@ -513,7 +520,10 @@ class Walker extends PhysicsEntity
             case "PATROL":
                 this.hitbox_check();
                 this.anims.play("walker_move", true);
-                this.setVelocityX(45 * this.dir);
+                //this.scene.time.addEvent({delay: 2300, callback: function(){this.dir = this.dir_switcher;this.dir_switcher *= -1}, callbackScope: this, loop: true});
+                
+                this.setVelocityX(75 * this.dir);
+                if (!this.body.touching.down){this.state = "FALL"}
                 break;
             case "FALL":
                 this.hitbox.damaging = false;

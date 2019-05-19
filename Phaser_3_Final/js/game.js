@@ -6,7 +6,6 @@ var config = {
         width: 1000,
         height: 500
     },
-    backgroundColor: "black",
     physics: {
         default: "arcade",
         arcade: {
