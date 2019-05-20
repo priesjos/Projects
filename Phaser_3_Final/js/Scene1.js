@@ -13,11 +13,7 @@ class Scene1 extends Phaser.Scene
 
     create()
     {
-<<<<<<< HEAD
-        this.add.image(300, 500, 'sky').setScale(3, 4);
-=======
         this.add.image(300, 500, 'sky').setScale(5, 3);
->>>>>>> cdb25042f751d966e168dc4e8ebb79d055d7d5b8
 
         //player animations
         this.anims.create({
@@ -105,13 +101,8 @@ class Scene1 extends Phaser.Scene
         //platforms
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
         this.ground2 = new Concrete(this, 200, 600, 700, 40, "ground");
-<<<<<<< HEAD
-        this.ground3 = new Concrete(this, -500, 400, 800, 40, "ground");
-        for (var i = -8; i < 7; i++){this.platforms.create((i * 200) + 150, 820 + (i * 40), "ground")}
-=======
         this.ground3 = new Concrete(this, -450, 400, 800, 40, "ground");
         for (var i = -8; i < 7; i++){this.platforms.create((i * 200) + 150, 860 + (i * 40), "ground")}
->>>>>>> cdb25042f751d966e168dc4e8ebb79d055d7d5b8
         
         //group addings
         this.platforms.add(this.ground);
