@@ -125,6 +125,9 @@ class Player extends PhysicsEntity
                 this.hitbox.height = 20;
                 this.hitbox.y += 20;
                 this.anims.play("player_crouch", true);
+
+                if (this.getData("AJustDown") == true) {this.state = "CROUCH_ATTACK"}
+
                 if (this.getData("DownDown") == false)
                 {
                     this.state = "GROUND";
@@ -210,6 +213,60 @@ class Player extends PhysicsEntity
                 }
                 break;
 
+            case "CROUCH_ATTACK":
+                this.player_hit_detection();
+                this.scene.playerSlashes.clear(true, true);
+
+                this.anims.play("player_fire", true);
+                
+                //attack hurt zone
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25)
+                {
+                    //rectangle for debug
+                    this.playerHurtBox = new HurtBox(this.scene, this.x + (50 * this.dir), this.y, 95, 20, 0xffffff, 0.7);
+                    this.scene.physics.world.enable(this.playerHurtBox, 0);
+                    this.playerHurtBox.body.moves = false;
+                    this.playerHurtBox.body.onOverlap = true;
+                    this.playerHurtBox.hits = 0;
+                    this.playerHurtBox.dir = this.dir;
+                    this.playerHurtBox.force = 1.5;
+                    /*
+                    this.playerHitZone = new HitZone(this, this.x + (50 * this.dir), this.y, 95, 20);
+                    this.scene.physics.world.enable(this.playerHitZone, 0);
+                    this.playerHitZone.body.moves = false;
+                    this.playerHitZone.body.onOverlap = true;
+                    this.playerHitZone.dir = this.dir;
+                    this.playerHitZone.force = 1.5;
+                    */
+                    
+                    this.scene.playerSlashes.add(this.playerHurtBox);
+                    this.hits += this.playerHurtBox.hits;
+                }
+
+                //animation cancel inputs
+                if (this.getData ("UpJustDown") == true)
+                {
+                    this.scene.playerSlashes.clear(true, true);
+                    this.state = "JUMP";
+                }
+
+                if (this.getData("SpaceJustDown") == true)
+                {
+                    this.scene.playerSlashes.clear(true, true);
+                    this.state = "DASH";
+                }
+                
+                if (this.anims.getProgress() == 1) 
+                {
+                    this.scene.playerSlashes.clear(true, true);
+                    if (this.getData("DownDown") == false) 
+                    {
+                        this.hitbox.height = this.height - 10;
+                        this.state = "GROUND";
+                    }
+                    else this.state = "CROUCH";
+                }
+                break;
            
             case "CHAIN_HOLD":
                 this.player_hit_detection();
@@ -459,6 +516,7 @@ class Walker extends PhysicsEntity
         this.state = state;
         this.dir = dir; 
         this.health = health;
+        this.aggro = false;
         
         //this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width - 35, this.height - 13, 0x000000, 0.4, false, this.dir);
         this.hitbox = new HitZone(this.scene, this.x, this.y, this.width - 35, this.height - 13, this.dir);
@@ -472,10 +530,15 @@ class Walker extends PhysicsEntity
     
     hitbox_check()
     {
-        if (this.hitbox.hit_severity == 1) {this.state = "HITSTUN"}
+        if (this.hitbox.hit_severity == 1) 
+        {
+            this.health -= this.hitbox.damage;
+            this.state = "HITSTUN";
+        }
         else if (this.hitbox.hit_severity >= 2)
             {
                 this.setVelocityY(-650);
+                this.health -= this.hitbox.damage;
                 this.state = "LAUNCHED";
             }
     }
@@ -498,7 +561,11 @@ class Walker extends PhysicsEntity
                 this.hitbox_check();
                 this.setVelocityX(0);
                 this.anims.play("walker_idle", true);
-                if (Math.abs(this.x - this.scene.player.x) <= 300){this.state = "STALK"}
+                if (Math.abs(this.x - this.scene.player.x) <= 300 && Math.abs(this.y - this.scene.player.y) <= 70)
+                {
+                    this.state = "STALK";
+                    this.aggro = true;
+                }
                 break;
 
             case "STALK":
@@ -516,6 +583,7 @@ class Walker extends PhysicsEntity
             case "SHESBELOWYOUIDIOT":
                 this.anims.play("walker_move", true);
                 this.setVelocityX(75 * this.dir);
+
                 if (this.scene.player.y <= this.y * 1.1){this.state = "STALK"}
                 if (!this.body.touching.down){this.state = "FALL"}
                 this.hitbox_check();
@@ -528,7 +596,8 @@ class Walker extends PhysicsEntity
                 if (this.body.touching.down) 
                 {
                     this.hitbox.damaging = true;
-                    this.state = "IDLE";
+                    if (this.aggro) {this.state = "STALK"} 
+                    else this.state = "IDLE";
                 }
                 break;
 
@@ -539,13 +608,20 @@ class Walker extends PhysicsEntity
                 this.hitbox.hit_severity = 0;
                 this.setVelocityX(50 * this.hitbox.knockback * this.hitbox.dir);
                 if (!this.body.touching.down) {this.setVelocityY(-30)}
+
+                if (this.health <= 0)
+                {
+                    console.log("YOU SHOULD BE DEAD");
+                    this.state = "DEAD";
+                }
+
                 if (this.anims.getProgress() == 1)
                 {
                     if (!this.body.touching.down){this.state = "FALL"}
                     else
                     {
                         this.hitbox.damaging = true;
-                        this.state = "IDLE";
+                        this.state = "STALK";
                     }
                     this.hitbox.active = true;
                 }
@@ -556,13 +632,21 @@ class Walker extends PhysicsEntity
                 this.hitbox.active = false;
                 this.anims.play("walker_hitstun", true);
                 this.hitbox.hit_severity = 0;
+                this.setVelocityX(20 * this.hitbox.knockback * this.hitbox.dir);
+
+                if (this.health <= 0)
+                {
+                    console.log("YOU SHOULD BE DEAD");
+                    this.state = "DEAD";
+                }
+
                 if (this.anims.getProgress() == 1)
                 {
                     if (!this.body.touching.down){this.state = "FALL"}
                     else
                     {
                         this.hitbox.damaging = true;
-                        this.state = "IDLE"
+                        this.state = "STALK";
                     }
                     this.hitbox.active = true;
                 }
@@ -575,6 +659,10 @@ class Walker extends PhysicsEntity
 
             case "BLOCK":
                 //this.anims.play("crouch", true);
+                break;
+
+            case "DEAD":
+                this.disableBody(true, true);
                 break;
 
             default:
