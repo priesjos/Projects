@@ -133,7 +133,7 @@ class Player extends PhysicsEntity
                 this.player_hit_detection();
                 this.body.velocity.x = 0;
                 this.hitbox.height = 20;
-                this.hitbox.y += 20;
+                this.hitbox.y = this.y + 20;
                 this.anims.play("player_crouch", true);
 
                 if (this.getData("AJustDown") == true) {this.state = "CROUCH_ATTACK"}
@@ -147,7 +147,6 @@ class Player extends PhysicsEntity
                 this.player_hit_detection();
                 this.scene.playerSlashes.clear(true, true);
                 this.hitbox.y = this.y + 20;
-
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
@@ -170,7 +169,6 @@ class Player extends PhysicsEntity
                 this.player_hit_detection();
                 this.scene.playerSlashes.clear(true, true);
                 this.hitbox.y = this.y + 20;
-
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
@@ -193,7 +191,6 @@ class Player extends PhysicsEntity
                 this.player_hit_detection();
                 this.scene.playerSlashes.clear(true, true);
                 this.hitbox.y = this.y + 20;
-
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
@@ -339,7 +336,7 @@ class Player extends PhysicsEntity
             case "DASH":
                 this.player_hit_detection();
                 //this.hitbox.overlapping = false;  //might enable this for some kind of upgraded dash
-                this.setVelocityX(this.speed * 2.7 * this.dir)
+                this.setVelocityX(this.speed * 2.7 * this.dir);
                 this.anims.play("player_fire", true);
                 if (this.body.velocity.y > 0) {this.state = "FALL"}
                 if (this.anims.getProgress() == 1) {this.state = "GROUND"}
@@ -347,7 +344,7 @@ class Player extends PhysicsEntity
 
             case "BACKSTEP":
                 this.player_hit_detection();
-                this.setVelocityX(this.speed * 1.7 * -this.dir)
+                this.setVelocityX(this.speed * 1.7 * -this.dir);
                 this.anims.play("player_fall", true);
                 if (this.body.velocity.y > 0) {this.state = "FALL"}
                 if (this.anims.getProgress() == 1) {this.state = "GROUND"}
@@ -365,7 +362,7 @@ class Player extends PhysicsEntity
 
                 if (this.anims.getProgress() == 1) 
                 {
-                    if (this.body.velocity.y < 0){this.state = "FALL"}
+                    if (this.body.velocity.y < 0) {this.state = "FALL"}
                     this.state = "GROUND";
                 }
                 
@@ -501,16 +498,7 @@ class Walker extends PhysicsEntity
                     this.hitbox.active = true;
                 }
                 break;
-
-            case "ATTACK":
-                this.hitbox_check();
-                //this.anims.play("fire", true);
-                break;
-
-            case "BLOCK":
-                //this.anims.play("crouch", true);
-                break;
-
+                
             case "DEAD":
                 this.disableBody(true, true);
                 break;
