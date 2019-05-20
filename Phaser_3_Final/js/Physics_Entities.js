@@ -515,16 +515,29 @@ class Walker extends PhysicsEntity
                 this.hitbox_check();
                 this.setVelocityX(0);
                 this.anims.play("walker_idle", true);
-                this.state = "PATROL";
+                if (Math.abs(this.x - this.scene.player.x) <= 400){this.state = "STALK"}
                 break;
-            case "PATROL":
+
+            case "STALK":
                 this.hitbox_check();
                 this.anims.play("walker_move", true);
-                //this.scene.time.addEvent({delay: 2300, callback: function(){this.dir = this.dir_switcher;this.dir_switcher *= -1}, callbackScope: this, loop: true});
-                
+
+                if (this.x - this.scene.player.x < 0) {this.dir = 1}
+                else this.dir = -1;
                 this.setVelocityX(75 * this.dir);
+
+                if (this.body.touching.down && this.scene.player.y > this.y &&  Math.abs(this.x -this.scene.player.x) <= 100) {this.state = "SHESBELOWYOUIDIOT"}
                 if (!this.body.touching.down){this.state = "FALL"}
                 break;
+
+            case "SHESBELOWYOUIDIOT":
+                this.hitbox_check();
+                this.anims.play("walker_move", true);
+                this.setVelocityX(75 * this.dir);
+                if (this.scene.player.y <= this.y){this.state = "STALK"}
+                if (!this.body.touching.down){this.state = "FALL"}
+                break;
+
             case "FALL":
                 this.hitbox.damaging = false;
                 this.hitbox_check();
@@ -535,6 +548,7 @@ class Walker extends PhysicsEntity
                     this.state = "IDLE"
                 }
                 break;
+
             case "HITSTUN":
                 this.hitbox.damaging = false;
                 this.hitbox.active = false;
@@ -548,11 +562,12 @@ class Walker extends PhysicsEntity
                     else
                     {
                         this.hitbox.damaging = true;
-                        this.state = "IDLE"
+                        this.state = "IDLE";
                     }
                     this.hitbox.active = true;
                 }
                 break;
+
             case "LAUNCHED":
                 this.hitbox.damaging = false;
                 this.hitbox.active = false;
@@ -569,13 +584,16 @@ class Walker extends PhysicsEntity
                     this.hitbox.active = true;
                 }
                 break;
+
             case "ATTACK":
                 this.hitbox_check();
                 //this.anims.play("fire", true);
                 break;
+
             case "BLOCK":
                 //this.anims.play("crouch", true);
                 break;
+
             default:
                 this.state = "IDLE";
         }
