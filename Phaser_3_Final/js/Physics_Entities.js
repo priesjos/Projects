@@ -45,6 +45,20 @@ class Player extends PhysicsEntity
         }
     }
 
+    generate_hitzone(width, height, force)
+    {
+        this.playerHurtBox = new HurtBox(this.scene, this.x + (50 * this.dir), this.y, width, height, 0xffffff, 0.7);
+        this.scene.physics.world.enable(this.playerHurtBox, 0);
+        this.playerHurtBox.body.moves = false;
+        this.playerHurtBox.body.onOverlap = true;
+        this.playerHurtBox.hits = 0;
+        this.playerHurtBox.dir = this.dir;
+        this.playerHurtBox.force = force;
+        
+        this.scene.playerSlashes.add(this.playerHurtBox);
+        this.hits += this.playerHurtBox.hits;
+    }
+
     update()
     {
         this.setVelocityX(0);
@@ -78,11 +92,7 @@ class Player extends PhysicsEntity
                 if (this.getData("SJustDown") == true) {this.state = "ATTACK_HARD"}
                 if (this.getData("DJustDown") == true) {this.state = "ATTACK_LAUNCH"} 
 
-                if (this.getData("UpJustDown") == true) 
-                {
-                    this.state = "JUMP";
-                    this.setVelocityY(-720);
-                }
+                if (this.getData("UpJustDown") == true) {this.setVelocityY(-720); this.state = "JUMP"}
 
                 if (this.body.velocity.y > 0) {this.state = "FALL"}
                 
@@ -129,11 +139,7 @@ class Player extends PhysicsEntity
                 if (this.getData("SJustDown") == true) {this.state = "CROUCH_MED_ATTACK"}
                 if (this.getData("DJustDown") == true) {this.state = "CROUCH_HARD_ATTACK"}
 
-                if (this.getData("DownDown") == false)
-                {
-                    this.state = "GROUND";
-                    this.hitbox.height = this.height - 10;
-                }
+                if (this.scene.DOWN.isUp) {this.state = "GROUND"; this.hitbox.height = this.height - 10}
                 break;
 
             case "CROUCH_ATTACK":
@@ -144,42 +150,17 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25)
-                {
-                    //rectangle for debug
-                    this.playerHurtBox = new HurtBox(this.scene, this.x + (50 * this.dir), this.y, 95, 20, 0xffffff, 0.7);
-                    this.scene.physics.world.enable(this.playerHurtBox, 0);
-                    this.playerHurtBox.body.moves = false;
-                    this.playerHurtBox.body.onOverlap = true;
-                    this.playerHurtBox.hits = 0;
-                    this.playerHurtBox.dir = this.dir;
-                    this.playerHurtBox.force = 1.3;
-                    
-                    this.scene.playerSlashes.add(this.playerHurtBox);
-                    this.hits += this.playerHurtBox.hits;
-                }
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25) {this.generate_hitzone(95, 20, 1.3)}
 
                 //animation cancel inputs
-                if (this.getData ("UpJustDown") == true)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "JUMP";
-                }
-
-                if (this.getData("SpaceJustDown") == true)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "DASH";
-                }
+                if (this.getData("UpJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
+                if (this.getData("SpaceJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "DASH"}
                 
                 if (this.anims.getProgress() == 1) 
                 {
                     this.scene.playerSlashes.clear(true, true);
-                    if (this.getData("DownDown") == false) 
-                    {
-                        this.hitbox.height = this.height - 10;
-                        this.state = "GROUND";
-                    }
+
+                    if (this.scene.DOWN.isUp) {this.hitbox.height = this.height - 10; this.state = "GROUND"}
                     else this.state = "CROUCH";
                 }
                 break;
@@ -192,42 +173,17 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.45)
-                {
-                    //rectangle for debug
-                    this.playerHurtBox = new HurtBox(this.scene, this.x + (50 * this.dir), this.y, 90, 28, 0xffffff, 0.7);
-                    this.scene.physics.world.enable(this.playerHurtBox, 0);
-                    this.playerHurtBox.body.moves = false;
-                    this.playerHurtBox.body.onOverlap = true;
-                    this.playerHurtBox.hits = 0;
-                    this.playerHurtBox.dir = this.dir;
-                    this.playerHurtBox.force = 1.7;
-                    
-                    this.scene.playerSlashes.add(this.playerHurtBox);
-                    this.hits += this.playerHurtBox.hits;
-                }
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.45) {this.generate_hitzone(90, 28, 1.7)}
 
                 //animation cancel inputs
-                if (this.getData ("UpJustDown") == true)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "JUMP";
-                }
-
-                if (this.getData("SpaceJustDown") == true)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "DASH";
-                }
+                if (this.getData("UpJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
+                if (this.getData("SpaceJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "DASH"}
                 
                 if (this.anims.getProgress() == 1) 
                 {
                     this.scene.playerSlashes.clear(true, true);
-                    if (this.getData("DownDown") == false) 
-                    {
-                        this.hitbox.height = this.height - 10;
-                        this.state = "GROUND";
-                    }
+                    
+                    if (this.scene.DOWN.isUp) {this.hitbox.height = this.height - 10; this.state = "GROUND"}
                     else this.state = "CROUCH";
                 }
                 break;
@@ -240,42 +196,17 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.65)
-                {
-                    //rectangle for debug
-                    this.playerHurtBox = new HurtBox(this.scene, this.x + (50 * this.dir), this.y, 80, 35, 0xffffff, 0.7);
-                    this.scene.physics.world.enable(this.playerHurtBox, 0);
-                    this.playerHurtBox.body.moves = false;
-                    this.playerHurtBox.body.onOverlap = true;
-                    this.playerHurtBox.hits = 0;
-                    this.playerHurtBox.dir = this.dir;
-                    this.playerHurtBox.force = 2.0;
-                    
-                    this.scene.playerSlashes.add(this.playerHurtBox);
-                    this.hits += this.playerHurtBox.hits;
-                }
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.65) {this.generate_hitzone(80, 35, 2.0)}
 
                 //animation cancel inputs
-                if (this.getData ("UpJustDown") == true)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "JUMP";
-                }
-
-                if (this.getData("SpaceJustDown") == true)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "DASH";
-                }
+                if (this.getData("UpJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
+                if (this.getData("SpaceJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "DASH"}
                 
                 if (this.anims.getProgress() == 1) 
                 {
                     this.scene.playerSlashes.clear(true, true);
-                    if (this.getData("DownDown") == false) 
-                    {
-                        this.hitbox.height = this.height - 10;
-                        this.state = "GROUND";
-                    }
+                    
+                    if (this.scene.DOWN.isUp) {this.hitbox.height = this.height - 10; this.state = "GROUND"}
                     else this.state = "CROUCH";
                 }
                 break;
@@ -284,13 +215,13 @@ class Player extends PhysicsEntity
                 this.player_hit_detection();
                 this.scene.playerSlashes.clear(true, true);
             
-                if (this.getData("RightDown") == true)
+                if (this.scene.RIGHT.isDown)
                 {
                     this.anims.play("player_move", true);
                     this.setVelocityX(this.speed * 0.4); 
                     this.dir = 1;
                 }
-                else if (this.getData("LeftDown") == true)
+                else if (this.scene.LEFT.isDown)
                 {
                     this.anims.play("player_move", true);
                     this.setVelocityX(-this.speed * 0.4);
@@ -299,30 +230,10 @@ class Player extends PhysicsEntity
                 else this.anims.play("player_fire", true);
                
                 //attack hurt zone  
-                if (this.scene.playerSlashes.getLength() < 1)
-                {
-                    //rectangle for debug
-                    this.playerHurtBox = new HurtBox(this.scene, this.x + (50 * this.dir), this.y, 95, 20, 0xffffff, 0.7);
-                    this.scene.physics.world.enable(this.playerHurtBox, 0);
-                    this.playerHurtBox.body.moves = false;
-                    this.playerHurtBox.body.onOverlap = true;
-                    this.playerHurtBox.dir = this.dir;
-                    this.playerHurtBox.force = 1.1;
-                    
-                    this.scene.playerSlashes.add(this.playerHurtBox);
-                }
+                if (this.scene.playerSlashes.getLength() < 1) {this.generate_hitzone(95, 20, 1.1)}
 
-                if (this.scene.A.isUp || this.scene.SHIFT.isUp)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "GROUND";
-                }
-
-                if (this.body.velocity.y > 0) 
-                {
-                    this.scene.playerSlashes.clear(true, true); 
-                    this.state = "FALL";
-                }
+                if (this.scene.A.isUp || this.scene.SHIFT.isUp) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
+                if (this.body.velocity.y > 0) {this.scene.playerSlashes.clear(true, true); this.state = "FALL"}
                 break;
             
             case "ATTACK":
@@ -333,45 +244,12 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25)
-                {
-                    //rectangle for debug
-                    this.playerHurtBox = new HurtBox(this.scene, this.x + (50 * this.dir), this.y, 95, 20, 0xffffff, 0.7);
-                    this.scene.physics.world.enable(this.playerHurtBox, 0);
-                    this.playerHurtBox.body.moves = false;
-                    this.playerHurtBox.body.onOverlap = true;
-                    this.playerHurtBox.hits = 0;
-                    this.playerHurtBox.dir = this.dir;
-                    this.playerHurtBox.force = 1.5;
-                    
-                    this.scene.playerSlashes.add(this.playerHurtBox);
-                    this.hits += this.playerHurtBox.hits;
-                }
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25) {this.generate_hitzone(95, 20, 1.5)}
 
-                //animation cancel inputs
-                if (this.getData ("UpJustDown") == true)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "JUMP";
-                }
-
-                if (this.getData("DownDown") == true) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "CROUCH";
-                }
-
-                if (this.getData("SpaceJustDown") == true)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "DASH";
-                }
-                
-                if (this.anims.getProgress() == 1) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "GROUND";
-                }
+                //animation cancels
+                if (this.getData ("UpJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
+                if (this.getData("SpaceJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "DASH"}
+                if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
                 break;
 
             case "ATTACK_HARD":
@@ -382,42 +260,12 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.45)
-                {
-                    //rectangle for debug
-                    this.playerHurtBox = new HurtBox(this.scene, this.x + (50 * this.dir), this.y, 75, 40, 0xffffff, 0.7);
-                    this.scene.physics.world.enable(this.playerHurtBox, 0);
-                    this.playerHurtBox.body.moves = false;
-                    this.playerHurtBox.body.onOverlap = true;
-                    this.playerHurtBox.dir = this.dir;
-                    this.playerHurtBox.force = 1.8;
-                    
-                    this.scene.playerSlashes.add(this.playerHurtBox);
-                }
-
-                if (this.getData ("UpJustDown") == true)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "JUMP";
-                }
-
-                if (this.getData("DownDown") == true) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "CROUCH";
-                }
-
-                if (this.getData("SpaceJustDown") == true)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "DASH";
-                }
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.45) {this.generate_hitzone(75, 35, 1.8)}
                 
-                if (this.anims.getProgress() == 1) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "GROUND";
-                }
+                //animation cancels
+                if (this.getData ("UpJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
+                if (this.getData("SpaceJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "DASH"}
+                if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
                 break;
            
             case "ATTACK_LAUNCH":
@@ -428,154 +276,63 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.65)
-                {
-                    //rectangle for debug
-                    this.playerHurtBox = new HurtBox(this.scene, this.x + (50 * this.dir), this.y, 75, 40, 0xffffff, 0.7);
-                    this.scene.physics.world.enable(this.playerHurtBox, 0);
-                    this.playerHurtBox.body.moves = false;
-                    this.playerHurtBox.body.onOverlap = true;
-                    this.playerHurtBox.dir = this.dir;
-                    this.playerHurtBox.force = 2.2;
-                    
-                    this.scene.playerSlashes.add(this.playerHurtBox);
-                }
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.65) {this.generate_hitzone(75, 40, 2.2)}
 
-                if (this.getData("RightDown") == true || this.getData("LeftDown") == true) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "GROUND";
-                }
-
-                if (this.getData ("UpJustDown") == true)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "JUMP";
-                }
-
-                if (this.getData("SpaceJustDown") == true)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "DASH";
-                }
-                
-                if (this.anims.getProgress() == 1) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "JUMP";
-                }
-
+                //animation cancels
+                if (this.getData ("UpJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
+                if (this.getData("SpaceJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "DASH"}
+                if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
                 break;
            
             case "AERIAL":
                 this.player_hit_detection();
                 this.scene.playerSlashes.clear(true, true);
 
-                if (this.getData("RightDown") == true) {this.setVelocityX(this.speed); this.dir = 1}
-                else if (this.getData("LeftDown") == true) {this.setVelocityX(-this.speed); this.dir = -1}
-                if (this.getData("UpDown") == false) {this.body.velocity.y *= 0.85} //air swings leave player airborne for a while
+                if (this.scene.RIGHT.isDown) {this.setVelocityX(this.speed); this.dir = 1}
+                else if (this.scene.LEFT.isDown) {this.setVelocityX(-this.speed); this.dir = -1}
+                if (this.scene.UP.isUp) {this.body.velocity.y *= 0.75} //air swings leave player airborne for a while
 
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25)
-                {
-                    //rectangle for debug
-                    this.playerHurtBox = new HurtBox(this.scene, this.x + (50 * this.dir), this.y, 95, 25, 0xffffff, 0.7);
-                    this.scene.physics.world.enable(this.playerHurtBox, 0);
-                    this.playerHurtBox.body.moves = false;
-                    this.playerHurtBox.body.onOverlap = true;
-                    this.playerHurtBox.dir = this.dir;
-                    this.playerHurtBox.force = 1.3;
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25) {this.generate_hitzone(95, 25, 1.3)}
 
-                    this.scene.playerSlashes.add(this.playerHurtBox);
-                }
-
-                if (this.anims.getProgress() == 1) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "JUMP";
-                }
-
-                if (this.body.touching.down)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "GROUND";
-                }
+                if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
+                if (this.body.touching.down) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
                 break;
             
             case "AERIAL_MED":
                 this.player_hit_detection();
                 this.scene.playerSlashes.clear(true, true);
 
-                if (this.getData("RightDown") == true) {this.setVelocityX(this.speed); this.dir = 1}
-                else if (this.getData("LeftDown") == true) {this.setVelocityX(-this.speed); this.dir = -1}
-                if (this.getData("UpDown") == false) {this.body.velocity.y *= 0.85} //air swings leave player airborne for a while
+                if (this.scene.RIGHT.isDown) {this.setVelocityX(this.speed); this.dir = 1}
+                else if (this.scene.LEFT.isDown) {this.setVelocityX(-this.speed); this.dir = -1}
+                if (this.scene.UP.isUp) {this.body.velocity.y *= 0.85} //air swings leave player airborne for a while
 
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.40)
-                {
-                    //rectangle for debug
-                    this.playerHurtBox = new HurtBox(this.scene, this.x + (50 * this.dir), this.y, 90, 33, 0xffffff, 0.7);
-                    this.scene.physics.world.enable(this.playerHurtBox, 0);
-                    this.playerHurtBox.body.moves = false;
-                    this.playerHurtBox.body.onOverlap = true;
-                    this.playerHurtBox.dir = this.dir;
-                    this.playerHurtBox.force = 1.7;
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.40) {this.generate_hitzone(90, 33, 1.7)}
 
-                    this.scene.playerSlashes.add(this.playerHurtBox);
-                }
-
-                if (this.anims.getProgress() == 1) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "JUMP";
-                }
-
-                if (this.body.touching.down)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "GROUND";
-                }
+                if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
+                if (this.body.touching.down) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
                 break;
             
             case "AERIAL_HARD":
                 this.player_hit_detection();
                 this.scene.playerSlashes.clear(true, true);
 
-                if (this.getData("RightDown") == true) {this.setVelocityX(this.speed); this.dir = 1}
-                else if (this.getData("LeftDown") == true) {this.setVelocityX(-this.speed); this.dir = -1}
-                if (this.getData("UpDown") == false) {this.body.velocity.y *= 0.85} //air swings leave player airborne for a while
+                if (this.scene.RIGHT.isDown) {this.setVelocityX(this.speed); this.dir = 1}
+                else if (this.scene.LEFT.isDown) {this.setVelocityX(-this.speed); this.dir = -1}
+                if (this.scene.UP.isUp) {this.body.velocity.y *= 0.95} //air swings leave player airborne for a while
 
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.55)
-                {
-                    //rectangle for debug
-                    this.playerHurtBox = new HurtBox(this.scene, this.x + (50 * this.dir), this.y, 80, 43, 0xffffff, 0.7);
-                    this.scene.physics.world.enable(this.playerHurtBox, 0);
-                    this.playerHurtBox.body.moves = false;
-                    this.playerHurtBox.body.onOverlap = true;
-                    this.playerHurtBox.dir = this.dir;
-                    this.playerHurtBox.force = 2.0;
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.55) {this.generate_hitzone(80, 47, 2.0)}
 
-                    this.scene.playerSlashes.add(this.playerHurtBox);
-                }
-
-                if (this.anims.getProgress() == 1) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "JUMP";
-                }
-
-                if (this.body.touching.down)
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "GROUND";
-                }
+                if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
+                if (this.body.touching.down) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
                 break;
 
             case "DASH":
@@ -597,19 +354,16 @@ class Player extends PhysicsEntity
 
             case "HITSTUN":
                 this.scene.playerSlashes.clear(true, true);
-                if (this.health <= 0)
-                {
-                    console.log("YOU SHOULD BE DEAD");
-                    this.state = "DEAD";
-                }
+
+                if (this.health <= 0) {this.state = "DEAD"}
 
                 this.hitbox.height = this.height - 10;
                 this.hitbox.overlapping = false;
                 this.anims.play("player_hitstun", true);
                 this.setVelocityX(225 * -this.dir);
+
                 if (this.anims.getProgress() == 1) 
                 {
-                    console.log(this.health);
                     if (this.body.velocity.y < 0){this.state = "FALL"}
                     this.state = "GROUND";
                 }
@@ -649,17 +403,13 @@ class Walker extends PhysicsEntity
     
     hitbox_check()
     {
-        if (this.hitbox.hit_severity == 1) 
-        {
-            this.health -= this.hitbox.damage;
-            this.state = "HITSTUN";
-        }
+        if (this.hitbox.hit_severity == 1) {this.health -= this.hitbox.damage; this.state = "HITSTUN"}
         else if (this.hitbox.hit_severity >= 2)
-            {
-                this.setVelocityY(-650);
-                this.health -= this.hitbox.damage;
-                this.state = "LAUNCHED";
-            }
+        {
+            this.setVelocityY(-650);
+            this.health -= this.hitbox.damage;
+            this.state = "LAUNCHED";
+        }
     }
     //this.timedEvent = this.scene.time.delayedCall(2300, function(){this.dir *= -1}, [], this.scene, loop: true)
     //this.time.addEvent({ delay: 500, callback: onEvent, callbackScope: this, loop: true });
@@ -672,7 +422,7 @@ class Walker extends PhysicsEntity
         if (this.dir == 1){this.flipX = false}
         else if (this.dir == -1){this.flipX = true}
 
-        this.dir_switcher = -1
+        this.dir_switcher = -1;
 
         switch(this.state)
         {
@@ -680,11 +430,7 @@ class Walker extends PhysicsEntity
                 this.hitbox_check();
                 this.setVelocityX(0);
                 this.anims.play("walker_idle", true);
-                if (Math.abs(this.x - this.scene.player.x) <= 300 && Math.abs(this.y - this.scene.player.y) <= 70)
-                {
-                    this.state = "STALK";
-                    this.aggro = true;
-                }
+                if (Math.abs(this.x - this.scene.player.x) <= 300 && Math.abs(this.y - this.scene.player.y) <= 70) {this.aggro = true; this.state = "STALK"}
                 break;
 
             case "STALK":
@@ -695,7 +441,7 @@ class Walker extends PhysicsEntity
                 this.setVelocityX(75 * this.dir);
 
                 if (this.body.touching.down && this.scene.player.y > this.y &&  Math.abs(this.x -this.scene.player.x) <= 100) {this.state = "SHESBELOWYOUIDIOT"}
-                if (!this.body.touching.down){this.state = "FALL"}
+                if (!this.body.touching.down) {this.state = "FALL"}
                 this.hitbox_check();
                 break;
 
@@ -703,8 +449,8 @@ class Walker extends PhysicsEntity
                 this.anims.play("walker_move", true);
                 this.setVelocityX(75 * this.dir);
 
-                if (this.scene.player.y <= this.y * 1.1){this.state = "STALK"}
-                if (!this.body.touching.down){this.state = "FALL"}
+                if (this.scene.player.y <= this.y * 1.1) {this.state = "STALK"}
+                if (!this.body.touching.down) {this.state = "FALL"}
                 this.hitbox_check();
                 break;
 
@@ -728,20 +474,12 @@ class Walker extends PhysicsEntity
                 this.setVelocityX(50 * this.hitbox.knockback * this.hitbox.dir);
                 if (!this.body.touching.down) {this.setVelocityY(-30)}
 
-                if (this.health <= 0)
-                {
-                    console.log("YOU SHOULD BE DEAD");
-                    this.state = "DEAD";
-                }
+                if (this.health <= 0) {this.state = "DEAD"}
 
                 if (this.anims.getProgress() == 1)
                 {
-                    if (!this.body.touching.down){this.state = "FALL"}
-                    else
-                    {
-                        this.hitbox.damaging = true;
-                        this.state = "STALK";
-                    }
+                    if (!this.body.touching.down) {this.state = "FALL"}
+                    else {this.hitbox.damaging = true; this.state = "STALK"}
                     this.hitbox.active = true;
                 }
                 break;
@@ -753,20 +491,12 @@ class Walker extends PhysicsEntity
                 this.hitbox.hit_severity = 0;
                 this.setVelocityX(20 * this.hitbox.knockback * this.hitbox.dir);
 
-                if (this.health <= 0)
-                {
-                    console.log("YOU SHOULD BE DEAD");
-                    this.state = "DEAD";
-                }
+                if (this.health <= 0) {this.state = "DEAD"}
 
                 if (this.anims.getProgress() == 1)
                 {
-                    if (!this.body.touching.down){this.state = "FALL"}
-                    else
-                    {
-                        this.hitbox.damaging = true;
-                        this.state = "STALK";
-                    }
+                    if (!this.body.touching.down) {this.state = "FALL"}
+                    else {this.hitbox.damaging = true; this.state = "STALK"}
                     this.hitbox.active = true;
                 }
                 break;
