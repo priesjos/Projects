@@ -85,12 +85,13 @@ class Player extends PhysicsEntity
                     this.dir = -1;
                 }
                 else this.anims.play("player_idle", true);
-
+                
                 if (this.scene.DOWN.isDown) {this.state = "CROUCH"}
+
                 if (this.getData("AJustDown") == true) {this.state = "ATTACK"}
-                if (this.scene.SHIFT.isDown && this.scene.A.isDown) {this.state = "CHAIN_HOLD"}
                 if (this.getData("SJustDown") == true) {this.state = "ATTACK_HARD"}
                 if (this.getData("DJustDown") == true) {this.state = "ATTACK_LAUNCH"} 
+                if (this.scene.SHIFT.isDown && this.scene.A.isDown) {this.state = "CHAIN_HOLD"}
 
                 if (this.getData("UpJustDown") == true) {this.setVelocityY(-720); this.state = "JUMP"}
 
