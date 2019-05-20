@@ -459,6 +459,7 @@ class Walker extends PhysicsEntity
         this.state = state;
         this.dir = dir; 
         this.health = health;
+        this.aggro = false;
         
         //this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width - 35, this.height - 13, 0x000000, 0.4, false, this.dir);
         this.hitbox = new HitZone(this.scene, this.x, this.y, this.width - 35, this.height - 13, this.dir);
@@ -498,7 +499,11 @@ class Walker extends PhysicsEntity
                 this.hitbox_check();
                 this.setVelocityX(0);
                 this.anims.play("walker_idle", true);
-                if (Math.abs(this.x - this.scene.player.x) <= 300){this.state = "STALK"}
+                if (Math.abs(this.x - this.scene.player.x) <= 300 && Math.abs(this.y - this.scene.player.y) <= 70)
+                {
+                    this.state = "STALK";
+                    this.aggro = true;
+                }
                 break;
 
             case "STALK":
@@ -516,6 +521,7 @@ class Walker extends PhysicsEntity
             case "SHESBELOWYOUIDIOT":
                 this.anims.play("walker_move", true);
                 this.setVelocityX(75 * this.dir);
+
                 if (this.scene.player.y <= this.y * 1.1){this.state = "STALK"}
                 if (!this.body.touching.down){this.state = "FALL"}
                 this.hitbox_check();
@@ -528,7 +534,8 @@ class Walker extends PhysicsEntity
                 if (this.body.touching.down) 
                 {
                     this.hitbox.damaging = true;
-                    this.state = "IDLE";
+                    if (this.aggro) {this.state = "STALK"} 
+                    else this.state = "IDLE";
                 }
                 break;
 
@@ -545,7 +552,7 @@ class Walker extends PhysicsEntity
                     else
                     {
                         this.hitbox.damaging = true;
-                        this.state = "IDLE";
+                        this.state = "STALK";
                     }
                     this.hitbox.active = true;
                 }
@@ -563,7 +570,7 @@ class Walker extends PhysicsEntity
                     else
                     {
                         this.hitbox.damaging = true;
-                        this.state = "IDLE"
+                        this.state = "STALK";
                     }
                     this.hitbox.active = true;
                 }
