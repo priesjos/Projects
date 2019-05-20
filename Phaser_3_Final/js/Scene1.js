@@ -149,6 +149,7 @@ class Scene1 extends Phaser.Scene
     {
         if (body2.active == true)
         {
+            console.log("HIT");
             //body1.hits++;
             //console.log(body1.hits);
             if (body1.force > 2) {body2.hit_severity = 2}

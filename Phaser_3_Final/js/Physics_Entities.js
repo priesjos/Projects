@@ -494,7 +494,6 @@ class Walker extends PhysicsEntity
                 this.setVelocityY(-650);
                 this.state = "LAUNCHED";
             }
-        this.setVelocityX(0);
     }
     //this.timedEvent = this.scene.time.delayedCall(2300, function(){this.dir *= -1}, [], this.scene, loop: true)
     //this.time.addEvent({ delay: 500, callback: onEvent, callbackScope: this, loop: true });
@@ -519,7 +518,6 @@ class Walker extends PhysicsEntity
                 break;
 
             case "STALK":
-                this.hitbox_check();
                 this.anims.play("walker_move", true);
 
                 if (this.x - this.scene.player.x < 0) {this.dir = 1}
@@ -528,24 +526,25 @@ class Walker extends PhysicsEntity
 
                 if (this.body.touching.down && this.scene.player.y > this.y &&  Math.abs(this.x -this.scene.player.x) <= 100) {this.state = "SHESBELOWYOUIDIOT"}
                 if (!this.body.touching.down){this.state = "FALL"}
+                this.hitbox_check();
                 break;
 
             case "SHESBELOWYOUIDIOT":
-                this.hitbox_check();
                 this.anims.play("walker_move", true);
                 this.setVelocityX(75 * this.dir);
                 if (this.scene.player.y <= this.y * 1.1){this.state = "STALK"}
                 if (!this.body.touching.down){this.state = "FALL"}
+                this.hitbox_check();
                 break;
 
             case "FALL":
-                this.hitbox.damaging = false;
                 this.hitbox_check();
+                this.hitbox.damaging = false;
                 this.anims.play("walker_fall", true);
                 if (this.body.touching.down) 
                 {
                     this.hitbox.damaging = true;
-                    this.state = "IDLE"
+                    this.state = "IDLE";
                 }
                 break;
 
