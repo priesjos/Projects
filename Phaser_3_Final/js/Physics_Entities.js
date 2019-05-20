@@ -515,7 +515,7 @@ class Walker extends PhysicsEntity
                 this.hitbox_check();
                 this.setVelocityX(0);
                 this.anims.play("walker_idle", true);
-                if (Math.abs(this.x - this.scene.player.x) <= 400){this.state = "STALK"}
+                if (Math.abs(this.x - this.scene.player.x) <= 300){this.state = "STALK"}
                 break;
 
             case "STALK":
@@ -534,7 +534,7 @@ class Walker extends PhysicsEntity
                 this.hitbox_check();
                 this.anims.play("walker_move", true);
                 this.setVelocityX(75 * this.dir);
-                if (this.scene.player.y <= this.y){this.state = "STALK"}
+                if (this.scene.player.y <= this.y * 1.1){this.state = "STALK"}
                 if (!this.body.touching.down){this.state = "FALL"}
                 break;
 
