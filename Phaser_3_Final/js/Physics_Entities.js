@@ -13,13 +13,13 @@ class PhysicsEntity extends Phaser.Physics.Arcade.Sprite
 
 class Player extends PhysicsEntity
 {
-    constructor(scene, x, y, key, frame, speed, dir, health, state) 
+    constructor(scene, x, y, key, frame, speed, dir, state) 
     {
-        super(scene, x, y, key, frame, speed, dir, health, state, "Player");
+        super(scene, x, y, key, frame, speed, dir, state, "Player");
         this.state = state;
         this.speed = speed;
         this.dir = dir; 
-        this.health = health;
+        this.health = 10;
         this.hits = 0;
 
         this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width - 10, this.height - 10, 0x000000, 0.4, false, this.dir);
@@ -510,12 +510,12 @@ class Player extends PhysicsEntity
 
 class Walker extends PhysicsEntity
 {
-    constructor(scene, x, y, key, frame, dir, health, state) 
+    constructor(scene, x, y, key, frame, dir, state) 
     {
         super(scene, x, y, key, frame, dir, "Enemy");
         this.state = state;
         this.dir = dir; 
-        this.health = health;
+        this.health = 60;
         this.aggro = false;
         
         //this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width - 35, this.height - 13, 0x000000, 0.4, false, this.dir);

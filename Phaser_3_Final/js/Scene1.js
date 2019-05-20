@@ -96,7 +96,7 @@ class Scene1 extends Phaser.Scene
         this.enemyHitBoxes = [];
 
         //formation of player and properties
-        this.player = new Player(this, 500, 255, "player_sheet", null, 350, 1, 10, "FALL");
+        this.player = new Player(this, 500, 255, "player_sheet", null, 350, 1, "FALL");
 
         //platforms
         this.ground = new Concrete(this, 500, 450, 800, 40, "ground");
@@ -109,7 +109,7 @@ class Scene1 extends Phaser.Scene
         this.platforms.add(this.ground2);
         this.platforms.add(this.ground3);
 
-        for (var i = 0; i < 9; i++){this.create_walker("walker" + i, -500 + (100 * i), 240, 1, 35)}
+        for (var i = 0; i < 9; i++){this.create_walker("walker" + i, -500 + (100 * i), 240, 1)}
         
         this.entities.add(this.player);
 
@@ -135,9 +135,9 @@ class Scene1 extends Phaser.Scene
         this.SHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     }
 
-    create_walker(obj, x, y, dir, health)
+    create_walker(obj, x, y, dir)
     {
-        obj = new Walker(this, x, y, "walker_sheet", null, dir, health, "FALL");
+        obj = new Walker(this, x, y, "walker_sheet", null, dir, "FALL");
         this.enemies.add(obj);
         this.entities.add(obj);
         this.walker_array.push(obj);
