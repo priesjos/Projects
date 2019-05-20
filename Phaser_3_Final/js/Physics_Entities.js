@@ -556,7 +556,7 @@ class Walker extends PhysicsEntity
                 this.hitbox.active = false;
                 this.anims.play("walker_hitstun", true);
                 this.hitbox.hit_severity = 0;
-                this.setVelocityX(50 * this.hitbox.knockback * this.hitbox.dir);
+                this.setVelocityX(20 * this.hitbox.knockback * this.hitbox.dir);
                 if (this.anims.getProgress() == 1)
                 {
                     if (!this.body.touching.down){this.state = "FALL"}
