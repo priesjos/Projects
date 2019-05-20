@@ -13,7 +13,7 @@ class Scene1 extends Phaser.Scene
 
     create()
     {
-        this.add.image(300, 500, 'sky');
+        this.add.image(300, 500, 'sky').setScale(5, 3);
 
         //player animations
         this.anims.create({
@@ -109,7 +109,7 @@ class Scene1 extends Phaser.Scene
         this.platforms.add(this.ground2);
         this.platforms.add(this.ground3);
 
-        for (var i = 0; i < 9; i++){this.create_walker("walker" + i, -500 + (100 * i), 240, 1, 20)}
+        for (var i = 0; i < 9; i++){this.create_walker("walker" + i, -500 + (100 * i), 240, 1, 35)}
         
         this.entities.add(this.player);
 
