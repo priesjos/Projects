@@ -185,12 +185,6 @@ class Player extends PhysicsEntity
                 }
 
                 //animation cancel inputs
-                if (this.getData("RightDown") == true || this.getData("LeftDown") == true) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "GROUND";
-                }
-
                 if (this.getData ("UpJustDown") == true)
                 {
                     this.scene.playerSlashes.clear(true, true);
@@ -299,12 +293,6 @@ class Player extends PhysicsEntity
                     */
                     
                     this.scene.playerSlashes.add(this.playerHurtBox);
-                }
-
-                if (this.getData("RightDown") == true || this.getData("LeftDown") == true) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    this.state = "GROUND";
                 }
 
                 if (this.getData ("UpJustDown") == true)
