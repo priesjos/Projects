@@ -27,10 +27,6 @@ class Player extends PhysicsEntity
         this.hitbox.body.moves = false;
         this.hitbox.overlapping = false;
         //input booleans
-        this.setData("RightDown", false);
-        this.setData("LeftDown", false);
-        this.setData("UpDown", false);
-        this.setData("DownDown", false);
         this.setData("ADown", false);
         this.setData("SpaceJustDown", false);
         this.setData("UpJustDown", false);
@@ -62,13 +58,13 @@ class Player extends PhysicsEntity
         {
             case "GROUND":    
                 this.player_hit_detection();
-                if (this.getData("RightDown") == true)
+                if (this.scene.RIGHT.isDown)
                 {
                     this.anims.play("player_move", true);
                     this.setVelocityX(this.speed); 
                     this.dir = 1;
                 }
-                else if (this.getData("LeftDown") == true)
+                else if (this.scene.LEFT.isDown)
                 {
                     this.anims.play("player_move", true);
                     this.setVelocityX(-this.speed);
@@ -76,11 +72,11 @@ class Player extends PhysicsEntity
                 }
                 else this.anims.play("player_idle", true);
 
-                if (this.getData("DownDown") == true) {this.state = "CROUCH"}
+                if (this.scene.DOWN.isDown) {this.state = "CROUCH"}
 
                 if (this.getData("AJustDown") == true) {this.state = "ATTACK"}
 
-                if (this.getData("ShiftDown") == true && this.getData("ADown") == true) {this.state = "CHAIN_HOLD"}
+                if (this.scene.SHIFT.isDown && this.scene.A.isDown) {this.state = "CHAIN_HOLD"}
 
                 if (this.getData("SJustDown") == true) {this.state = "ATTACK_HARD"}
 
@@ -100,9 +96,9 @@ class Player extends PhysicsEntity
 
             case "JUMP": 
                 this.player_hit_detection();
-                if (this.getData("RightDown") == true) {this.setVelocityX(this.speed); this.dir = 1}
-                if (this.getData("LeftDown") == true) {this.setVelocityX(-this.speed); this.dir = -1}
-                if (this.getData("UpDown") !== true) {this.body.velocity.y *= 0.35} //less airtime when up released
+                if (this.scene.RIGHT.isDown) {this.setVelocityX(this.speed); this.dir = 1}
+                if (this.scene.LEFT.isDown) {this.setVelocityX(-this.speed); this.dir = -1}
+                if (this.scene.UP.isUp) {this.body.velocity.y *= 0.35} //less airtime when up released
 
                 this.anims.play("player_jump", true);
 
@@ -114,8 +110,8 @@ class Player extends PhysicsEntity
 
             case "FALL":
                 this.player_hit_detection();
-                if (this.getData("RightDown") == true) {this.setVelocityX(this.speed); this.dir = 1}
-                else if (this.getData("LeftDown") == true) {this.setVelocityX(-this.speed); this.dir = -1}
+                if (this.scene.RIGHT.isDown) {this.setVelocityX(this.speed); this.dir = 1}
+                else if (this.scene.LEFT.isDown) {this.setVelocityX(-this.speed); this.dir = -1}
                 this.anims.play("player_fall", true);
 
                 if (this.getData("AJustDown") == true) {this.state = "AERIAL"}
