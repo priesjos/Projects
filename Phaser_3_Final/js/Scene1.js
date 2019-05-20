@@ -163,34 +163,12 @@ class Scene1 extends Phaser.Scene
 
     hitbox_overlap(body1, body2)
     {
-        if (!body1.overlapping && body2.damaging == true)
-        {
-            console.log("getting hit");
-            body1.overlapping = true;
-        }
+        if (!body1.overlapping && body2.damaging == true) {body1.overlapping = true}
     }
 
     update()
     {
         //giant mess of input conditionals, serves to aid in player state machine
-        if (this.RIGHT.isDown) {this.player.setData("RightDown", true)}
-        else {this.player.setData("RightDown", false)}
-
-        if (this.LEFT.isDown) {this.player.setData("LeftDown", true)}
-        else {this.player.setData("LeftDown", false)}
-
-        if (this.UP.isDown) {this.player.setData("UpDown", true)}
-        else {this.player.setData("UpDown", false)}
-
-        if (this.DOWN.isDown) {this.player.setData("DownDown", true)}
-        else {this.player.setData("DownDown", false)}
-
-        if (this.A.isDown) {this.player.setData("ADown", true)}
-        else {this.player.setData("ADown", false)}
-
-        if (this.SHIFT.isDown) {this.player.setData("ShiftDown", true)}
-        else {this.player.setData("ShiftDown", false)}
-
         if (Phaser.Input.Keyboard.JustDown(this.SPACE)) {this.player.setData("SpaceJustDown", true)}
         else {this.player.setData("SpaceJustDown", false)}
 

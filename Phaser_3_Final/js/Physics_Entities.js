@@ -27,7 +27,6 @@ class Player extends PhysicsEntity
         this.hitbox.body.moves = false;
         this.hitbox.overlapping = false;
         //input booleans
-        this.setData("ADown", false);
         this.setData("SpaceJustDown", false);
         this.setData("UpJustDown", false);
         this.setData("AJustDown", false);
@@ -498,7 +497,7 @@ class Walker extends PhysicsEntity
                     this.hitbox.active = true;
                 }
                 break;
-                
+
             case "DEAD":
                 this.disableBody(true, true);
                 break;
