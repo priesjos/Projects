@@ -58,6 +58,30 @@ class Player extends PhysicsEntity
         this.hits += this.playerHurtBox.hits;
     }
 
+    detect_attack_input(state1, state2, state3)
+    {
+        if (this.getData("AJustDown") == true) {this.state = state1}
+        if (this.getData("SJustDown") == true) {this.state = state2}
+        if (this.getData("DJustDown") == true) {this.state = state3} 
+    }
+    
+    input_cancel()
+    {
+        if (this.getData("UpJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.setVelocityY(-720); this.state = "JUMP"}
+        if (this.getData("SpaceJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "DASH"}
+    }
+
+    crouch_attack_return()
+    {
+        if (this.anims.getProgress() == 1) 
+        {
+            this.scene.playerSlashes.clear(true, true);
+
+            if (this.scene.DOWN.isUp) {this.hitbox.height = this.height - 10; this.state = "GROUND"}
+            else this.state = "CROUCH";
+        }
+    }
+
     update()
     {
         this.setVelocityX(0);
@@ -85,19 +109,12 @@ class Player extends PhysicsEntity
                 }
                 else this.anims.play("player_idle", true);
                 
-                if (this.scene.DOWN.isDown) {this.state = "CROUCH"}
-
-                if (this.getData("AJustDown") == true) {this.state = "ATTACK"}
-                if (this.getData("SJustDown") == true) {this.state = "ATTACK_HARD"}
-                if (this.getData("DJustDown") == true) {this.state = "ATTACK_LAUNCH"} 
+                this.detect_attack_input("ATTACK", "ATTACK_HARD", "ATTACK_LAUNCH");
                 if (this.scene.SHIFT.isDown && this.scene.A.isDown) {this.state = "CHAIN_HOLD"}
-
+                if (this.scene.DOWN.isDown) {this.state = "CROUCH"}
                 if (this.getData("UpJustDown") == true) {this.setVelocityY(-720); this.state = "JUMP"}
-
                 if (this.body.velocity.y > 0) {this.state = "FALL"}
-                
                 if (this.getData("SpaceJustDown") == true) {this.state = "DASH"}
-                //if (this.getData("ShiftJustDown") == true) {this.state = "BACKSTEP"}
                 break;
 
             case "JUMP": 
@@ -107,10 +124,7 @@ class Player extends PhysicsEntity
                 if (this.scene.UP.isUp) {this.body.velocity.y *= 0.35} //less airtime when up released
                 this.anims.play("player_jump", true);
 
-                if (this.getData("AJustDown") == true) {this.state = "AERIAL"}
-                if (this.getData("SJustDown") == true) {this.state = "AERIAL_MED"}
-                if (this.getData("DJustDown") == true) {this.state = "AERIAL_HARD"}
-
+                this.detect_attack_input("AERIAL", "AERIAL_MED", "AERIAL_HARD");
                 if (this.body.velocity.y > 0) {this.state = "FALL"}
                 if (this.body.touching.down) {this.state = "GROUND"}
                 break;
@@ -118,13 +132,10 @@ class Player extends PhysicsEntity
             case "FALL":
                 this.player_hit_detection();
                 if (this.scene.RIGHT.isDown) {this.setVelocityX(this.speed); this.dir = 1}
-                else if (this.scene.LEFT.isDown) {this.setVelocityX(-this.speed); this.dir = -1}
+                if (this.scene.LEFT.isDown) {this.setVelocityX(-this.speed); this.dir = -1}
                 this.anims.play("player_fall", true);
 
-                if (this.getData("AJustDown") == true) {this.state = "AERIAL"}
-                if (this.getData("SJustDown") == true) {this.state = "AERIAL_MED"}
-                if (this.getData("DJustDown") == true) {this.state = "AERIAL_HARD"}
-
+                this.detect_attack_input("AERIAL", "AERIAL_MED", "AERIAL_HARD");
                 if (this.body.touching.down) {this.state = "GROUND"}
                 break;
 
@@ -135,11 +146,8 @@ class Player extends PhysicsEntity
                 this.hitbox.y = this.y + 20;
                 this.anims.play("player_crouch", true);
 
-                if (this.getData("AJustDown") == true) {this.state = "CROUCH_ATTACK"}
-                if (this.getData("SJustDown") == true) {this.state = "CROUCH_MED_ATTACK"}
-                if (this.getData("DJustDown") == true) {this.state = "CROUCH_HARD_ATTACK"}
-
-                if (this.scene.DOWN.isUp) {this.state = "GROUND"; this.hitbox.height = this.height - 10}
+                this.detect_attack_input("CROUCH_ATTACK", "CROUCH_MED_ATTACK", "CROUCH_HARD_ATTACK");
+                if (this.scene.DOWN.isUp) {this.hitbox.height = this.height - 10; this.state = "GROUND"}
                 break;
 
             case "CROUCH_ATTACK":
@@ -151,17 +159,8 @@ class Player extends PhysicsEntity
                 //attack hurt zone
                 if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25) {this.generate_hitzone(95, 20, 1.3)}
 
-                //animation cancel inputs
-                if (this.getData("UpJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
-                if (this.getData("SpaceJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "DASH"}
-                
-                if (this.anims.getProgress() == 1) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-
-                    if (this.scene.DOWN.isUp) {this.hitbox.height = this.height - 10; this.state = "GROUND"}
-                    else this.state = "CROUCH";
-                }
+                this.input_cancel(); //animation cancels
+                this.crouch_attack_return();
                 break;
             
             case "CROUCH_MED_ATTACK":
@@ -173,17 +172,8 @@ class Player extends PhysicsEntity
                 //attack hurt zone
                 if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.45) {this.generate_hitzone(90, 28, 1.7)}
 
-                //animation cancel inputs
-                if (this.getData("UpJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
-                if (this.getData("SpaceJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "DASH"}
-                
-                if (this.anims.getProgress() == 1) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    
-                    if (this.scene.DOWN.isUp) {this.hitbox.height = this.height - 10; this.state = "GROUND"}
-                    else this.state = "CROUCH";
-                }
+                this.input_cancel(); //animation cancels
+                this.crouch_attack_return();
                 break;
             
             case "CROUCH_HARD_ATTACK":
@@ -195,17 +185,8 @@ class Player extends PhysicsEntity
                 //attack hurt zone
                 if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.65) {this.generate_hitzone(80, 35, 2.0)}
 
-                //animation cancel inputs
-                if (this.getData("UpJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
-                if (this.getData("SpaceJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "DASH"}
-                
-                if (this.anims.getProgress() == 1) 
-                {
-                    this.scene.playerSlashes.clear(true, true);
-                    
-                    if (this.scene.DOWN.isUp) {this.hitbox.height = this.height - 10; this.state = "GROUND"}
-                    else this.state = "CROUCH";
-                }
+                this.input_cancel(); //animation cancels
+                this.crouch_attack_return();
                 break;
            
             case "CHAIN_HOLD":
@@ -237,16 +218,14 @@ class Player extends PhysicsEntity
                 this.player_hit_detection();
                 this.scene.playerSlashes.clear(true, true);
 
-                this.setVelocityX(95 * this.dir);
+                this.setVelocityX(65 * this.dir);
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
                 if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25) {this.generate_hitzone(95, 20, 1.5)}
 
-                //animation cancels
-                if (this.getData ("UpJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
-                if (this.getData("SpaceJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "DASH"}
-                if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
+                this.input_cancel(); //animation cancels
+                if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
                 break;
 
             case "ATTACK_HARD":
@@ -259,26 +238,22 @@ class Player extends PhysicsEntity
                 //attack hurt zone
                 if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.45) {this.generate_hitzone(75, 35, 1.8)}
                 
-                //animation cancels
-                if (this.getData ("UpJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
-                if (this.getData("SpaceJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "DASH"}
-                if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
+                this.input_cancel(); //animation cancels
+                if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
                 break;
            
             case "ATTACK_LAUNCH":
                 this.player_hit_detection();
                 this.scene.playerSlashes.clear(true, true);
 
-                this.setVelocityX(35 * this.dir);
+                this.setVelocityX(30 * this.dir);
                 this.anims.play("player_fire", true);
 
                 //attack hurt zone
                 if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.65) {this.generate_hitzone(75, 40, 2.2)}
 
-                //animation cancels
-                if (this.getData ("UpJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
-                if (this.getData("SpaceJustDown") == true) {this.scene.playerSlashes.clear(true, true); this.state = "DASH"}
-                if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
+                this.input_cancel(); //animation cancels
+                if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
                 break;
            
             case "AERIAL":
@@ -336,7 +311,7 @@ class Player extends PhysicsEntity
                 this.player_hit_detection();
                 //this.hitbox.overlapping = false;  //might enable this for some kind of upgraded dash
                 this.setVelocityX(this.speed * 2.7 * this.dir);
-                this.anims.play("player_fire", true);
+                this.anims.play("player_jump", true);
                 if (this.body.velocity.y > 0) {this.state = "FALL"}
                 if (this.anims.getProgress() == 1) {this.state = "GROUND"}
                 break;
@@ -368,6 +343,7 @@ class Player extends PhysicsEntity
                 break;
            
             case "DEAD":
+                this.hitbox.destroy();
                 this.disableBody(true, true);
                 this.scene.healthText.destroy();
                 break;
@@ -388,15 +364,14 @@ class Walker extends PhysicsEntity
         this.health = 60;
         this.aggro = false;
         
-        //this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width - 35, this.height - 13, 0x000000, 0.4, false, this.dir);
-        this.hitbox = new HitZone(this.scene, this.x, this.y, this.width - 35, this.height - 13, this.dir);
+        this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width - 35, this.height, 0x000000, 0.4, false, this.dir);
+        //this.hitbox = new HitZone(this.scene, this.x, this.y, this.width - 35, this.height - 13, this.dir);
         this.scene.physics.world.enable(this.hitbox, 0);
         this.hitbox.body.moves = false;
         this.hitbox.hit_severity = 0; //0 means not hit, 1 induces knockback, 2 is launching
         this.hitbox.damaging = true;
         this.hitbox.active = true;
     }
-
     
     hitbox_check()
     {
@@ -407,6 +382,13 @@ class Walker extends PhysicsEntity
             this.health -= this.hitbox.damage;
             this.state = "LAUNCHED";
         }
+    }
+
+    hitstun_active()
+    {
+        this.hitbox.damaging = false;
+        this.hitbox.active = false;
+        this.hitbox.hit_severity = 0;
     }
     //this.timedEvent = this.scene.time.delayedCall(2300, function(){this.dir *= -1}, [], this.scene, loop: true)
     //this.time.addEvent({ delay: 500, callback: onEvent, callbackScope: this, loop: true });
@@ -464,10 +446,8 @@ class Walker extends PhysicsEntity
                 break;
 
             case "HITSTUN":
-                this.hitbox.damaging = false;
-                this.hitbox.active = false;
+                this.hitstun_active();
                 this.anims.play("walker_hitstun", true);
-                this.hitbox.hit_severity = 0;
                 this.setVelocityX(50 * this.hitbox.knockback * this.hitbox.dir);
                 if (!this.body.touching.down) {this.setVelocityY(-30)}
 
@@ -482,10 +462,8 @@ class Walker extends PhysicsEntity
                 break;
 
             case "LAUNCHED":
-                this.hitbox.damaging = false;
-                this.hitbox.active = false;
+                this.hitstun_active();
                 this.anims.play("walker_hitstun", true);
-                this.hitbox.hit_severity = 0;
                 this.setVelocityX(20 * this.hitbox.knockback * this.hitbox.dir);
 
                 if (this.health <= 0) {this.state = "DEAD"}
@@ -499,6 +477,7 @@ class Walker extends PhysicsEntity
                 break;
 
             case "DEAD":
+                this.hitbox.destroy();
                 this.disableBody(true, true);
                 break;
 
