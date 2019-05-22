@@ -364,8 +364,8 @@ class Walker extends PhysicsEntity
         this.health = 60;
         this.aggro = false;
         
-        this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width - 35, this.height, 0x000000, 0.4, false, this.dir);
-        //this.hitbox = new HitZone(this.scene, this.x, this.y, this.width - 35, this.height - 13, this.dir);
+        //this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width - 42, this.height, 0x000000, 0.4, false, this.dir); //debug
+        this.hitbox = new HitZone(this.scene, this.x, this.y, this.width - 42, this.height - 13, this.dir);
         this.scene.physics.world.enable(this.hitbox, 0);
         this.hitbox.body.moves = false;
         this.hitbox.hit_severity = 0; //0 means not hit, 1 induces knockback, 2 is launching
@@ -390,8 +390,6 @@ class Walker extends PhysicsEntity
         this.hitbox.active = false;
         this.hitbox.hit_severity = 0;
     }
-    //this.timedEvent = this.scene.time.delayedCall(2300, function(){this.dir *= -1}, [], this.scene, loop: true)
-    //this.time.addEvent({ delay: 500, callback: onEvent, callbackScope: this, loop: true });
 
     update()
     {
@@ -448,7 +446,7 @@ class Walker extends PhysicsEntity
             case "HITSTUN":
                 this.hitstun_active();
                 this.anims.play("walker_hitstun", true);
-                this.setVelocityX(50 * this.hitbox.knockback * this.hitbox.dir);
+                this.setVelocityX(40 * this.hitbox.knockback * this.hitbox.dir);
                 if (!this.body.touching.down) {this.setVelocityY(-30)}
 
                 if (this.health <= 0) {this.state = "DEAD"}
