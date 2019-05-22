@@ -14,7 +14,6 @@ class SceneMainMenu extends Phaser.Scene
         this.block.on("pointerdown", function(){
             this.scene.start("Scene1");
         }, this);
-        //
     }
 
 }
