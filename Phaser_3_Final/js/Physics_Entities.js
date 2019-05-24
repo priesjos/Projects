@@ -26,6 +26,7 @@ class Player extends PhysicsEntity
         this.scene.physics.world.enable(this.hitbox, 0);
         this.hitbox.body.moves = false;
         this.hitbox.overlapping = false;
+        this.setData("isDead", false);
         //input booleans
         this.setData("SpaceJustDown", false);
         this.setData("UpJustDown", false);
@@ -343,6 +344,7 @@ class Player extends PhysicsEntity
                 break;
            
             case "DEAD":
+                this.setData("isDead", true)
                 this.hitbox.destroy();
                 this.disableBody(true, true);
                 this.scene.healthText.destroy();
@@ -407,7 +409,7 @@ class Walker extends PhysicsEntity
                 this.hitbox_check();
                 this.setVelocityX(0);
                 this.anims.play("walker_idle", true);
-                if (Math.abs(this.x - this.scene.player.x) <= 300 && Math.abs(this.y - this.scene.player.y) <= 70) {this.aggro = true; this.state = "STALK"}
+                if (this.scene.player.getData("isDead") == false && Math.abs(this.x - this.scene.player.x) <= 300 && Math.abs(this.y - this.scene.player.y) <= 70) {this.aggro = true; this.state = "STALK"}
                 break;
 
             case "STALK":
@@ -419,6 +421,7 @@ class Walker extends PhysicsEntity
 
                 if (this.body.touching.down && this.scene.player.y > this.y &&  Math.abs(this.x -this.scene.player.x) <= 100) {this.state = "SHESBELOWYOUIDIOT"}
                 if (!this.body.touching.down) {this.state = "FALL"}
+                if (this.scene.player.getData("isDead") == true) {this.state = "IDLE"}
                 this.hitbox_check();
                 break;
 
@@ -428,6 +431,7 @@ class Walker extends PhysicsEntity
 
                 if (this.scene.player.y <= this.y * 1.1) {this.state = "STALK"}
                 if (!this.body.touching.down) {this.state = "FALL"}
+                if (this.scene.player.getData("isDead") == true) {this.state = "IDLE"}
                 this.hitbox_check();
                 break;
 

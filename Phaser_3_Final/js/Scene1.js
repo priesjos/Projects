@@ -111,9 +111,11 @@ class Scene1 extends Phaser.Scene
         for (var i = 0; i < 8; i++){this.create_walker("walker" + i, -500 + (100 * i), 240, 1)}
 
         this.time.addEvent({
-            delay: 6000, // this can be changed to a higher value like 1000
+            delay: 4500,
             callback: function() {
-                this.create_walker("walker" + i, Phaser.Math.Between(-1150, 1260), 240, 1);
+                if (this.player.getData("isDead") == false){
+                    this.create_walker("walker" + i, Phaser.Math.Between(-1150, 1260), 80, 1);
+                }
             },
             callbackScope: this,
             loop: true
