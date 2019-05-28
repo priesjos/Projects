@@ -94,6 +94,14 @@ class Scene1 extends Phaser.Scene
         this.enemies = this.physics.add.group();
         this.walker_array = [];
         this.enemyHitBoxes = [];
+        this.combo_attacks = []; //to be used in some kind of combo mechanic; explained below
+
+        /*
+        For a combo mechanic, there will be an array of attacks that is emptied whenever a value reaches 0. The value will decrement 
+        to 0 by some interval amount, and every registered attack will reset the value back to its initial amount and prolong the combo
+        until no hits are registered for a long enough time that the value hits 0. 
+        The timer starts upon any successful hit. 
+        */
 
         //formation of player and properties
         this.player = new Player(this, 500, 255, "player_sheet", null, 350, 1, "FALL");

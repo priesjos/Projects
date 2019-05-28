@@ -46,7 +46,7 @@ class Player extends PhysicsEntity
         }
     }
 
-    generate_hitzone(width, height, force)
+    generate_hitzone(width, height, force, attack_type)
     {
         this.playerHurtBox = new HurtBox(this.scene, this.x + (50 * this.dir), this.y, width, height, 0xffffff, 0.7);
         this.scene.physics.world.enable(this.playerHurtBox, 0);
@@ -55,6 +55,7 @@ class Player extends PhysicsEntity
         this.playerHurtBox.hits = 0;
         this.playerHurtBox.dir = this.dir;
         this.playerHurtBox.force = force;
+        this.playerHurtBox.attack_type = attack_type;
         
         this.scene.playerSlashes.add(this.playerHurtBox);
         this.hits += this.playerHurtBox.hits;
@@ -159,7 +160,7 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25) {this.generate_hitzone(95, 20, 1.3)}
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25) {this.generate_hitzone(95, 20, 1.3, "CROUCH_LIGHT")}
 
                 this.input_cancel(); //animation cancels
                 this.crouch_attack_return();
@@ -172,7 +173,7 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.45) {this.generate_hitzone(90, 28, 1.7)}
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.45) {this.generate_hitzone(90, 28, 1.7, "CROUCH_MED")}
 
                 this.input_cancel(); //animation cancels
                 this.crouch_attack_return();
@@ -185,7 +186,7 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.65) {this.generate_hitzone(80, 35, 2.0)}
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.65) {this.generate_hitzone(80, 35, 2.0, "CROUCH_HARD")}
 
                 this.input_cancel(); //animation cancels
                 this.crouch_attack_return();
@@ -210,7 +211,7 @@ class Player extends PhysicsEntity
                 else this.anims.play("player_fire", true);
                
                 //attack hurt zone  
-                if (this.scene.playerSlashes.getLength() < 1) {this.generate_hitzone(95, 20, 1.1)}
+                if (this.scene.playerSlashes.getLength() < 1) {this.generate_hitzone(95, 20, 1.1, "CHAIN_HOLD")}
 
                 if (this.scene.A.isUp || this.scene.SHIFT.isUp) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
                 if (this.body.velocity.y > 0) {this.scene.playerSlashes.clear(true, true); this.state = "FALL"}
@@ -224,7 +225,7 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25) {this.generate_hitzone(95, 20, 1.5)}
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25) {this.generate_hitzone(95, 20, 1.5, "STAND_LIGHT")}
 
                 this.input_cancel(); //animation cancels
                 if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
@@ -238,7 +239,7 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.45) {this.generate_hitzone(75, 35, 1.8)}
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.45) {this.generate_hitzone(75, 35, 1.8, "STAND_MED")}
                 
                 this.input_cancel(); //animation cancels
                 if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
@@ -252,7 +253,7 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.65) {this.generate_hitzone(75, 40, 2.2)}
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.65) {this.generate_hitzone(75, 40, 2.2, "STAND_HARD")}
 
                 this.input_cancel(); //animation cancels
                 if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
@@ -269,7 +270,7 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25) {this.generate_hitzone(95, 25, 1.3)}
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.25) {this.generate_hitzone(95, 25, 1.3, "AERIAL_LIGHT")}
 
                 if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
                 if (this.body.touching.down) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
@@ -286,7 +287,7 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.40) {this.generate_hitzone(90, 33, 1.7)}
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.40) {this.generate_hitzone(90, 33, 1.7, "AERIAL_MED")}
 
                 if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
                 if (this.body.touching.down) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
@@ -303,7 +304,7 @@ class Player extends PhysicsEntity
                 this.anims.play("player_fire", true);
                 
                 //attack hurt zone
-                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.55) {this.generate_hitzone(80, 47, 2.0)}
+                if (this.scene.playerSlashes.getLength() < 1 && this.anims.getProgress() >= 0.55) {this.generate_hitzone(80, 47, 2.0, "AERIAL_HARD")}
 
                 if (this.anims.getProgress() == 1) {this.scene.playerSlashes.clear(true, true); this.state = "JUMP"}
                 if (this.body.touching.down) {this.scene.playerSlashes.clear(true, true); this.state = "GROUND"}
