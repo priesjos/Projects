@@ -127,6 +127,7 @@ class Scene1 extends Phaser.Scene
         this.cameras.main.startFollow(this.player, false, 0.1, 0.1);
         this.healthText = this.add.text(this.cameras.main.x, this.cameras.main.y, 'Health:' + this.player.health, {fontSize:'14px', fill:'#FFF'});
         this.hitsText = this.add.text(this.cameras.main.x, 265, 'Hits:' + this.player.hits, {fontSize:'14px', fill:'#FFF'});
+        this.killsText = this.add.text(this.cameras.main.x, this.cameras.main.y, 'Kills:' + this.player.kills, {fontSize:'14px', fill:'#FFF'});
         
         //collision
         this.physics.add.collider(this.entities, this.platforms);
@@ -207,8 +208,10 @@ class Scene1 extends Phaser.Scene
 
         this.healthText.x = this.player.x - 35;
         this.healthText.y = this.player.y - 50;
+        this.killsText.x = this.player.x - 35;
+        this.killsText.y = this.player.y - 70;
         this.healthText.text = "Health:" + this.player.health;
-        this.hitsText.text = "Hits:" + this.player.hits;
+        this.killsText.text = "Kills:" + this.player.kills;
     }
     
 }

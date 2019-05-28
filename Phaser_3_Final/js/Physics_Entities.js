@@ -21,6 +21,7 @@ class Player extends PhysicsEntity
         this.dir = dir; 
         this.health = 10;
         this.hits = 0;
+        this.kills = 0;
 
         this.hitbox = new HurtBox(this.scene, this.x, this.y, this.width - 10, this.height - 10, 0x000000, 0.4, false, this.dir);
         this.scene.physics.world.enable(this.hitbox, 0);
@@ -453,7 +454,7 @@ class Walker extends PhysicsEntity
                 this.setVelocityX(40 * this.hitbox.knockback * this.hitbox.dir);
                 if (!this.body.touching.down) {this.setVelocityY(-30)}
 
-                if (this.health <= 0) {this.state = "DEAD"}
+                if (this.health <= 0) {this.scene.player.kills += 1; this.state = "DEAD"}
 
                 if (this.anims.getProgress() == 1)
                 {
