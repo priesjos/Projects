@@ -342,7 +342,6 @@ class Player extends PhysicsEntity
                     if (this.body.velocity.y < 0) {this.state = "FALL"}
                     this.state = "GROUND";
                 }
-                
                 break;
            
             case "DEAD":
@@ -375,16 +374,26 @@ class Walker extends PhysicsEntity
         this.hitbox.hit_severity = 0; //0 means not hit, 1 induces knockback, 2 is launching
         this.hitbox.damaging = true;
         this.hitbox.active = true;
+        this.hitbox.hit_history = [];
     }
     
     hitbox_check()
     {
-        if (this.hitbox.hit_severity == 1) {this.health -= this.hitbox.damage; this.state = "HITSTUN"}
+        if (this.hitbox.hit_severity == 1) 
+        {
+            this.scene.attack_history.push(this.hitbox.hit_history.pop());
+            this.health -= this.hitbox.damage; 
+            this.state = "HITSTUN";
+            console.log(this.scene.attack_history);
+        }
+        
         else if (this.hitbox.hit_severity >= 2)
         {
+            this.scene.attack_history.push(this.hitbox.hit_history.pop());
             this.setVelocityY(-650);
             this.health -= this.hitbox.damage;
             this.state = "LAUNCHED";
+            console.log(this.scene.attack_history);
         }
     }
 

@@ -94,7 +94,7 @@ class Scene1 extends Phaser.Scene
         this.enemies = this.physics.add.group();
         this.walker_array = [];
         this.enemyHitBoxes = [];
-        this.combo_attacks = []; //to be used in some kind of combo mechanic; explained below
+        this.attack_history = []; //to be used in some kind of combo mechanic; explained below
 
         /*
         For a combo mechanic, there will be an array of attacks that is emptied whenever a value reaches 0. The value will decrement 
@@ -172,17 +172,16 @@ class Scene1 extends Phaser.Scene
 
     body_hit(body1, body2)
     {
-        if (body2.active == true)
+        if (body2.active)
         {
-            console.log("HIT");
-            //body1.hits++;
-            //console.log(body1.hits);
             if (body1.force > 2) {body2.hit_severity = 2}
             else {body2.hit_severity = 1} 
 
             body2.dir = body1.dir;
             body2.knockback = body1.force; 
             body2.damage = body1.force * 3;
+
+            body2.hit_history.push(body1.attack_type);
         }
     }
 
