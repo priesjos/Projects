@@ -215,9 +215,9 @@ class Scene1 extends Phaser.Scene
 
         this.healthText.x = this.player.x - 35;
         this.healthText.y = this.player.y - 50;
+        this.healthText.text = "Health:" + this.player.health;
         this.killsText.x = this.player.x - 35;
         this.killsText.y = this.player.y - 70;
-        this.healthText.text = "Health:" + this.player.health;
         this.killsText.text = "Kills:" + this.player.kills;
     }
     
